@@ -10,6 +10,8 @@ import md5 from 'js-md5';  //md5加密
 import ElementUI from 'element-ui'  // 引入element-ui
 import 'element-ui/lib/theme-chalk/index.css'
 
+// import '@/assets/less/global.less'
+
 import router from './router'
 import store from './store'
 

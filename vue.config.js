@@ -1,8 +1,18 @@
+const path = require('path')
+
 module.exports = {
-    baseUrl: './', // 部署应用时的根路径(默认'/'),也可用相对路径(存在使用限制)
-    outputDir: 'dist', // 运行时生成的生产环境构建文件的目录(默认''dist''，构建之前会被清除)
-    assetsDir: 'assets', //放置生成的静态资源(s、css、img、fonts)的(相对于 outputDir 的)目录(默认'')
-    indexPath: 'index.html', //指定生成的 index.html 的输出路径(相对于 outputDir)也可以是一个绝对路径。
+    // 部署应用时的根路径(默认'/'),也可用相对路径(存在使用限制)
+    publicPath: './',
+
+    // 运行时生成的生产环境构建文件的目录(默认''dist''，构建之前会被清除)
+    outputDir: 'dist',
+
+    //放置生成的静态资源(s、css、img、fonts)的(相对于 outputDir 的)目录(默认'')
+    assetsDir: 'assets',
+
+    //指定生成的 index.html 的输出路径(相对于 outputDir)也可以是一个绝对路径。
+    indexPath: 'index.html',
+
     pages: {
         //pages 里配置的路径和文件名在你的文档目录必须存在 否则启动服务会报错
         index: {
@@ -14,7 +24,8 @@ module.exports = {
             chunks: ['chunk-vendors', 'chunk-common', 'index'] // 在这个页面中包含的块，默认情况下会包含,提取出来的通用 chunk 和 vendor chunk
         }
     },
-    productionSourceMap: false, // 是否在构建生产包时生成 sourceMap 文件，false将提高构建速度
+
+    // 是否在构建生产包时生成 sourceMap 文件，false将提高构建速度
     // devServer: {
     //     open: true,
     //     host: 'localhost',
@@ -33,4 +44,15 @@ module.exports = {
     //     },
     //     before: app => { }
     // }
+    productionSourceMap: false,
+
+    pluginOptions: {
+      'style-resources-loader': {
+        preProcessor: 'less',
+        patterns:  [
+          path.resolve(__dirname, './src/assets/less/global.less'),
+          'src/assets/less/demo.less'
+        ]
+      }
+    }
 };
