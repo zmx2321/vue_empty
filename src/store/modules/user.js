@@ -1,7 +1,7 @@
 /**
  * 用户信息
  */
- const user = {
+export default {
     state: {
         userInfo: {}, // 用户信息
     },
@@ -24,5 +24,3 @@
         },
     }
 }
- 
-export default user
