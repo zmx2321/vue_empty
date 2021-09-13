@@ -247,7 +247,6 @@
 </script>
 
 <style lang="less" scoped>
-/* less */
 @fontColor: #fff;
 
 /* header_nav */

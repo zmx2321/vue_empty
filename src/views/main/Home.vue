@@ -1,7 +1,7 @@
 <template>
     <section class="home">
         <div class="container">
-            <p class="lead">{{ this.$store.state.title }}</p>
+            <p class="lead">{{ title }}</p>
         </div>
 
         <ul class="bottom">
@@ -19,10 +19,30 @@ export default {
 
     data () {
         return {
+            // title: title
+            title: this.$store.state.common.title
         }
     },
+
+    methods: {
+        // 获取vuex
+        getData() {
+            // this.$store.dispatch('SetUserInfo',{name:'张三'}) // 异步调用
+            this.$store.commit('SET_USER_INFO',{name:'李四'}) // 同步调用
+
+            // 在getter里面配置
+            console.log("在getter里面配置-userInfo", this.$store.getters.userInfo.name);
+            console.log("在getter里面配置-title", this.$store.getters.title);
+
+            // 不走getter
+            console.log("不走getter-userInfo", this.$store.state.user.userInfo.name)
+            console.log("不走getter-title", this.$store.state.common.title)
+        }
+    },
+
     created (){
         // console.log(aa);
+        this.getData()
     }
 };
 </script>
