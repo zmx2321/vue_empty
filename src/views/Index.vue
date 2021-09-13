@@ -15,43 +15,43 @@
 </template>
 
 <script>
-    import HeadNav from '../components/HeadNav'
-    import LeftMenu from "../components/LeftMenu";
+import HeadNav from '../components/HeadNav'
+import LeftMenu from "../components/LeftMenu";
 
-    export default {
-        name: "index",
+export default {
+    name: "index",
 
-        components: {
-            HeadNav,
-            LeftMenu
-        },
-        created: function(){
-            // console.log(this.md5("admin"));
-        },
-    }
+    components: {
+        HeadNav,
+        LeftMenu
+    },
+    created: function(){
+        // console.log(this.md5("admin"));
+    },
+}
 </script>
 
-<style scoped>
+<style lang="less" scoped>
     .container {
         width: 100%;
         height: 100%;
-    }
 
-    .header, .aside{
-        background: #324057;
-    }
+        .header, .aside{
+            background: #324057;
+        }
 
-    .header{
-        padding: 0;
-        border-bottom: 1px solid #1f2d3d;
-    }
+        .header{
+            padding: 0;
+            border-bottom: 1px solid #1f2d3d;
+        }
 
-    .aside {
-        flex: 0 0 230px;
-        width: 230px;
-    }
+        .aside {
+            flex: 0 0 230px;
+            width: 230px;
+        }
 
-    .main {
-        padding: 0;
+        .main {
+            padding: 0;
+        }
     }
 </style>

@@ -5,11 +5,11 @@
 </template>
 
 <script>
-    export default {
-        name: "MerchandiseOrder"
-    }
+export default {
+    name: "MerchandiseOrder"
+}
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 
 </style>

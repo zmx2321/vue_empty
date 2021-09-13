@@ -79,182 +79,182 @@
 </template>
 
 <script>
-    import {
-        getUser,  // 获取投票列表
-    } from '../../api/api.js';
+import {
+    getUser,  // 获取投票列表
+} from '../../api/api.js';
 
-    export default {
-        name: 'account_manager',
+export default {
+    name: 'account_manager',
 
-        data() {
-            return {
-                /**
-                 * common
-                 */
-                listLoading: false,  // lodding动画
-                dialogVisible: false,  // 关闭提示
-
-                // 分页参数
-                page_arg: {
-                    page_index: 1, // 当前位于哪页
-                    total: 0, // 总数
-                    page_size: 10, // 1页显示多少条
-                    page_sizes: [5, 10, 15, 20, 50], //每页显示多少条
-                    layout: "total, sizes, prev, pager, next, jumper" // 翻页属性
-                },
-
-                /**
-                 * 用户
-                 */
-                // 用户列表
-                user_info: [],  // 存放用户信息列表数据
-
-                /**
-                 * 添加用户
-                 */
-                // 添加用户数据
-                addUserData: {
-                },
-
-                // 验证添加用户数据
-                addUserRules: {
-                },
-
-                /**
-                 * 编辑用户
-                 */
-                // 编辑用户数据
-                editUserData: {
-                },
-
-                // 验证编辑用户数据
-                editUserRules: {
-                },
-
-                /**
-                 *  弹出表单界面(true 显示, false 隐藏)
-                 */
-                addUserVisible: false,  // 添加用户界面
-                editUserVisible: false,  // 编辑用户界面
-            }
-        },
-        methods: {
+    data() {
+        return {
             /**
              * common
              */
-            // 关闭提示
-            handleClose(done) {
-                this.$confirm('确认关闭？').then(() => {
-                    done();
-                }).catch(() => {});
-            },
-            // 表单重置
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
+            listLoading: false,  // lodding动画
+            dialogVisible: false,  // 关闭提示
+
+            // 分页参数
+            page_arg: {
+                page_index: 1, // 当前位于哪页
+                total: 0, // 总数
+                page_size: 10, // 1页显示多少条
+                page_sizes: [5, 10, 15, 20, 50], //每页显示多少条
+                layout: "total, sizes, prev, pager, next, jumper" // 翻页属性
             },
 
             /**
-             *  分页
+             * 用户
              */
-            // 点击页码
-            handleCurrentChange() {
-                this.getUserList();  // 加载分页数据
-            },
-            // 设置每页条数
-            handleSizeChange(page_size) {
-                // console.log(page_size);
-
-                this.page_arg.page_size = page_size;  // 切换size
-
-                this.getUserList();  // 加载分页数据
-            },
+            // 用户列表
+            user_info: [],  // 存放用户信息列表数据
 
             /**
-             *  api
-             *  获取用户信息
-             */
-            // 获取用户列表
-            getUserList () {
-                //接口参数
-                let param = {
-                    pageNum: this.page_arg.page_index,  // 当前页码
-                    pageSize: this.page_arg.page_size,  // 每页条数
-                };
-
-                // loading
-                this.listLoading = true;
-
-                // 请求接口
-                getUser(param).then(res => {
-                    // console.log(res.data.data.users);
-
-                    if (this.user_info != null) {
-                        this.listLoading = false;
-                        this.user_info = res.data.data.users;
-                    }
-
-                    // 返回分页总数
-                    this.page_arg.total = res.data.data.count;
-                }).catch({});
-            },
-
-            /**
-             * api
              * 添加用户
              */
-            // 提交添加用户表单
-            addUserSubmit (formName) {
-                // 验证表单
-                this.$refs[formName].validate((valid) => {
-                    //如果验证成功，请求接口数据
-                    if (valid) {
-                        console.log("submit!!")
-                    } else {  //验证失败跳出
-                        this.message.error("表单填写错误");
-                    }
-                });
+            // 添加用户数据
+            addUserData: {
+            },
+
+            // 验证添加用户数据
+            addUserRules: {
             },
 
             /**
-             * api
              * 编辑用户
              */
-            // 点击编辑
-            editUser (row) {
-                console.log("编辑", row);
-                // console.log(Object.assign({}, row));
+            // 编辑用户数据
+            editUserData: {
             },
-            // 提交编辑投票表单
-            editUserSubmit (formName) {
-                // 验证表单
-                this.$refs[formName].validate((valid) => {
-                    //如果验证成功，请求接口数据
-                    if (valid) {
-                        console.log("submit!!")
-                    } else {  //验证失败跳出
-                        this.message.error("表单填写错误");
-                    }
-                });
+
+            // 验证编辑用户数据
+            editUserRules: {
             },
 
             /**
-             *  api
-             *  删除用户
+             *  弹出表单界面(true 显示, false 隐藏)
              */
-            delUser (row) {
-                this.$confirm('确认删除该记录吗?', '提示', {
-                    type: 'warning'
-                }).then(() => {
-                    // console.log(Object.assign({}, row));
-                    console.log("删除", row);
-                }).catch(() => {});
-            },
-        },
-        // 预处理
-        created () {
-            this.getUserList();
+            addUserVisible: false,  // 添加用户界面
+            editUserVisible: false,  // 编辑用户界面
         }
+    },
+    methods: {
+        /**
+         * common
+         */
+        // 关闭提示
+        handleClose(done) {
+            this.$confirm('确认关闭？').then(() => {
+                done();
+            }).catch(() => {});
+        },
+        // 表单重置
+        resetForm(formName) {
+            this.$refs[formName].resetFields();
+        },
+
+        /**
+         *  分页
+         */
+        // 点击页码
+        handleCurrentChange() {
+            this.getUserList();  // 加载分页数据
+        },
+        // 设置每页条数
+        handleSizeChange(page_size) {
+            // console.log(page_size);
+
+            this.page_arg.page_size = page_size;  // 切换size
+
+            this.getUserList();  // 加载分页数据
+        },
+
+        /**
+         *  api
+         *  获取用户信息
+         */
+        // 获取用户列表
+        getUserList () {
+            //接口参数
+            let param = {
+                pageNum: this.page_arg.page_index,  // 当前页码
+                pageSize: this.page_arg.page_size,  // 每页条数
+            };
+
+            // loading
+            this.listLoading = true;
+
+            // 请求接口
+            getUser(param).then(res => {
+                // console.log(res.data.data.users);
+
+                if (this.user_info != null) {
+                    this.listLoading = false;
+                    this.user_info = res.data.data.users;
+                }
+
+                // 返回分页总数
+                this.page_arg.total = res.data.data.count;
+            }).catch({});
+        },
+
+        /**
+         * api
+         * 添加用户
+         */
+        // 提交添加用户表单
+        addUserSubmit (formName) {
+            // 验证表单
+            this.$refs[formName].validate((valid) => {
+                //如果验证成功，请求接口数据
+                if (valid) {
+                    console.log("submit!!")
+                } else {  //验证失败跳出
+                    this.message.error("表单填写错误");
+                }
+            });
+        },
+
+        /**
+         * api
+         * 编辑用户
+         */
+        // 点击编辑
+        editUser (row) {
+            console.log("编辑", row);
+            // console.log(Object.assign({}, row));
+        },
+        // 提交编辑投票表单
+        editUserSubmit (formName) {
+            // 验证表单
+            this.$refs[formName].validate((valid) => {
+                //如果验证成功，请求接口数据
+                if (valid) {
+                    console.log("submit!!")
+                } else {  //验证失败跳出
+                    this.message.error("表单填写错误");
+                }
+            });
+        },
+
+        /**
+         *  api
+         *  删除用户
+         */
+        delUser (row) {
+            this.$confirm('确认删除该记录吗?', '提示', {
+                type: 'warning'
+            }).then(() => {
+                // console.log(Object.assign({}, row));
+                console.log("删除", row);
+            }).catch(() => {});
+        },
+    },
+    // 预处理
+    created () {
+        this.getUserList();
     }
+}
 </script>
 
 <style lang="less" scoped>

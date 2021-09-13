@@ -21,46 +21,46 @@
 </template>
 
 <script>
-    export default {
-        name: "Test",
+export default {
+    name: "Test",
 
-        data () {
-            return {
-                selectValue: '',
-                options: [
-                    {
-                        value: 'cn',
-                        label: '中文'
-                    }, {
-                        value: 'en',
-                        label: 'English'
-                    }
-                ]
-            }
-        },
-
-        methods: {
-            // 语言切换
-            langChange(e){
-                this.$confirm(this.$t('btn.down'))
-                    .then(() => {
-                        // console.log(e)
-                        localStorage.setItem('lang',e);
-                        this.$i18n.locale = e;
-                    }).catch(() => {});
-
-            }
-        },
-        created : function(){
-            console.log(this.$i18n.locale)
-
-            let that = this;
-            console.log(localStorage.lang)
-            that.selectValue = localStorage.lang == undefined?'cn':localStorage.lang
+    data () {
+        return {
+            selectValue: '',
+            options: [
+                {
+                    value: 'cn',
+                    label: '中文'
+                }, {
+                    value: 'en',
+                    label: 'English'
+                }
+            ]
         }
+    },
+
+    methods: {
+        // 语言切换
+        langChange(e){
+            this.$confirm(this.$t('btn.down'))
+                .then(() => {
+                    // console.log(e)
+                    localStorage.setItem('lang',e);
+                    this.$i18n.locale = e;
+                }).catch(() => {});
+
+        }
+    },
+    created : function(){
+        console.log(this.$i18n.locale)
+
+        let that = this;
+        console.log(localStorage.lang)
+        that.selectValue = localStorage.lang == undefined?'cn':localStorage.lang
     }
+}
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 
 </style>

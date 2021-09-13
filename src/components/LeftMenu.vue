@@ -54,7 +54,6 @@ export default {
                     path: "test",
                     children: [
                         { path: "/test", name: "test" },
-                        { path: "/test_map", name: "test_map" },
                         { path: "/test1", name: "test1" },
                     ]
                 },
@@ -99,18 +98,18 @@ export default {
 };
 </script>
 
-<style scoped>
-    .menu_page {
-        width: 100%;
-        height: 100%;
-        /* background: $aa; */
-    }
+<style  lang="less" scoped>
+.menu_page {
+    width: 100%;
+    height: 100%;
 
-    .menu{
+    .menu {
         border: none;
-    }
 
-    .menu span{
-        margin-left: 8px;
+        span {
+            margin-left: 8px;
+            color: @aa;
+        }
     }
+}
 </style>

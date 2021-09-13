@@ -247,57 +247,57 @@
 </script>
 
 <style lang="less" scoped>
-    /* less */
-    @fontColor: #fff;
+/* less */
+@fontColor: #fff;
 
-    /* header_nav */
-    .header_nav{
-        min-width: 390px;
-        height: 100%;
+/* header_nav */
+.header_nav{
+    min-width: 390px;
+    height: 100%;
 
-        span {
-            color: @fontColor;
+    span {
+        color: @fontColor;
+    }
+
+    .title span{
+        display: block;
+        height: 55px;
+        line-height: 55px;
+    }
+
+    /* header_left */
+    .header_left {
+        width: 250px;
+
+        .logo{
+            margin: 0 8px 0 10px;
+
+            img{
+                height: 40px;
+                width: 40px;
+                margin-top: 10px;
+            }
+        }
+    }
+
+    /* header_left */
+    .header_right {
+        width: initial;
+        min-width: 140px;
+        float: right;
+
+        .avatar img{
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-top: 10px;
         }
 
-        .title span{
+        .welcome span{
             display: block;
             height: 55px;
             line-height: 55px;
         }
-
-        /* header_left */
-        .header_left {
-            width: 250px;
-
-            .logo{
-                margin: 0 8px 0 10px;
-
-                img{
-                    height: 40px;
-                    width: 40px;
-                    margin-top: 10px;
-                }
-            }
-        }
-
-        /* header_left */
-        .header_right {
-            width: initial;
-            min-width: 140px;
-            float: right;
-
-            .avatar img{
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                margin-top: 10px;
-            }
-
-            .welcome span{
-                display: block;
-                height: 55px;
-                line-height: 55px;
-            }
-        }
     }
+}
 </style>

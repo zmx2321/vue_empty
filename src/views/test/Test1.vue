@@ -5,25 +5,25 @@
 </template>
 
 <script>
-    export default {
-        name: "testmap",
+export default {
+    name: "testmap",
 
-        data () {
-            return {
-                
-            }
-        },
-
-        methods: {
-            
-        },
-
-        created() {
+    data () {
+        return {
             
         }
+    },
+
+    methods: {
+        
+    },
+
+    created() {
+        
     }
+}
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 
 </style>
