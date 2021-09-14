@@ -60,7 +60,7 @@
         getUser,  // 获取用户
         Logout,  // 登出
         ModifyPassword,  // 修改密码
-    } from "../api/api"
+    } from "../api/common"
 
     export default {
         name: "head-nav",

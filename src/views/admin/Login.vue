@@ -20,9 +20,9 @@
 </template>
 
 <script>
-/* import {
-    Login  // 登陆
-} from "../../api/api" */
+import {
+    login  // 登陆
+} from "../../api/admin"
 
 export default {
     name: "login",
@@ -51,40 +51,30 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate(valid => {
                 if (valid) {
-                    // 登陆状态记录
-                    localStorage.setItem('code', this.md5((0).toString()));
-
-                    this.$message.success("登陆成功");
-
-                    /* //验证通过，密码进行md5加密
+                    // 验证通过，密码进行md5加密
                     this.loginUser.password = this.md5(this.loginUser.password);
 
-                    Login(qs.stringify(this.loginUser)).then(res => {
-                        // console.log(res.data);
+                    login(this.loginUser).then(res=> {
+                        console.log(res)
 
-                        if (res.data.code == 1){
-                            this.$message({
-                                message: "用户名或密码错误",
-                                type: "error"
-                            });
-                        } else {
-                            // 登陆状态记录
-                            localStorage.setItem('code', this.md5((res.data.code).toString()));
+                        // 存vuex
+                        this.$store.dispatch('SetLoginUser', res.data.info) // 异步调用
+                        console.log("获取登录用户")
 
-                            // 登陆状态
-                            localStorage.setItem('userCode', res.data.data.id);
+                        // 在getter里面配置
+                        console.log("在getter里面配置-loginUser", this.$store.getters.loginUser);
 
-                            this.$message.success("登陆成功");
+                        // 不走getter
+                        console.log("不走getter-loginUser", this.$store.state.user.loginUser)
+                        
 
-                            // console.log(res.data.data);
+                        this.$message.success("登陆成功");
 
-                            this.$router.push("/index");
-                        }
-                    }).catch(err => {
-                        console.log(err);
-                    }); */
+                        // 登陆状态记录
+                        localStorage.setItem('code', this.md5((0).toString()));
 
-                    this.$router.push("/index");
+                        this.$router.push("/index");
+                    })
                 } else {
                     this.$message.error("表单填写错误");
                 }

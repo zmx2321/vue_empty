@@ -23,25 +23,48 @@ module.exports = {
       }
   },
 
+  devServer: {
+    open: true,
+    host: 'localhost',
+    port: 8088,
+    https: false,
+    hotOnly: false,
+    /* proxy: { // 配置跨域
+        '/api': {
+            target: 'http://10.10.10.199:8080',
+            ws: true,  // 是否启用websockets
+            changOrigin: true,  // 开启代理，在本地创建一个虚拟服务端
+            pathRewrite: {
+                '^/api': ''
+            }
+        }
+    }, */
+    before: app => {
+      app.post('/api/admin/login', (req, res)=> {
+        // 需要载入body-parser中间件才可以使用req.body
+        /* let username = req.body.username;
+        let password = req.body.password; */
+        let username = "admin";
+        let password = "admin";
+
+        if(username == "admin" && password == "admin") {
+          res.send({
+            msg: '恭喜你登录成功',
+            info: { id:1, name: "zhangsan", username: "admin", password: "admin" }
+          })
+        } else {
+          res.send('登录失败，请检查账号密码')
+        }
+      }).get('/api/user/get', (req, res)=> {
+        res.json([
+          { username: "zhangsan" },
+          { username: "王五" },
+        ])
+      })
+    }
+  },
+
   // 是否在构建生产包时生成 sourceMap 文件，false将提高构建速度
-  // devServer: {
-  //     open: true,
-  //     host: 'localhost',
-  //     port: 80,
-  //     https: false,
-  //     hotOnly: false,
-  //     proxy: { // 配置跨域
-  //         '/api': {
-  //             target: 'http://10.10.10.199:8080',
-  //             ws: true,
-  //             changOrigin: true,
-  //             pathRewrite: {
-  //                 '^/api': ''
-  //             }
-  //         }
-  //     },
-  //     before: app => { }
-  // }
   productionSourceMap: false,
   
   pluginOptions: {
@@ -51,3 +74,5 @@ module.exports = {
     }
   }
 }
+
+
