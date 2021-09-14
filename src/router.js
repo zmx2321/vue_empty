@@ -31,7 +31,8 @@ const routes = [
   // 如果是根路径的话，重定向到index路径
   {
     path: '/',
-    redirect: '/index'
+    // redirect: '/index'
+    redirect: '/login'
   },
   // 如果访问index则跳转到index路径
   {

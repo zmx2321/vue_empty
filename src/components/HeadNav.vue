@@ -56,194 +56,187 @@
 </template>
 
 <script>
-    import {
-        getUser,  // 获取用户
-        Logout,  // 登出
-        ModifyPassword,  // 修改密码
-    } from "../api/common"
+import {
+    getUser,  // 获取用户
+} from "@/api/user"
 
-    export default {
-        name: "head-nav",
+import {
+    Logout,  // 登出
+    ModifyPassword,  // 修改密码
+} from "@/api/admin"
 
-        data () {
-            // 校验重复密码
-            const validatePass2 = (rule, value, callback) => {
-                if (value !== this.modifyUser.password) {
-                    callback(new Error("两次输入密码不一致!"));
-                } else {
-                    callback();
-                }
-            };
+export default {
+    name: "head-nav",
 
-            return {
-                modifyUserVisible: false,
+    data () {
+        // 校验重复密码
+        const validatePass2 = (rule, value, callback) => {
+            if (value !== this.modifyUser.password) {
+                callback(new Error("两次输入密码不一致!"));
+            } else {
+                callback();
+            }
+        };
 
-                userCode: "",  // 登录用户id
+        return {
+            modifyUserVisible: false,
 
-                currentUser: {},  // 当前用户
+            userCode: "",  // 登录用户id
 
-                modifyUser: {
+            currentUser: {},  // 当前用户
+
+            modifyUser: {
+                userId: "",
+                username: "",
+                password: "",  //新密码
+                newPwd2: ""  //重复新密码
+            },
+            rules: {
+                password: [
+                    { required: true, message: "密码不能为空", trigger: "blur" },
+                    { min: 5, message: "长度不小于 5 个字符", trigger: "blur" }
+                ],
+                newPwd2: [
+                    { required: true, message: "确认密码不能为空", trigger: "blur" },
+                    { min: 5, message: "长度不小于 5 个字符", trigger: "blur" },
+                    //使用自定义验证规则，在失去焦点触发
+                    { validator: validatePass2, trigger: "blur" }
+                ]
+            },
+        }
+    },
+    methods: {
+        /**
+         * common
+         */
+        //关闭提示
+        handleClose(done) {
+            this.$confirm('确认关闭？').then(() => {
+                done();
+                this.resetForm('modifyForm');
+            }).catch(err => {
+                throw err;
+            });
+        },
+
+        //表单重置
+        resetForm(formName) {
+            this.$refs[formName].resetFields();
+        },
+
+        // 判断对象为空
+        objIsEmpty(obj) {
+            if(JSON.stringify(obj) == '{}' ){
+                return true;
+            }
+
+            return false;
+        },
+
+        /**
+         * api getUser
+         * 获取用户
+         */
+        getUserInfo () {
+            getUser().then(res => {
+                console.log("获取用户", res)
+            }).catch({});
+        },
+
+        // 下拉框属性
+        setDialogInfo(cmditem) {
+            if (!cmditem) {
+                this.$message("菜单选项缺少command属性");
+                return;
+            }
+
+            switch (cmditem) {
+                case "modify_password":
+                    this.modifyPassword();
+                    break;
+                case "logout":
+                    this.logout();
+                    break;
+            }
+        },
+
+        // 修改密码
+        modifyPassword() {
+            if(!this.objIsEmpty(this.$refs)) {
+                this.$refs.clearValidate;
+                this.modifyUser = {
                     userId: "",
                     username: "",
                     password: "",  //新密码
                     newPwd2: ""  //重复新密码
-                },
-                rules: {
-                    password: [
-                        { required: true, message: "密码不能为空", trigger: "blur" },
-                        { min: 5, message: "长度不小于 5 个字符", trigger: "blur" }
-                    ],
-                    newPwd2: [
-                        { required: true, message: "确认密码不能为空", trigger: "blur" },
-                        { min: 5, message: "长度不小于 5 个字符", trigger: "blur" },
-                        //使用自定义验证规则，在失去焦点触发
-                        { validator: validatePass2, trigger: "blur" }
-                    ]
-                },
+                }
             }
+
+            // this.$router.push("/modify_password");
+            this.modifyUserVisible = true;
         },
-        methods: {
-            /**
-             * common
-             */
-            //关闭提示
-            handleClose(done) {
-                this.$confirm('确认关闭？').then(() => {
-                    done();
-                    this.resetForm('modifyForm');
-                }).catch(err => {
-                    throw err;
-                });
-            },
 
-            //表单重置
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
-            },
+        // 提交表单
+        submitForm(formName) {
+            this.$refs[formName].validate(valid => {
+                if (valid) {
+                    //验证通过，密码进行md5加密
+                    this.modifyUser.password = this.md5(this.modifyUser.password);
 
-            // 判断对象为空
-            objIsEmpty(obj) {
-                if(JSON.stringify(obj) == '{}' ){
-                    return true;
-                }
-
-                return false;
-            },
-
-            /**
-             * api getUser
-             * 获取用户
-             */
-            getUserInfo () {
-                let params = {
-                    id: this.userCode,
-                }
-
-                /* getUser(params).then(res => {
-                    const user = res.data.data;
-
-                    this.modifyUser.userId = user.id;
-                    this.modifyUser.username = user.username;
-                    this.modifyUser.password = user.password;
-                }).catch({}); */
-            },
-
-            // 下拉框属性
-            setDialogInfo(cmditem) {
-                if (!cmditem) {
-                    this.$message("菜单选项缺少command属性");
-                    return;
-                }
-
-                switch (cmditem) {
-                    case "modify_password":
-                        this.modifyPassword();
-                        break;
-                    case "logout":
-                        this.logout();
-                        break;
-                }
-            },
-
-            // 修改密码
-            modifyPassword() {
-                if(!this.objIsEmpty(this.$refs)) {
-                    this.$refs.clearValidate;
-                    this.modifyUser = {
-                        userId: "",
-                        username: "",
-                        password: "",  //新密码
-                        newPwd2: ""  //重复新密码
+                    let params = {
+                        userId: this.modifyUser.userId,
+                        username: this.modifyUser.username,
+                        password: this.modifyUser.password,
                     }
-                }
 
-                // this.$router.push("/modify_password");
-                this.modifyUserVisible = true;
-            },
+                    this.modifyUserVisible = false;
+                    
+                    setTimeout(()=>{
+                        this.$message.success("密码修改成功");
+                    }, 2000);
 
-            // 提交表单
-            submitForm(formName) {
-                this.$refs[formName].validate(valid => {
-                    if (valid) {
-                        //验证通过，密码进行md5加密
-                        this.modifyUser.password = this.md5(this.modifyUser.password);
+                    // console.log(params);
 
-                        let params = {
-                            userId: this.modifyUser.userId,
-                            username: this.modifyUser.username,
-                            password: this.modifyUser.password,
+                    /* ModifyPassword(qs.stringify(params)).then(res => {
+                        // console.log(res);
+
+                        if (res.data.code == 1){
+                            this.$message.warning(res.data.msg);
                         }
 
-                        this.modifyUserVisible = false;
-                        
-                        setTimeout(()=>{
+                        if (res.data.code == 0) {
                             this.$message.success("密码修改成功");
-                        }, 2000);
+                        }
 
-                        // console.log(params);
+                        this.modifyUser.password = "";
+                        this.modifyUser.newPwd2 = "";
 
-                        /* ModifyPassword(qs.stringify(params)).then(res => {
-                            // console.log(res);
-
-                            if (res.data.code == 1){
-                                this.$message.warning(res.data.msg);
-                            }
-
-                            if (res.data.code == 0) {
-                                this.$message.success("密码修改成功");
-                            }
-
-                            this.modifyUser.password = "";
-                            this.modifyUser.newPwd2 = "";
-
-                            this.modifyUserVisible = false;
-                        }).catch({}); */
-                    } else {
-                        this.$message.error("表单填写错误");
-                    }
-                });
-            },
-
-            // 登出
-            logout() {
-                this.$message.success("注销成功");
-                this.$router.push("/login");
-
-                /* Logout().then(() => {
-                    this.$message.success("注销成功");
-
-                    localStorage.removeItem("code");
-                    localStorage.removeItem("userCode");
-                    this.$router.push("/login");
-                }).catch({}); */
-            },
+                        this.modifyUserVisible = false;
+                    }).catch({}); */
+                } else {
+                    this.$message.error("表单填写错误");
+                }
+            });
         },
-        created (){
-            this.userCode = localStorage.userCode;
 
-            // this.getUserInfo();
-        }
-    };
+        // 登出
+        logout() {
+            this.$message.success("注销成功");
+            this.$router.push("/login");
+
+            /* Logout().then(() => {
+                this.$message.success("注销成功");
+
+                localStorage.removeItem("code");
+                localStorage.removeItem("userCode");
+                this.$router.push("/login");
+            }).catch({}); */
+        },
+    },
+    created (){
+        this.getUserInfo();
+    }
+};
 </script>
 
 <style lang="less" scoped>

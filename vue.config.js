@@ -1,3 +1,6 @@
+const bodyParser = require('body-parser');
+const jsmd5 = require('js-md5')
+
 module.exports = {
   // 部署应用时的根路径(默认'/'),也可用相对路径(存在使用限制)
   publicPath: './',
@@ -24,7 +27,7 @@ module.exports = {
   },
 
   devServer: {
-    open: true,
+    // open: true,
     host: 'localhost',
     port: 8088,
     https: false,
@@ -40,22 +43,34 @@ module.exports = {
         }
     }, */
     before: app => {
-      app.post('/api/admin/login', (req, res)=> {
-        // 需要载入body-parser中间件才可以使用req.body
-        /* let username = req.body.username;
-        let password = req.body.password; */
-        let username = "admin";
-        let password = "admin";
+      // post请求必须使用中间件才能接收参数
+      // 需要载入body-parser中间件才可以使用req.body
+      // 2021年body-parser已经被弃用，原因是express框架已经内置
+      // 但原生node还是需要中间件来做请求
+      app.use(bodyParser.json());
+      app.use(bodyParser.urlencoded({ extended: false }));
 
-        if(username == "admin" && password == "admin") {
+      app.post('/api/admin/login', (req, res)=> {
+        // console.log(req.body)
+
+        let username = req.body.username;
+        let password = req.body.password;
+
+        // console.log(jsmd5("admin"))
+
+        if(username == "admin" && password == jsmd5("admin")) {
           res.send({
             msg: '恭喜你登录成功',
-            info: { id:1, name: "zhangsan", username: "admin", password: "admin" }
+            info: { id:1, name: "zhangsan", username: "admin", password: "admin" },
+            isOk: true
           })
         } else {
-          res.send('登录失败，请检查账号密码')
+          res.send({
+            msg: '登录失败，请检查账号密码',
+            isOk: false
+          })
         }
-      }).get('/api/user/get', (req, res)=> {
+      }).get('/api/user/get', res=> {
         res.json([
           { username: "zhangsan" },
           { username: "王五" },

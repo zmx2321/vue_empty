@@ -22,7 +22,7 @@
 <script>
 import {
     login  // 登陆
-} from "../../api/admin"
+} from "@/api/admin"
 
 export default {
     name: "login",
@@ -54,26 +54,35 @@ export default {
                     // 验证通过，密码进行md5加密
                     this.loginUser.password = this.md5(this.loginUser.password);
 
+                    // 请求登陆接口
                     login(this.loginUser).then(res=> {
-                        console.log(res)
+                        console.log("登陆", res)
 
-                        // 存vuex
-                        this.$store.dispatch('SetLoginUser', res.data.info) // 异步调用
-                        console.log("获取登录用户")
+                        let { isOk } = res.data
+                        let { msg } = res.data
 
-                        // 在getter里面配置
-                        console.log("在getter里面配置-loginUser", this.$store.getters.loginUser);
+                        // 登陆成功
+                        if(isOk) {
+                            // 存vuex
+                            this.$store.dispatch('SetLoginUser', res.data.info) // 异步调用
+                            console.log("获取登录用户")
 
-                        // 不走getter
-                        console.log("不走getter-loginUser", this.$store.state.user.loginUser)
-                        
+                            // 在getter里面配置
+                            console.log("在getter里面配置-loginUser", this.$store.getters.loginUser);
 
-                        this.$message.success("登陆成功");
+                            // 不走getter
+                            console.log("不走getter-loginUser", this.$store.state.user.loginUser)
+                            
 
-                        // 登陆状态记录
-                        localStorage.setItem('code', this.md5((0).toString()));
+                            this.$message.success(msg);
 
-                        this.$router.push("/index");
+                            // 登陆状态记录
+                            localStorage.setItem('code', this.md5((0).toString()));
+
+                            this.$router.push("/index");
+                        } else {
+                            this.$message.warning(msg)
+                        }
                     })
                 } else {
                     this.$message.error("表单填写错误");
