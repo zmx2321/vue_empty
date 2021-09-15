@@ -56,9 +56,9 @@
 </template>
 
 <script>
-import {
+/* import {
     getUser,  // 获取用户
-} from "@/api/user"
+} from "@/api/user" */
 
 import {
     Logout,  // 登出
@@ -234,7 +234,7 @@ export default {
         },
     },
     created (){
-        this.getUserInfo();
+        // this.getUserInfo();
     }
 };
 </script>

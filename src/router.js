@@ -37,7 +37,6 @@ const routes = [
   // 如果访问index则跳转到index路径
   {
     path: '/index',
-    name: 'index',
     component: Index,
     children: [
       { path: '', component: Home },
@@ -59,6 +58,11 @@ const routes = [
         path: '/test1',
         name: "test1",
         component: resolve => require(['@/views/test/Test1'], resolve)
+      },
+      {
+        path: '/test_map',
+        name: "test_map",
+        component: resolve => require(['@/views/test/TestMap'], resolve)
       },
 
       /**
