@@ -48,6 +48,8 @@ export default {
                     }
                 })
 
+                this.$message.success("geojson加载成功")
+
                 geojson.setMap(window.amapview);
             }).catch({})
         }
