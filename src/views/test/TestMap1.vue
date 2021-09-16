@@ -1,5 +1,6 @@
 <template>
     <section class="main_cont amap-wrapper">
+        <el-button type="primary" @click="sss">sss</el-button>
         <el-amap ref="map" class="amap-box" :vid="'amap-vue'" :center='center' :zoom='zoom' :events="events"></el-amap>
     </section>
 </template>
@@ -12,7 +13,7 @@ export default {
 
     data () {
         return {
-            center: [120.608311,30.233228],
+            center: [107.943579, 30.131735],
             zoom: 12,
             events: {
                 init: o=> {
@@ -20,7 +21,7 @@ export default {
                     window.amapview = o
 
                     // 获取地图信息
-                    // this.getMapInfo()
+                    this.getMapInfo()
 
                     // 获取geojson
                     // this.getGeoJson()
@@ -129,10 +130,18 @@ export default {
                 console.log("amapview", window.amapview)
 
                 window.amapview.on('click', e=> {
-                    // console.log("地图点击事件", e)
+                    console.log("地图点击事件", e)
 
                     // 地图坐标
                     this.getPosition(e)
+                })
+
+                /* window.amapview.on('zoomend', ()=> {
+                    this.logMapinfo()
+                }) */
+
+                window.amapview.on('moveend', ()=> {
+                    this.logMapinfo()
                 })
             }, 0);
         },
@@ -278,9 +287,9 @@ export default {
                 geojsonLayer.eachOverlay(iterator => {
                     // console.log(iterator)
 
-                    iterator.on('click', e=> {
-                        console.log("地图点击事件", e)
-                        console.log("geojson单个对象", iterator)
+                    iterator.on('mouseover', e=> {
+                        // console.log("地图点击事件", e)
+                        // console.log("geojson单个对象", iterator)
 
                         // 获取geojson事件
                         // this.getGeoEvent(e, iterator)
@@ -288,7 +297,9 @@ export default {
                         let geojsonItem = iterator.toGeoJSON()
                         // console.log("地图对象转geojson", geojsonItem)
 
-                        console.log("名称", geojsonItem.properties._parentProperities.name)
+                        if(geojsonItem.properties._parentProperities) {
+                            console.log("名称", geojsonItem.properties._parentProperities.name)
+                        }
                     })
                 })
 
@@ -301,6 +312,21 @@ export default {
                     this.getPosition(e)
                 }) */
             }, 0); 
+        },
+
+        // 获取地图信息
+        logMapinfo() {
+            console.log("当前级别", window.amapview.getZoom())
+            console.log("当前中心点", window.amapview.getCenter())
+        },
+
+        sss() {
+            console.log("ssd")
+
+            // this.center = [120.608311,30.233228]
+
+            window.amapview.setZoom("12"); //设置地图层级
+            window.amapview.setCenter([120.608311,30.233228]); //设置地图层级
         }
     },
 

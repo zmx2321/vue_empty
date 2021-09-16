@@ -79,6 +79,8 @@ export default {
                 console.log(geojsonLayer)
                 this.$message.success("geojson加载成功")
 
+                // https://developer.amap.com/api/javascript-api/reference/overlay#geojson
+
                 // 加载新的GeoJSON对象，转化为覆盖物，旧的覆盖物将移除
                 // geojsonLayer.importData(geoJSONData)
 
@@ -135,6 +137,14 @@ export default {
 
                     // 地图坐标
                     this.getPosition(e)
+                })
+
+                /* window.amapview.on('zoomend', ()=> {
+                    this.logMapinfo()
+                }) */
+
+                window.amapview.on('moveend', ()=> {
+                    this.logMapinfo()
                 })
             }, 0);
         },
@@ -260,6 +270,12 @@ export default {
                 
                 geojsonLayerItemInit.setMap(window.amapview);
             }) */
+        },
+
+        // 获取地图信息
+        logMapinfo() {
+            console.log("当前级别", window.amapview.getZoom())
+            console.log("当前中心点", window.amapview.getCenter())
         },
 
         testJson() {
