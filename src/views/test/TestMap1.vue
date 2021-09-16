@@ -12,20 +12,18 @@ export default {
 
     data () {
         return {
-            center: [107.943579, 30.131735],
-            zoom: 7,
+            center: [120.608311,30.233228],
+            zoom: 12,
             events: {
                 init: o=> {
                     // 供出地图的实例
                     window.amapview = o
 
                     // 获取地图信息
-                    this.getMapInfo()
+                    // this.getMapInfo()
 
                     // 获取geojson
-                    this.getGeoJson()
-
-                    // o.setMapStyle('amap://styles/macaron');//自定义的高德地图的样式，我选的是马卡龙
+                    // this.getGeoJson()
                 }
             }
         }
@@ -263,7 +261,29 @@ export default {
         },
 
         testJson() {
-            console.log("test", testjson)
+            // console.log("test", testjson)
+
+            let geojsonLayer = this.initGeojsonLayer(testjson)
+            // console.log(geojsonLayer)
+
+            // console.log(window.amapview)
+
+            // 必须是异步
+            setTimeout(() => {
+                console.log("地图对象", window.amapview)
+                console.log("geojson地图对象", geojsonLayer)
+
+                geojsonLayer.setMap(window.amapview);
+
+                /* console.log("amapview", window.amapview)
+
+                window.amapview.on('click', e=> {
+                    // console.log("地图点击事件", e)
+
+                    // 地图坐标
+                    this.getPosition(e)
+                }) */
+            }, 0); 
         }
     },
 
