@@ -146,8 +146,6 @@ export default {
 
         // 初始化geojson
         initGeojsonLayer(data) {
-            let that = this;
-
             return new AMap.GeoJSON({
                 // 要加载的标准GeoJSON对象
                 geoJSON: data,
@@ -238,7 +236,7 @@ export default {
             geojsonLayerItem.setMap(window.amapview);
 
             // 点击之后鼠标移除事件
-            geoitem.on('mouseout', ()=> {
+            /* geoitem.on('mouseout', ()=> {
                 // console.log("点击之后鼠标移除事件")
 
                 // console.log(geoitem.w.fillOpacity);
@@ -261,7 +259,7 @@ export default {
                 })
                 
                 geojsonLayerItemInit.setMap(window.amapview);
-            })
+            }) */
         }
     },
 
