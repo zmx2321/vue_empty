@@ -275,6 +275,23 @@ export default {
 
                 geojsonLayer.setMap(window.amapview);
 
+                geojsonLayer.eachOverlay(iterator => {
+                    // console.log(iterator)
+
+                    iterator.on('click', e=> {
+                        console.log("地图点击事件", e)
+                        console.log("geojson单个对象", iterator)
+
+                        // 获取geojson事件
+                        // this.getGeoEvent(e, iterator)
+
+                        let geojsonItem = iterator.toGeoJSON()
+                        // console.log("地图对象转geojson", geojsonItem)
+
+                        console.log("名称", geojsonItem.properties._parentProperities.name)
+                    })
+                })
+
                 /* console.log("amapview", window.amapview)
 
                 window.amapview.on('click', e=> {
