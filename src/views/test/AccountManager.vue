@@ -118,6 +118,10 @@ export default {
 
             // 验证添加用户数据
             addUserRules: {
+                /* name: [
+                    { required: true, message: '请输入活动名称', trigger: 'blur' },
+                    { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                ], */
             },
 
             /**
