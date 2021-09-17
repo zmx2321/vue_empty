@@ -69,6 +69,11 @@ const routes = [
         name: "test_map1",
         component: resolve => require(['@/views/test/TestMap1'], resolve)
       },
+      {
+        path: '/test_map2',
+        name: "test_map2",
+        component: resolve => require(['@/views/test/TestMap2'], resolve)
+      },
 
       /**
        * 超市管理
