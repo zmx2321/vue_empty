@@ -74,6 +74,11 @@ const routes = [
         name: "test_map2",
         component: resolve => require(['@/views/test/TestMap2'], resolve)
       },
+      {
+        path: '/test_map3',
+        name: "test_map3",
+        component: resolve => require(['@/views/test/TestMap3'], resolve)
+      },
 
       /**
        * 超市管理
@@ -117,7 +122,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: 'hash',
+  mode: 'history',
   routes
 })
 

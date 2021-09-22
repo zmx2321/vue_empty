@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import testjson from '@/assets/geojson/test.json'
-
 export default {
     name: "testmap",
 
@@ -149,13 +147,22 @@ export default {
             }, 0);
         },
 
+        // 获取地图信息
+        logMapinfo() {
+            console.log("当前级别", window.amapview.getZoom())
+            console.log("当前中心点", window.amapview.getCenter())
+        },
+
         // 地图坐标
         getPosition(e) {
             console.log('您在 ['+e.lnglat.getLng()+','+e.lnglat.getLat()+'] 的位置点击了地图');
         },
 
+        /**
+         * geojson相关
+         */
         // 初始化geojson
-        initGeojsonLayer(data) {
+        initGeojsonLayer(data, fillColor) {
             return new AMap.GeoJSON({
                 // 要加载的标准GeoJSON对象
                 geoJSON: data,
@@ -165,15 +172,20 @@ export default {
                 getPolygon(geojson, lnglats) {
                     // console.log(geojson)
 
-                    // 计算面积
-                    // let area = AMap.GeometryUtil.ringArea(lnglats[0])
+                    let area = AMap.GeometryUtil.ringArea(lnglats[0])
 
                     return new AMap.Polygon({
+                        // 路径
                         path: lnglats,
-                        // fillOpacity: 1 - Math.sqrt(area / 8000000000),// 面积越大透明度越高
+                        // 面
+                        fillOpacity: 1 - Math.sqrt(area / 8000000000),// 面积越大透明度越高
                         // fillOpacity: 0.5,
-                        strokeColor: 'white',
-                        fillColor: 'blue'
+                        fillColor: fillColor,
+                        // 线
+                        strokeColor: '#fff',
+                        strokeWeight: 0.6,    //线宽
+                        strokeStyle: "solid",
+                        strokeOpacity: 1, //线透明度
                     });
                 }
             })
@@ -188,7 +200,7 @@ export default {
                 let geoJSONData = res.data;
 
                 // 初始化geojson，获取geojson地图对象
-                let geojsonLayer = this.initGeojsonLayer(geoJSONData)
+                let geojsonLayer = this.initGeojsonLayer(geoJSONData, "#f00")
 
                 // 隐藏所有覆盖物
                 // geojsonLayer.hide()
@@ -226,65 +238,29 @@ export default {
 
             console.log("区县名称", geojsonItem.properties.name)
 
-            // 设置颜色
-            let geojsonLayerItem = new AMap.GeoJSON({
-                // 要加载的标准GeoJSON对象
-                geoJSON: geojsonItem,
+            // 获取第一层geojson
+            let geojsonLayerItem = this.initGeojsonLayer(geojsonItem, "#00f")
 
-                getPolygon(geojson, lnglats) {
-                    // console.log(geojson)
-
-                    return new AMap.Polygon({
-                        path: lnglats,
-                        // fillOpacity: 0.5,
-                        strokeColor: 'white',
-                        fillColor: 'red'
-                    });
-                }
-            })
-
+            // 点击第一层触发事件 - 鼠标点击设置地图
             geojsonLayerItem.setMap(window.amapview);
 
-            // 点击之后鼠标移除事件
-            /* geoitem.on('mouseout', ()=> {
-                // console.log("点击之后鼠标移除事件")
+            // 第二层触发事件 - 鼠标移除
+            geojsonLayerItem.on('mouseover', ()=> {
+                console.log("鼠标移除事件")
 
-                // console.log(geoitem.w.fillOpacity);
+                geojsonLayerItem.hide()
+            })
 
-                // this.getGeoJson();
-                let geojsonLayerItemInit = new AMap.GeoJSON({
-                    // 要加载的标准GeoJSON对象
-                    geoJSON: geojsonItem,
+            // 第二层触发事件 - 鼠标点击
+            geojsonLayerItem.on('click', ()=> {
+                console.log("鼠标点击事件")
 
-                    getPolygon(geojson, lnglats) {
-                        // console.log(geojson)
-
-                        return new AMap.Polygon({
-                             path: lnglats,
-                            // fillOpacity: 0.5,
-                            strokeColor: 'white',
-                            fillColor: 'blue'
-                        });
-                    }
-                })
-                
-                geojsonLayerItemInit.setMap(window.amapview);
-            }) */
-        },
-
-        // 获取地图信息
-        logMapinfo() {
-            console.log("当前级别", window.amapview.getZoom())
-            console.log("当前中心点", window.amapview.getCenter())
-        },
-
-        testJson() {
-            console.log("test", testjson)
+                geojsonLayerItem.hide()
+            })
         }
     },
 
     created() {
-        this.testJson()
     },
 
     mounted() {

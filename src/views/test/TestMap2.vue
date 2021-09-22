@@ -10,12 +10,12 @@
 import shzjson from '@/assets/geojson/shz.json'
 
 export default {
-    name: "testmap",
+    name: "testmap2",
 
     data () {
         return {
-            center: [120.21272954752699,29.93745044968425],
-            zoom: 12,
+            center: [107.943579, 30.131735],
+            zoom: 7,
             events: {
                 init: o=> {
                     // 供出地图的实例
@@ -87,8 +87,8 @@ export default {
         /**
          * geojson相关
          */
-        // 初始化geojson
-        initGeojsonLayer(data) {
+        // 初始化geojson配置
+        initGeojsonLayer(data, fillColor) {
             return new AMap.GeoJSON({
                 // 要加载的标准GeoJSON对象
                 geoJSON: data,
@@ -98,17 +98,79 @@ export default {
                 getPolygon(geojson, lnglats) {
                     // console.log(geojson)
 
+                    let area = AMap.GeometryUtil.ringArea(lnglats[0])
+
                     return new AMap.Polygon({
+                        // 路径
                         path: lnglats,
-                        fillOpacity: 0.5,
-                        strokeColor: 'white',
-                        fillColor: 'red'
+                        // 面
+                        fillOpacity: 1 - Math.sqrt(area / 8000000000),// 面积越大透明度越高
+                        // fillOpacity: 0.5,
+                        fillColor: fillColor,
+                        // 线
+                        strokeColor: '#fff',
+                        strokeWeight: 0.6,    //线宽
+                        strokeStyle: "solid",
+                        strokeOpacity: 1, //线透明度
                     });
                 }
             })
         },
 
-        // 获取geojson
+        // 初始化geojson并绑定事件
+        setGeoJsonLayer(geoJSONData, color, event, next) {
+            // this.getGeoEvent(e, iterator)
+
+            let geojsonLayer = this.initGeojsonLayer(geoJSONData, color)
+
+            geojsonLayer.eachOverlay(iterator => {
+                iterator.on(event, e=> {
+                    // console.log("地图点击事件", e)
+                    // console.log("geojson单个对象", iterator)
+
+                    // geojson事件内容 - 高亮
+                    next(e, iterator)
+                })
+            })
+            geojsonLayer.setMap(window.amapview);
+        },
+
+        // 配置geojson事件
+        getGeoEvent(e, geoitem, next) {
+            // console.log('点击geojson ['+e.lnglat.getLng()+','+e.lnglat.getLat()+']');
+            // console.log("geojson单个对象", geoitem)
+
+            // 将当前地图对象转换成geojson格式以便获取数据
+            let geojsonItem = geoitem.toGeoJSON()
+
+            // 处理业务流程
+            next(geojsonItem)
+
+            // 获取第一层geojson
+            let geojsonLayerItem = this.initGeojsonLayer(geojsonItem, "#00f")
+
+            // 点击第一层触发事件 - 鼠标点击设置地图
+            geojsonLayerItem.setMap(window.amapview);
+
+            // 第二层触发事件 - 鼠标移除
+            geojsonLayerItem.on('mouseover', ()=> {
+                console.log("鼠标移除事件")
+
+                geojsonLayerItem.hide()
+            })
+
+            // 第二层触发事件 - 鼠标点击
+            geojsonLayerItem.on('click', ()=> {
+                console.log("鼠标点击事件")
+
+                geojsonLayerItem.hide()
+            })
+        },
+
+        /**
+         * 使用
+         */
+        // 获取geojson示例
         getGeoJson() {
             this.axios.get("https://a.amap.com/jsapi_demos/static/geojson/chongqing.json").then(res=> {
                 // console.log(res.data)
@@ -117,129 +179,44 @@ export default {
                 let geoJSONData = res.data;
 
                 // 初始化geojson，获取geojson地图对象
-                let geojsonLayer = this.initGeojsonLayer(geoJSONData)
+                this.setGeoJsonLayer(geoJSONData, "#f00", 'click', (e, iterator)=> {
+                    // 给当前面添加事件
+                    this.getGeoEvent(e, iterator, geojsonItem=> {
+                        // 处理业务流程
+                        console.log("处理geojson业务流程")
 
-                // 隐藏所有覆盖物
-                // geojsonLayer.hide()
-
-                // 遍历geojson地图对象，绑定事件
-                geojsonLayer.eachOverlay(iterator => {
-                    // console.log(iterator)
-
-                    iterator.on('click', e=> {
-                        // console.log("地图点击事件", e)
-                        // console.log("geojson单个对象", iterator)
-
-                        // 获取geojson事件
-                        this.getGeoEvent(e, iterator)
+                        if(geojsonItem.properties.name) {
+                            console.log("区县名称", geojsonItem.properties.name)
+                        } else {
+                            console.log("区县名称", geojsonItem.properties.Name)
+                        }
                     })
                 })
 
                 this.$message.success("geojson加载成功")
-
-                // console.log("amapview", window.amapview)
-                // console.log(geojsonLayer)
-
-                // 设置地图
-                geojsonLayer.setMap(window.amapview);
             }).catch({})
         },
 
-        // 获取geojson事件
-        getGeoEvent(e, geoitem) {
-            // console.log('点击geojson ['+e.lnglat.getLng()+','+e.lnglat.getLat()+']');
-            // console.log("geojson单个对象", geoitem)
+        // 获取geojson测试
+        testJson() {
+            // 初始化geojson，获取geojson地图对象
+            this.setGeoJsonLayer(shzjson, "#f00", 'click', (e, iterator)=> {
+                // console.log()
+                this.getGeoEvent(e, iterator, geojsonItem=> {
+                    // 处理业务流程
+                    console.log("处理testJson业务流程")
 
-            let geojsonItem = geoitem.toGeoJSON()
-            // console.log("地图对象转geojson", geojsonItem)
-
-            console.log("区县名称", geojsonItem.properties.name)
-
-            // 设置颜色
-            let geojsonLayerItem = new AMap.GeoJSON({
-                // 要加载的标准GeoJSON对象
-                geoJSON: geojsonItem,
-
-                getPolygon(geojson, lnglats) {
-                    // console.log(geojson)
-
-                    return new AMap.Polygon({
-                        path: lnglats,
-                        // fillOpacity: 0.5,
-                        strokeColor: 'white',
-                        fillColor: 'red'
-                    });
-                }
-            })
-
-            geojsonLayerItem.setMap(window.amapview);
-
-            // 点击之后鼠标移除事件
-            /* geoitem.on('mouseout', ()=> {
-                // console.log("点击之后鼠标移除事件")
-
-                // console.log(geoitem.w.fillOpacity);
-
-                // this.getGeoJson();
-                let geojsonLayerItemInit = new AMap.GeoJSON({
-                    // 要加载的标准GeoJSON对象
-                    geoJSON: geojsonItem,
-
-                    getPolygon(geojson, lnglats) {
-                        // console.log(geojson)
-
-                        return new AMap.Polygon({
-                             path: lnglats,
-                            // fillOpacity: 0.5,
-                            strokeColor: 'white',
-                            fillColor: 'blue'
-                        });
+                    if(geojsonItem.properties.name) {
+                        console.log("区县名称", geojsonItem.properties.name)
+                    } else {
+                        console.log("区县名称", geojsonItem.properties.Name)
                     }
                 })
-                
-                geojsonLayerItemInit.setMap(window.amapview);
-            }) */
-        },
-
-        testJson() {
-            // console.log("test", testjson)
-
-            let geojsonLayer = this.initGeojsonLayer(shzjson)
-            // console.log(geojsonLayer)
-
-            // 必须是异步
-            setTimeout(() => {
-                // console.log("地图对象", window.amapview)
-                // console.log("geojson地图对象", geojsonLayer)
-
-                // 在地图上渲染
-                geojsonLayer.setMap(window.amapview);
-
-                // 遍历并添加事件
-                geojsonLayer.eachOverlay(iterator => {
-                    // console.log(iterator)
-
-                    iterator.on('mouseover', e=> {
-                        console.log("地图滑动事件", e)
-                        console.log("geojson单个对象", iterator)
-
-                        // 获取geojson事件
-                        // this.getGeoEvent(e, iterator)
-
-                        let geojsonItem = iterator.toGeoJSON()
-                        console.log("地图对象转geojson", geojsonItem.properties.Name)
-
-                        /* if(geojsonItem.properties._parentProperities) {
-                            console.log("名称", geojsonItem.properties._parentProperities.name)
-                        } */
-                    })
-                })
-            }, 0); 
+            })
         },
     },
 
     created() {
-        this.testJson()
     },
 
     mounted() {

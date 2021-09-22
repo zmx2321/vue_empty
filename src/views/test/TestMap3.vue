@@ -1,12 +1,29 @@
 <template>
     <section class="main_cont amap-wrapper">
+        <el-button type="primary" @click="toChongqing">重庆</el-button>
+        <el-button type="primary" @click="toShangHe">上河镇</el-button>
         <el-amap ref="map" class="amap-box" :vid="'amap-vue'" :center='center' :zoom='zoom' :events="events"></el-amap>
+
+        <el-dialog
+            title="提示"
+            :visible.sync="dialogVisible"
+            width="30%"
+            >
+            <span>这是一段信息</span>
+            <p>城市名称：{{ cityName }}</p>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+            </span>
+            </el-dialog>
     </section>
 </template>
 
 <script>
+import shzjson from '@/assets/geojson/shz.json'
+
 export default {
-    name: "testmap1",
+    name: "testmap2",
 
     data () {
         return {
@@ -22,8 +39,15 @@ export default {
 
                     // 获取重庆
                     this.getGeoJson()
+
+                    // 获取上河
+                    this.testJson()
                 }
-            }
+            },
+
+            dialogVisible: false,
+
+            cityName: "",
         }
     },
 
@@ -31,95 +55,6 @@ export default {
     },
 
     methods: {
-        // geojson api示例
-        getGeoJsonExample() {
-            this.axios.get("https://a.amap.com/jsapi_demos/static/geojson/chongqing.json").then(res=> {
-                // console.log(res.data)
-
-                let geoJSONData = res.data;
-
-                let geojsonLayer = new AMap.GeoJSON({
-                    // 要加载的标准GeoJSON对象
-                    geoJSON: geoJSONData,
-
-                    /* // 指定点要素的绘制方式，缺省时为Marker的默认样式。
-                    // geojson为当前要素对应的GeoJSON对象，lnglat为对应的点的位置
-                    getMarker(geojson, lnglats) {
-                        console.log("点")
-                    },
-
-                    // 指定线要素的绘制方式，缺省时为Polyline的默认样式。
-                    // geojson为当前要素对应的GeoJSON对象，lnglats为对应的线的路径
-                    getPolyline(geojson, lnglats) {
-                        console.log("线")
-                    }, */
-
-                    // 指定面要素的绘制方式，缺省时为Polygon的默认样式。
-                    // geojson为当前要素对应的GeoJSON对象，lnglats为对应的面的路径
-                    getPolygon(geojson, lnglats) {
-                        // console.log("面")
-                        // console.log(geojson)
-
-                        // 计算面积
-                        let area = AMap.GeometryUtil.ringArea(lnglats[0])
-
-                        return new AMap.Polygon({
-                            path: lnglats,
-                            fillOpacity: 1 - Math.sqrt(area / 8000000000),// 面积越大透明度越高
-                            strokeColor: 'white',
-                            fillColor: 'red'
-                        });
-                    }
-                })
-
-                console.log(geojsonLayer)
-                this.$message.success("geojson加载成功")
-
-                // https://developer.amap.com/api/javascript-api/reference/overlay#geojson
-
-                // 加载新的GeoJSON对象，转化为覆盖物，旧的覆盖物将移除
-                // geojsonLayer.importData(geoJSONData)
-
-                // 将当前对象包含的覆盖物转换为GeoJSON对象
-                // console.log("将当前对象包含的覆盖物转换为GeoJSON对象", geojsonLayer.toGeoJSON())
-
-                // 添加一个覆盖物，如需要在转成GeoJSON的时候将某些信息带给对应GeoJSON对象的properties属性中，
-                // 可以将信息添加到覆盖物的extData的_geoJsonProperties字段中
-                /* let marker = new AMap.Marker({
-                    position:[107.943579, 30.131735],
-                    extData:{_geoJsonProperties:{
-                        name:'marker1',
-                        icon:'xx.png',
-                        }
-                    }
-                });
-                geojsonLayer.addOverlay(marker); */
-
-                // 添加多个覆盖物，说明同addOverlay
-                // addOverlays(overlays: Array)
-
-                // 获取所有覆盖物
-                // console.log(geojsonLayer.getOverlays())
-
-                // 隐藏所有覆盖物
-                // geojsonLayer.hide()
-
-                // 显示所有覆盖物
-                // geojsonLayer.show()
-
-                // 遍历覆盖物
-                geojsonLayer.eachOverlay(iterator => {
-                    console.log(iterator)
-                })
-
-                // 必须是异步才能获取地图对象
-                console.log(window.amapview)
-
-                // 设置地图
-                geojsonLayer.setMap(window.amapview);
-            }).catch({})
-        },
-
         // 获取地图信息
         getMapInfo() {
             console.log("AMap", AMap)
@@ -154,6 +89,16 @@ export default {
         // 地图坐标
         getPosition(e) {
             console.log('您在 ['+e.lnglat.getLng()+','+e.lnglat.getLat()+'] 的位置点击了地图');
+        },
+
+        toChongqing() {
+            window.amapview.setZoom("7"); //设置地图层级
+            window.amapview.setCenter([107.943579, 30.131735]); //设置地图层级
+        },
+
+        toShangHe() {
+            window.amapview.setZoom("12"); //设置地图层级
+            window.amapview.setCenter([120.21272954752699,29.93745044968425]); //设置地图层级
         },
 
         /**
@@ -193,7 +138,6 @@ export default {
         setGeoJsonLayer(geoJSONData, color, event, next) {
             // this.getGeoEvent(e, iterator)
 
-            // 获取地图所需geojson对象
             let geojsonLayer = this.initGeojsonLayer(geoJSONData, color)
 
             geojsonLayer.eachOverlay(iterator => {
@@ -205,7 +149,6 @@ export default {
                     next(e, iterator)
                 })
             })
-            // 应用于地图
             geojsonLayer.setMap(window.amapview);
         },
 
@@ -216,7 +159,8 @@ export default {
 
             // 将当前地图对象转换成geojson格式以便获取数据
             let geojsonItem = geoitem.toGeoJSON()
-            // console.log("地图对象转geojson", geojsonItem)
+
+            this.dialogVisible = true  // 显示弹窗
 
             // 处理业务流程
             next(geojsonItem)
@@ -261,6 +205,7 @@ export default {
                         console.log("处理geojson业务流程")
 
                         if(geojsonItem.properties.name) {
+                            this.cityName = geojsonItem.properties.name
                             console.log("区县名称", geojsonItem.properties.name)
                         } else {
                             console.log("区县名称", geojsonItem.properties.Name)
@@ -270,6 +215,25 @@ export default {
 
                 this.$message.success("geojson加载成功")
             }).catch({})
+        },
+
+        // 获取geojson测试
+        testJson() {
+            // 初始化geojson，获取geojson地图对象
+            this.setGeoJsonLayer(shzjson, "#f00", 'click', (e, iterator)=> {
+                // console.log()
+                this.getGeoEvent(e, iterator, geojsonItem=> {
+                    // 处理业务流程
+                    console.log("处理testJson业务流程")
+
+                    if(geojsonItem.properties.name) {
+                        console.log("区县名称", geojsonItem.properties.name)
+                    } else {
+                        this.cityName = geojsonItem.properties.Name
+                        console.log("区县名称", geojsonItem.properties.Name)
+                    }
+                })
+            })
         },
     },
 
