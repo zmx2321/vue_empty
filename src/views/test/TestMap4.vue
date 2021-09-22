@@ -101,6 +101,38 @@ export default {
             window.amapview.setCenter([120.21272954752699,29.93745044968425]); //设置地图层级
         },
 
+        debounce(fn, delay = 500) {
+            // timer是在闭包中的 => 下面的if(timer)
+            // 这样不会被外界轻易拿到 => 即不对外暴露
+            // 我们在外面使用不需要关心
+            // 同时也是在debounce的作用域中
+            // 闭包的使用场景：函数当做返回值或者参数传入
+            let timer = null;
+
+            // 函数作为返回值，这就形成闭包了
+            return function() {
+                // 这里面的timer需要在它定义的作用域往上寻找
+                if(timer) {
+                    clearTimeout(timer)
+                }
+
+                timer = setTimeout(()=> {
+                    // 触发change事件
+                    // 第一个参数是改变this指向
+                    // 第二个参数是获取所有的参数
+                    // apply第二个参数开始，只接收数组
+                    // fn函数在执行的时候，argument传进来
+                    // debounce返回的函数可能会传进来一些参数
+                    // 面试使用fn()也没问题
+                    // fn()
+                    fn.apply(this, arguments)  
+
+                    // 清空定时器
+                    timer = null
+                }, delay)
+            }
+        },
+
         /**
          * geojson相关
          */
@@ -136,18 +168,19 @@ export default {
 
         // 初始化geojson并绑定事件
         setGeoJsonLayer(geoJSONData, color, event, next) {
-            // this.getGeoEvent(e, iterator)
-
             let geojsonLayer = this.initGeojsonLayer(geoJSONData, color)
 
             geojsonLayer.eachOverlay(iterator => {
-                iterator.on(event, e=> {
+                /* iterator.on(event, e=> {
                     // console.log("地图点击事件", e)
                     // console.log("geojson单个对象", iterator)
 
                     // geojson事件内容 - 高亮
                     next(e, iterator)
-                })
+                }) */
+                iterator.on(event, this.debounce(e=> {
+                    next(e, iterator)
+                }), 0)
             })
             geojsonLayer.setMap(window.amapview);
         },
@@ -194,6 +227,11 @@ export default {
 
                 // 获取geojson数据
                 let geoJSONData = res.data;
+
+                /* debounce(e=> {
+      console.log(e.target)  // 如果不传arguments，在这里无法识别e，也就无法获取当前dom
+      console.log(input1.value);
+  }), 600 */
 
                 // 初始化geojson，获取geojson地图对象
                 this.setGeoJsonLayer(geoJSONData, "#f00", 'mouseover', (e, iterator)=> {
