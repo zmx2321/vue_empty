@@ -228,7 +228,7 @@ export default {
             geojsonLayerItem.setMap(window.amapview);
 
             // 第二层触发事件 - 鼠标移除
-            geojsonLayerItem.on('mouseover', ()=> {
+            geojsonLayerItem.on('mouseout', ()=> {
                 console.log("鼠标移除事件")
 
                 geojsonLayerItem.hide()

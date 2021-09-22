@@ -160,9 +160,6 @@ export default {
             // 将当前地图对象转换成geojson格式以便获取数据
             let geojsonItem = geoitem.toGeoJSON()
 
-            // 处理业务流程
-            next(geojsonItem)
-
             // 获取第一层geojson
             let geojsonLayerItem = this.initGeojsonLayer(geojsonItem, "#00f")
 
@@ -180,7 +177,10 @@ export default {
             geojsonLayerItem.on('click', ()=> {
                 console.log("鼠标点击事件")
 
-                geojsonLayerItem.hide()
+                // geojsonLayerItem.hide()
+
+                // 处理业务流程
+                next(geojsonItem)
             })
         },
 
@@ -196,7 +196,7 @@ export default {
                 let geoJSONData = res.data;
 
                 // 初始化geojson，获取geojson地图对象
-                this.setGeoJsonLayer(geoJSONData, "#f00", 'click', (e, iterator)=> {
+                this.setGeoJsonLayer(geoJSONData, "#f00", 'mouseover', (e, iterator)=> {
                     // 给当前面添加事件
                     this.getGeoEvent(e, iterator, geojsonItem=> {
                         // 处理业务流程
@@ -220,11 +220,13 @@ export default {
         // 获取geojson测试
         testJson() {
             // 初始化geojson，获取geojson地图对象
-            this.setGeoJsonLayer(shzjson, "#f00", 'click', (e, iterator)=> {
+            this.setGeoJsonLayer(shzjson, "#f00", 'mouseover', (e, iterator)=> {
                 // console.log()
                 this.getGeoEvent(e, iterator, geojsonItem=> {
                     // 处理业务流程
                     console.log("处理testJson业务流程")
+
+                    this.dialogVisible = true  // 显示弹窗
 
                     if(geojsonItem.properties.name) {
                         console.log("区县名称", geojsonItem.properties.name)
