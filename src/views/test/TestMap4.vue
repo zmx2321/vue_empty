@@ -133,6 +133,25 @@ export default {
             }
         },
 
+        throttle(fn, delay = 100) {
+            let timer = null  // 这个timer是在闭包里面的
+
+            // 如果不使用apply改变this指向，下面的throttle方法的参数指向这个函数
+            // 不会传给下面的那个fn
+            return function() {
+            if(timer) {
+                return
+            }
+
+            timer = setTimeout(()=> {
+                // 一般写一个事件，function里面都要加上event参数，即事件对象
+                fn.apply(this, arguments)  // 打印坐标
+
+                timer = null
+            }, delay)
+            }
+        },
+
         /**
          * geojson相关
          */
@@ -171,16 +190,16 @@ export default {
             let geojsonLayer = this.initGeojsonLayer(geoJSONData, color)
 
             geojsonLayer.eachOverlay(iterator => {
-                /* iterator.on(event, e=> {
+                iterator.on(event, e=> {
                     // console.log("地图点击事件", e)
                     // console.log("geojson单个对象", iterator)
 
                     // geojson事件内容 - 高亮
                     next(e, iterator)
-                }) */
-                iterator.on(event, this.debounce(e=> {
+                })
+                /* iterator.on(event, this.throttle(e=> {
                     next(e, iterator)
-                }), 0)
+                }), 2000) */
             })
             geojsonLayer.setMap(window.amapview);
         },
@@ -200,11 +219,21 @@ export default {
             geojsonLayerItem.setMap(window.amapview);
 
             // 第二层触发事件 - 鼠标移除
-            geojsonLayerItem.on('mouseout', ()=> {
+            geojsonLayerItem.on('mouseout', e=> {
                 console.log("鼠标移除事件")
+                console.log(e)
+
+                // e.preventDefault()
 
                 geojsonLayerItem.hide()
             })
+            /* geojsonLayerItem.on('mouseout', this.throttle(e=> {
+                console.log("鼠标移除事件")
+
+                e.preventDefault()
+
+                geojsonLayerItem.hide()
+            }), 10) */
 
             // 第二层触发事件 - 鼠标点击
             geojsonLayerItem.on('click', ()=> {
