@@ -3,8 +3,11 @@ import { Message } from 'element-ui'
 
 import router from '../router'
 
+/* console.log(process.env.VUE_APP_BASE_API)
+console.log(process.env) */
+
 const Axios = axios.create({
-    baseURL: requestUrl, // api
+    baseURL: process.env.VUE_APP_BASE_API, // api
     timeout: 100000,
     responseType: "json",
     withCredentials: true, // 是否允许带cookie这些
@@ -38,7 +41,7 @@ Axios.interceptors.response.use(response => {
 
     return response
 }, error => {
-    // console.log(error.response);
+    console.log(error.response);
 
     const { status } = error.response;  //响应错误状态
     const { data } = error.response;  //响应错误详情

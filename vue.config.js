@@ -1,12 +1,15 @@
 const bodyParser = require('body-parser');
 const jsmd5 = require('js-md5')
 
+// const serverPath = process.env.VUE_APP_BASE_API;  // 配置文件也可以获取.env变量
+// console.log("env", serverPath)
+
 module.exports = {
   // 部署应用时的根路径(默认'/'),也可用相对路径(存在使用限制)
   publicPath: './',
 
   // 运行时生成的生产环境构建文件的目录(默认''dist''，构建之前会被清除)
-  outputDir: 'dist',
+  outputDir: 'vue_empty',
 
   //放置生成的静态资源(s、css、img、fonts)的(相对于 outputDir 的)目录(默认'')
   assetsDir: 'assets',
@@ -34,7 +37,8 @@ module.exports = {
     hotOnly: false,
     /* proxy: { // 配置跨域
         '/api': {
-            target: 'http://10.10.10.199:8080',
+            // 用.env变量配置跨越
+            target: serverPath,
             ws: true,  // 是否启用websockets
             changOrigin: true,  // 开启代理，在本地创建一个虚拟服务端
             pathRewrite: {

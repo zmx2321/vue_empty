@@ -10,6 +10,7 @@
         <!-- 用户列表 -->
         <el-row>
             <el-table class="user_list" :data="user_info" border highlight-current-row v-loading="listLoading" height="calc(100vh - 240px)">
+                <el-table-column type="selection" width="55"></el-table-column>
                 <el-table-column type="index" width="60" align="center" label="序号"></el-table-column>
                 <el-table-column prop="id" label="用户编号" width="80" align="center"></el-table-column>
 
