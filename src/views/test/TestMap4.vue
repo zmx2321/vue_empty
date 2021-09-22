@@ -239,7 +239,7 @@ export default {
             geojsonLayerItem.on('click', ()=> {
                 console.log("鼠标点击事件")
 
-                // geojsonLayerItem.hide()
+                geojsonLayerItem.hide()
 
                 // 处理业务流程
                 next(geojsonItem)
