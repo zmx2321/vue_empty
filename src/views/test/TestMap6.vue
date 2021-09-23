@@ -1,11 +1,12 @@
 <template>
     <section class="main_cont amap-wrapper">
-        <el-button type="primary" @click="toChongqing">重庆</el-button>
-        <el-select v-model="selCityName" placeholder="请选择城市" @change="selectName">
-            <el-option v-for="item in cityArr" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-        <el-button type="primary" @click="selectName(selCityName)">高亮城市</el-button>
-        <el-button type="primary" @click="toShangHe">上河镇</el-button>
+        <div class="filter_wrap">
+            <el-button type="primary" @click="toChongqing">重庆</el-button>
+            <el-select v-model="selCityName" placeholder="请选择城市" @change="selectName">
+                <el-option v-for="item in cityArr" :key="item.value" :label="item.label" :value="item.value"></el-option>
+            </el-select>
+            <el-button type="primary" @click="toShangHe">上河镇</el-button>
+        </div>
         <el-amap ref="map" class="amap-box" :vid="'amap-vue'" :center='center' :zoom='zoom' :events="events"></el-amap>
 
         <el-dialog
@@ -25,7 +26,6 @@
 
 <script>
 import shzjson from '@/assets/geojson/shz.json'
-import * as util from '@/util'  // elk相关
 
 export default {
     name: "testmap5",
@@ -255,7 +255,7 @@ export default {
         // 获取test geojson示例
         getTestGeojson() {
             // 初始化geojson，获取geojson地图对象
-            this.setGeoJsonLayer(shzjson, this.polygonInitColor, 'mouseover', (e, iterator)=> {
+            this.setGeoJsonLayer(shzjson, this.polygonInitColor, 'click', (e, iterator)=> {
                 // console.log()
                 this.getGeoEvent(e, iterator, geojsonItem=> {
                     // 处理业务流程
@@ -377,11 +377,31 @@ export default {
 
 <style lang="less" scoped>
 .amap-wrapper {
-  width: 100%;
-  height: 100%;
-}
+    padding: 0;
+    position: relative;
+    width: 100%;
+    height: 100%;
 
-.main_cont {
-    padding: 0
+    .filter_wrap, .amap-box {
+        position: absolute;
+    }
+
+    .filter_wrap {
+        z-index: 1;
+        top: 10px;
+        left: 10px;
+
+        .el-button, .el-select {
+            margin-right: 15px;
+        }
+    }
+
+    .amap-box {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        
+    }
 }
 </style>
