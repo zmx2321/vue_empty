@@ -230,10 +230,6 @@ export default {
             })
         },
 
-        geojsonEvent(geojsonLayerItem) {
-
-        },
-
         // 配置geojson事件
         getGeoEvent(e, geoitem, next) {
             // console.log('点击geojson ['+e.lnglat.getLng()+','+e.lnglat.getLat()+']');
@@ -280,27 +276,22 @@ export default {
                 this.chongqingGeojson = geoJSONData
 
                 // 获取城市列表
-                this.getcityArray(geoJSONData)
+                // this.getcityArray(geoJSONData)
 
-                this.setMap(geoJSONData)
+                // 初始化geojson，获取geojson地图对象
+                this.setGeoJsonLayer(geoJSONData, this.polygonInitColor, 'mouseover', (e, iterator)=> {
+                    // 给当前面添加事件
+                    this.getGeoEvent(e, iterator, geojsonItem=> {
+                        // 处理业务流程
+                        console.log("处理geojson业务流程")
+
+                        // 使用重庆geojson示例
+                        this.getChonQingData(geojsonItem)
+                    })
+                })
 
                 this.$message.success("geojson加载成功")
             }).catch({})
-        },
-
-        // 加载地图
-        setMap(geoJSONData) {
-            // 初始化geojson，获取geojson地图对象
-            this.setGeoJsonLayer(geoJSONData, this.polygonInitColor, 'mouseover', (e, iterator)=> {
-                // 给当前面添加事件
-                this.getGeoEvent(e, iterator, geojsonItem=> {
-                    // 处理业务流程
-                    console.log("处理geojson业务流程")
-
-                    // 使用重庆geojson示例
-                    this.getChonQingData(geojsonItem)
-                })
-            })
         },
 
         // 获取test geojson示例
@@ -318,13 +309,14 @@ export default {
             })
         },
 
-        // 初始化geojson
-        initGeojsonPolygon() {
-            let polygonArr = window.amapview.getAllOverlays('polygon')
+        // 初始化
+        initPolygon() {
+            // let polygonArr = [];
+            let arr1 = window.amapview.getAllOverlays('polygon')
 
-            window.amapview.remove(polygonArr)
+            window.amapview.remove(arr1)
 
-            this.setMap(this.chongqingGeojson)
+            this.getGeoJson()
         },
 
         /**
@@ -334,11 +326,6 @@ export default {
         // 使用重庆geojson示例
         getChonQingData(geojsonItem) {
             this.dialogVisible = true  // 显示弹窗
-
-            if(typeof geojsonItem === "string") {
-                this.cityName = geojsonItem
-                return
-            }
 
             if(geojsonItem.properties.name) {
                 this.cityName = geojsonItem.properties.name
@@ -377,51 +364,31 @@ export default {
         selectName(val) {
             this.toChongqing()
 
-            this.initGeojsonPolygon()  // 初始化初始化geojson
+            let arr = []
+            let s = {}
 
-            let pointPolygon = {}  // 选中面
+            this.initPolygon()
+
+            // let arr1 = window.amapview.getAllOverlays('polygon')
+
+            // console.log(window.amapview.getAllOverlays('polygon'))
 
             this.chongqingGeojson.features.forEach(item=> {
                 let geojsonLayerItem = this.initGeojsonLayer(item, this.polygonMarkerColor)
+                arr.push(geojsonLayerItem)
 
                 if(item.properties.name === val) {
-                    pointPolygon = geojsonLayerItem
+                    s = geojsonLayerItem
                     // console.log(item)
-
-                    /* // 第二层触发事件 - 鼠标点击
-                    geojsonLayerItem.on('click', ()=> {
-                        console.log("鼠标点击事件")
-
-                        geojsonLayerItem.hide()
-
-                        // 处理业务流程
-                        next(geojsonItem)
-                    }) */
-                    // 第二层触发事件 - 鼠标移除
-                    geojsonLayerItem.on('mouseout', e=> {
-                        console.log("鼠标移除事件")
-                        console.log(e)
-
-                        // e.preventDefault()
-
-                        geojsonLayerItem.hide()
-                    })
-
-                    // 第二层触发事件 - 鼠标点击
-                    geojsonLayerItem.on('click', ()=> {
-                        console.log("鼠标点击事件")
-
-                        geojsonLayerItem.hide()
-
-                        // 使用重庆geojson示例
-                        console.log(val)
-                        this.getChonQingData(val)
-                    })
+                } else {
+                    // arr.push(geojsonLayerItem)
                 }
             })
+            console.log(s, arr)
 
-            window.amapview.add(pointPolygon)
-            // pointPolygon.setMap(window.amapview);
+            // window.amapview.remove(arr1)
+            window.amapview.add(s)
+            // s.setMap(window.amapview);
         },
     },
 
