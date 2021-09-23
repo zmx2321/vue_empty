@@ -48,7 +48,7 @@ export default {
                     this.getGeoJson()
 
                     // 获取上河
-                    // this.getTestGeojson()
+                    this.getTestGeojson()
                 }
             },
             // polygon相关
@@ -71,60 +71,6 @@ export default {
     },
 
     methods: {
-        /**
-         * util
-         */
-        debounce(fn, delay = 500) {
-            // timer是在闭包中的 => 下面的if(timer)
-            // 这样不会被外界轻易拿到 => 即不对外暴露
-            // 我们在外面使用不需要关心
-            // 同时也是在debounce的作用域中
-            // 闭包的使用场景：函数当做返回值或者参数传入
-            let timer = null;
-
-            // 函数作为返回值，这就形成闭包了
-            return function() {
-                // 这里面的timer需要在它定义的作用域往上寻找
-                if(timer) {
-                    clearTimeout(timer)
-                }
-
-                timer = setTimeout(()=> {
-                    // 触发change事件
-                    // 第一个参数是改变this指向
-                    // 第二个参数是获取所有的参数
-                    // apply第二个参数开始，只接收数组
-                    // fn函数在执行的时候，argument传进来
-                    // debounce返回的函数可能会传进来一些参数
-                    // 面试使用fn()也没问题
-                    // fn()
-                    fn.apply(this, arguments)  
-
-                    // 清空定时器
-                    timer = null
-                }, delay)
-            }
-        },
-
-        throttle(fn, delay = 100) {
-            let timer = null  // 这个timer是在闭包里面的
-
-            // 如果不使用apply改变this指向，下面的throttle方法的参数指向这个函数
-            // 不会传给下面的那个fn
-            return function() {
-            if(timer) {
-                return
-            }
-
-            timer = setTimeout(()=> {
-                // 一般写一个事件，function里面都要加上event参数，即事件对象
-                fn.apply(this, arguments)  // 打印坐标
-
-                timer = null
-            }, delay)
-            }
-        },
-
         /**
          * 地图基本信息
          */
@@ -385,18 +331,10 @@ export default {
                 let geojsonLayerItem = this.initGeojsonLayer(item, this.polygonMarkerColor)
 
                 if(item.properties.name === val) {
+                    // 拷贝对象
                     pointPolygon = geojsonLayerItem
-                    // console.log(item)
+                    // console.log(pointPolygon)
 
-                    /* // 第二层触发事件 - 鼠标点击
-                    geojsonLayerItem.on('click', ()=> {
-                        console.log("鼠标点击事件")
-
-                        geojsonLayerItem.hide()
-
-                        // 处理业务流程
-                        next(geojsonItem)
-                    }) */
                     // 第二层触发事件 - 鼠标移除
                     geojsonLayerItem.on('mouseout', e=> {
                         console.log("鼠标移除事件")
@@ -430,7 +368,6 @@ export default {
     },
 
     mounted() {
-        // this.getcityArray()
     }
 }
 </script>

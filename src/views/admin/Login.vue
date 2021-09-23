@@ -54,7 +54,9 @@ export default {
                     // 验证通过，密码进行md5加密
                     this.loginUser.password = this.md5(this.loginUser.password);
 
-                    // 请求登陆接口
+                    this.$router.push("/index");
+
+                    /* // 请求登陆接口
                     login(this.loginUser).then(res=> {
                         console.log("登陆", res)
 
@@ -83,7 +85,7 @@ export default {
                         } else {
                             this.$message.warning(msg)
                         }
-                    })
+                    }) */
                 } else {
                     this.$message.error("表单填写错误");
                 }

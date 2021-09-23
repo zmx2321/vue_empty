@@ -7,7 +7,7 @@
                         <img src="../assets/logo.png" alt="">
                     </el-col>
                     <el-col :span="18" class="title f-oh">
-                        <span>{{ this.$store.state.title }}</span>
+                        <span>{{ title }}</span>
                     </el-col>
                 </el-row>
             </el-col>
@@ -79,6 +79,10 @@ export default {
         };
 
         return {
+            // 标题
+            // title: this.$store.state.common.title,
+            title: this.$store.getters.title,
+
             modifyUserVisible: false,
 
             userCode: "",  // 登录用户id

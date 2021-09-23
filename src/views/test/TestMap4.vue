@@ -181,14 +181,14 @@ export default {
                 getPolygon(geojson, lnglats) {
                     // console.log(geojson)
 
-                    let area = AMap.GeometryUtil.ringArea(lnglats[0])
+                    // let area = AMap.GeometryUtil.ringArea(lnglats[0])
 
                     return new AMap.Polygon({
                         // 路径
                         path: lnglats,
                         // 面
-                        fillOpacity: 1 - Math.sqrt(area / 8000000000),// 面积越大透明度越高
-                        // fillOpacity: 0.5,
+                        // fillOpacity: 1 - Math.sqrt(area / 8000000000),// 面积越大透明度越高
+                        fillOpacity: 0.3,
                         fillColor: fillColor,
                         // 线
                         strokeColor: '#fff',

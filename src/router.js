@@ -89,6 +89,11 @@ const routes = [
         name: "test_map5",
         component: resolve => require(['@/views/test/TestMap5'], resolve)
       },
+      {
+        path: '/test_map6',
+        name: "test_map6",
+        component: resolve => require(['@/views/test/TestMap6'], resolve)
+      },
 
       /**
        * 超市管理
@@ -132,18 +137,18 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: 'hash',
   routes
 })
 
 // 添加路由守卫
-router.beforeEach((to, from, next) => {
+/* router.beforeEach((to, from, next) => {
   const isLogin = localStorage.code == md5("0") ? true : false;
   if (to.path == "/login" || to.path == '/register') {
     next();
   } else {
     isLogin ? next() : next("/login");
   }
-});
+}); */
 
 export default router

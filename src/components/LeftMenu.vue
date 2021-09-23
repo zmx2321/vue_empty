@@ -2,7 +2,7 @@
     <section class="menu_page">
         <el-row>
              <el-col>
-                 <el-menu :default-active="activeIndex" mode="vertical" background-color="#324057" text-color="#fff" active-text-color="#409eff" class="menu">
+                 <el-menu :default-active="activeIndex" unique-opened mode="vertical" background-color="#324057" text-color="#fff" active-text-color="#409eff" class="menu">
                     <!-- 首页 -->
                     <router-link to="/home">
                         <el-menu-item index="0">
@@ -53,14 +53,15 @@ export default {
                     name: "test",
                     path: "test",
                     children: [
-                        { path: "/test", name: "test" },
+                        /* { path: "/test", name: "test" },
                         { path: "/test1", name: "test1" },
                         { path: "/test_map", name: "test_map" },
                         { path: "/test_map1", name: "test_map1" },
                         { path: "/test_map2", name: "test_map2" },
                         { path: "/test_map3", name: "test_map3" },
                         { path: "/test_map4", name: "test_map4" },
-                        { path: "/test_map5", name: "test_map5" },
+                        { path: "/test_map5", name: "test_map5" }, */
+                        { path: "/test_map6", name: "test_map6" },
                     ]
                 },
                 {
@@ -90,12 +91,13 @@ export default {
     computed:{
         activeIndex(){
             let pathName = this.$route.path.replace('/','');
+            console.log(pathName)
 
             switch (pathName) {
                 case "home":
                     return "0";
                     break;
-                case "account_manager":
+                case "test_map6":
                     return "1";
                     break;
             }
@@ -114,7 +116,23 @@ export default {
 
         span {
             margin-left: 8px;
-            color: @aa;
+            color: @sideFontColor;
+        }
+
+        li.is-opened {
+            .el-submenu__title {
+                i {
+                    color: @sideIconColor;
+                }
+            }
+
+            ul.el-menu {
+                a.router-link-active {
+                    li {
+                        background-color: @sideHighColor !important;
+                    }   
+                }
+            }
         }
     }
 }
