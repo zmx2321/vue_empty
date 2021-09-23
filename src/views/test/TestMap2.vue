@@ -14,6 +14,9 @@ export default {
 
     data () {
         return {
+            /**
+             * 地图基础属性
+             */
             center: [107.943579, 30.131735],
             zoom: 7,
             events: {
@@ -30,7 +33,11 @@ export default {
                     // 获取上河
                     this.testJson()
                 }
-            }
+            },
+
+            // polygon相关
+            polygonInitColor: "#f00",  // polygon初始化颜色
+            polygonMarkerColor: "#00f",  // polygon遮罩颜色
         }
     },
 
@@ -147,7 +154,7 @@ export default {
             next(geojsonItem)
 
             // 获取第一层geojson
-            let geojsonLayerItem = this.initGeojsonLayer(geojsonItem, "#00f")
+            let geojsonLayerItem = this.initGeojsonLayer(geojsonItem, this.polygonMarkerColor)
 
             // 点击第一层触发事件 - 鼠标点击设置地图
             geojsonLayerItem.setMap(window.amapview);
@@ -179,7 +186,7 @@ export default {
                 let geoJSONData = res.data;
 
                 // 初始化geojson，获取geojson地图对象
-                this.setGeoJsonLayer(geoJSONData, "#f00", 'click', (e, iterator)=> {
+                this.setGeoJsonLayer(geoJSONData, this.polygonInitColor, 'click', (e, iterator)=> {
                     // 给当前面添加事件
                     this.getGeoEvent(e, iterator, geojsonItem=> {
                         // 处理业务流程
@@ -200,7 +207,7 @@ export default {
         // 获取geojson测试
         testJson() {
             // 初始化geojson，获取geojson地图对象
-            this.setGeoJsonLayer(shzjson, "#f00", 'click', (e, iterator)=> {
+            this.setGeoJsonLayer(shzjson, this.polygonInitColor, 'click', (e, iterator)=> {
                 // console.log()
                 this.getGeoEvent(e, iterator, geojsonItem=> {
                     // 处理业务流程

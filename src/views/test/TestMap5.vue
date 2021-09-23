@@ -1,7 +1,10 @@
 <template>
     <section class="main_cont amap-wrapper">
         <el-button type="primary" @click="toChongqing">重庆</el-button>
-        <el-button type="primary" @click="shizhu">石柱土家族自治县</el-button>
+        <el-select v-model="selCityName" placeholder="请选择城市" @change="selectName">
+            <el-option v-for="item in cityArr" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        </el-select>
+        <el-button type="primary" @click="selectName(selCityName)">高亮城市</el-button>
         <el-button type="primary" @click="toShangHe">上河镇</el-button>
         <el-amap ref="map" class="amap-box" :vid="'amap-vue'" :center='center' :zoom='zoom' :events="events"></el-amap>
 
@@ -24,7 +27,7 @@
 import shzjson from '@/assets/geojson/shz.json'
 
 export default {
-    name: "testmap4",
+    name: "testmap5",
 
     data () {
         return {
@@ -51,12 +54,16 @@ export default {
             // polygon相关
             polygonInitColor: "#f00",  // polygon初始化颜色
             polygonMarkerColor: "#00f",  // polygon遮罩颜色
+            // geojson
+            chongqingGeojson: {},
 
             /**
              * 业务
              */
             dialogVisible: false,
             cityName: "",
+            cityArr: [],  // 下拉框
+            selCityName: "",  // 点击按钮选择城市
         }
     },
 
@@ -264,7 +271,12 @@ export default {
                 // console.log(res.data)
 
                 // 获取geojson数据
-                let geoJSONData = res.data;
+                let geoJSONData = res.data
+
+                this.chongqingGeojson = geoJSONData
+
+                // 获取城市列表
+                this.getcityArray(geoJSONData)
 
                 // 初始化geojson，获取geojson地图对象
                 this.setGeoJsonLayer(geoJSONData, this.polygonInitColor, 'mouseover', (e, iterator)=> {
@@ -325,16 +337,54 @@ export default {
             }
         },
 
-        // 石柱土家族自治县
-        shizhu() {
+        // 获取城市列表
+        getcityArray(geoJSONData) {
+            // console.log(geoJSONData)
+
+            geoJSONData.features.forEach(item=> {
+                // console.log(item.properties.name)
+                this.cityArr.push({
+                    label: item.properties.name,
+                    value: item.properties.name
+                })
+            })
+        },
+
+        // 根据按钮选择地图
+        selectName(val) {
+            console.log("aa", this.selCityName)
+
+            this.toChongqing()
             
-        }
+            // console.log(this.chongqingGeojson)
+
+            this.chongqingGeojson.features.forEach(item=> {
+                // console.log(item.properties.name)
+
+                /* let geojsonLayerItem = this.initGeojsonLayer(item, this.polygonMarkerColor)
+                geojsonLayerItem.hide() */
+
+                if(item.properties.name === val) {
+                    console.log(item)
+
+                    let geojsonLayerItem = this.initGeojsonLayer(item, this.polygonMarkerColor)
+                    // geojsonLayerItem.hide()
+                    geojsonLayerItem.setMap(window.amapview);
+                } else {
+                    console.log("sdds")
+                    
+                    // geojsonLayerItem.setMap(window.amapview);
+                }
+            })
+        },
     },
 
     created() {
+        
     },
 
     mounted() {
+        // this.getcityArray()
     }
 }
 </script>

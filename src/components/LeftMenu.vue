@@ -60,6 +60,7 @@ export default {
                         { path: "/test_map2", name: "test_map2" },
                         { path: "/test_map3", name: "test_map3" },
                         { path: "/test_map4", name: "test_map4" },
+                        { path: "/test_map5", name: "test_map5" },
                     ]
                 },
                 {
