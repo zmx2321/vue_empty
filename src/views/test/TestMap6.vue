@@ -17,8 +17,8 @@
             <span>这是一段信息</span>
             <p>城市名称：{{ cityName }}</p>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                <el-button @click="dialogVisible = false, reset()">取 消</el-button>
+                <el-button type="primary" @click="dialogVisible = false, reset()">确 定</el-button>
             </span>
             </el-dialog>
     </section>
@@ -48,7 +48,7 @@ export default {
                     // 获取重庆
                     this.getGeoJson()
 
-                    // 获取上河
+                    // 获取上河镇
                     this.getTestGeojson()
                 }
             },
@@ -57,6 +57,7 @@ export default {
             polygonMarkerColor: "#00f",  // polygon遮罩颜色
             // geojson
             chongqingGeojson: {},
+            shangheGeojson: {},
 
             /**
              * 业务
@@ -111,20 +112,38 @@ export default {
             console.log('您在 ['+e.lnglat.getLng()+','+e.lnglat.getLat()+'] 的位置点击了地图');
         },
 
+        /**
+         * 跳转到geojson
+         */
+        // 初始化geojson
+        initGeojsonPolygon() {
+            let polygonArr = window.amapview.getAllOverlays('polygon')
+
+            window.amapview.remove(polygonArr)
+        },
+
+        // 跳转到重庆
         toChongqing() {
             window.amapview.setZoom("7"); //设置地图层级
             window.amapview.setCenter([107.943579, 30.131735]); //设置地图层级
+
+            this.initGeojsonPolygon()
+            this.setChongqinMap(this.chongqingGeojson)
         },
 
+        // 跳转到上河镇
         toShangHe() {
             window.amapview.setZoom("12"); //设置地图层级
             window.amapview.setCenter([120.21272954752699,29.93745044968425]); //设置地图层级
+
+            this.initGeojsonPolygon()
+            this.setChongqinMap(shzjson)
         },
 
         /**
          * geojson相关
          */
-        // 初始化geojson配置
+        // 初始化geojson配置，返回面
         initGeojsonLayer(data, fillColor) {
             return new AMap.GeoJSON({
                 // 要加载的标准GeoJSON对象
@@ -156,68 +175,55 @@ export default {
 
         // 初始化geojson并绑定事件
         setGeoJsonLayer(geoJSONData, color, event, next) {
-            // 获取第一层geojson
+            // 获取第一层geojson地图对象
             let geojsonLayer = this.initGeojsonLayer(geoJSONData, color)
 
-            // 第一层触发事件 - 初始化地图
+            // 第一层地图对象触发事件 - 初始化geojson并在地图上渲染
             geojsonLayer.setMap(window.amapview);
 
-            // 遍历第一层遮罩层
+            // 遍历第一层地图对象遮罩层
             geojsonLayer.eachOverlay(iterator => {
                 iterator.on(event, e=> {
-                    // console.log("地图点击事件", e)
-                    // console.log("geojson单个对象", iterator)
-
-                    // geojson事件内容 - 高亮
+                    // geojson地图对象事件内容 - 高亮
                     next(e, iterator)
                 })
-                /* iterator.on(event, this.throttle(e=> {
-                    next(e, iterator)
-                }), 2000) */
             })
-        },
-
-        geojsonEvent(geojsonLayerItem) {
-
         },
 
         // 配置geojson事件
         getGeoEvent(e, geoitem, next) {
-            // console.log('点击geojson ['+e.lnglat.getLng()+','+e.lnglat.getLat()+']');
-            // console.log("geojson单个对象", geoitem)
-
             // 将当前地图对象转换成geojson格式以便获取数据
             let geojsonItem = geoitem.toGeoJSON()
 
             // 处理业务流程
             next(geojsonItem)
 
-            // 获取第二层geojson
+            // 获取第二层geojson地图对象
             let geojsonLayerItem = this.initGeojsonLayer(geojsonItem, this.polygonMarkerColor)
 
-            // 第二层触发事件 - 设置地图
+            // 第二层地图对象触发事件 - 设置地图
             geojsonLayerItem.setMap(window.amapview);
 
-            // 第二层触发事件 - 鼠标移除
+            // 第二层地图对象触发事件 - 鼠标移除
             geojsonLayerItem.on('mouseout', e=> {
                 console.log("鼠标移除事件")
-                console.log(e)
 
-                // e.preventDefault()
-
+                // 鼠标移出，移除面
                 geojsonLayerItem.hide()
             })
 
-            // 第二层触发事件 - 鼠标点击
+            // 第二层地图对象触发事件 - 鼠标点击
             geojsonLayerItem.on('click', ()=> {
                 console.log("鼠标点击事件")
 
+                // 鼠标点击，移除面
                 geojsonLayerItem.hide()
-
-                
             })
         },
 
+        /**
+         * 重庆geojson
+         */
         // 获取重庆geojson示例
         getGeoJson() {
             this.axios.get("https://a.amap.com/jsapi_demos/static/geojson/chongqing.json").then(res=> {
@@ -226,25 +232,27 @@ export default {
                 // 获取geojson数据
                 let geoJSONData = res.data
 
+                // 使geojson对象变成全局
                 this.chongqingGeojson = geoJSONData
 
                 // 获取城市列表
                 this.getcityArray(geoJSONData)
 
-                this.setMap(geoJSONData)
+                // 加载重庆地图
+                this.setChongqinMap(geoJSONData)
 
                 this.$message.success("geojson加载成功")
             }).catch({})
         },
 
-        // 加载地图
-        setMap(geoJSONData) {
+        // 加载重庆地图
+        setChongqinMap(geoJSONData) {
             // 初始化geojson，获取geojson地图对象
             this.setGeoJsonLayer(geoJSONData, this.polygonInitColor, 'click', (e, iterator)=> {
                 // 给当前面添加事件
                 this.getGeoEvent(e, iterator, geojsonItem=> {
                     // 处理业务流程
-                    console.log("处理geojson业务流程")
+                    // console.log("处理geojson业务流程")
 
                     // 使用重庆geojson示例
                     this.getChonQingData(geojsonItem)
@@ -252,6 +260,9 @@ export default {
             })
         },
 
+        /**
+         * 测试geojson
+         */
         // 获取test geojson示例
         getTestGeojson() {
             // 初始化geojson，获取geojson地图对象
@@ -259,7 +270,7 @@ export default {
                 // console.log()
                 this.getGeoEvent(e, iterator, geojsonItem=> {
                     // 处理业务流程
-                    console.log("处理testJson业务流程")
+                    // console.log("处理testJson业务流程")
 
                     // 获取geojson测试
                     this.testJsonData(geojsonItem)
@@ -267,21 +278,27 @@ export default {
             })
         },
 
-        // 初始化geojson
-        initGeojsonPolygon() {
-            let polygonArr = window.amapview.getAllOverlays('polygon')
-
-            window.amapview.remove(polygonArr)
-
-            this.setMap(this.chongqingGeojson)
-        },
-
         /**
          * 使用
          * 业务流程
          */
+        // 获取城市列表
+        getcityArray(geoJSONData) {
+            // console.log(geoJSONData)
+
+            geoJSONData.features.forEach(item=> {
+                // console.log(item.properties.name)
+                this.cityArr.push({
+                    label: item.properties.name,
+                    value: item.properties.name
+                })
+            })
+        },
+        
         // 使用重庆geojson示例
         getChonQingData(geojsonItem) {
+            console.log("处理geojson业务流程")
+
             this.dialogVisible = true  // 显示弹窗
 
             if(typeof geojsonItem === "string") {
@@ -297,36 +314,11 @@ export default {
             }
         },
 
-        // 获取geojson测试
-        testJsonData(geojsonItem) {
-            this.dialogVisible = true  // 显示弹窗
-
-            if(geojsonItem.properties.name) {
-                console.log("区县名称", geojsonItem.properties.name)
-            } else {
-                this.cityName = geojsonItem.properties.Name
-                console.log("区县名称", geojsonItem.properties.Name)
-            }
-        },
-
-        // 获取城市列表
-        getcityArray(geoJSONData) {
-            // console.log(geoJSONData)
-
-            geoJSONData.features.forEach(item=> {
-                // console.log(item.properties.name)
-                this.cityArr.push({
-                    label: item.properties.name,
-                    value: item.properties.name
-                })
-            })
-        },
-
         // 根据按钮选择地图
         selectName(val) {
             this.toChongqing()
 
-            this.initGeojsonPolygon()  // 初始化初始化geojson
+            // this.initGeojsonPolygon()  // 初始化初始化geojson
 
             let pointPolygon = {}  // 选中面
 
@@ -363,6 +355,25 @@ export default {
 
             window.amapview.add(pointPolygon)
             // pointPolygon.setMap(window.amapview);
+        },
+
+        reset() {
+            console.log("reset")
+            this.selCityName = ""
+        },
+
+        // 获取geojson测试
+        testJsonData(geojsonItem) {
+            console.log("处理testJson业务流程")
+            
+            this.dialogVisible = true  // 显示弹窗
+
+            if(geojsonItem.properties.name) {
+                console.log("区县名称", geojsonItem.properties.name)
+            } else {
+                this.cityName = geojsonItem.properties.Name
+                console.log("区县名称", geojsonItem.properties.Name)
+            }
         },
     },
 
