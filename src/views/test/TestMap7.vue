@@ -174,19 +174,26 @@ export default {
             })
         },
 
-        // 配置geojson事件
-        getGeoEvent(e, geoitem, next) {
-            // 将当前地图对象转换成geojson格式以便获取数据
-            let geojsonItem = geoitem.toGeoJSON()
+        // 加载重庆地图
+        setChongqinMap(geoJSONData) {
+            // 初始化geojson，获取geojson地图对象
+            this.setGeoJsonLayer(geoJSONData, this.polygonInitColor, 'click', (e, iterator)=> {
+                this.resetMap()
 
-            // 处理业务流程
-            next(geojsonItem)
+                // 给当前面添加事件
+                this.getGeoEvent(e, iterator, geojsonItem=> {
+                    // 处理业务流程
+                    // console.log("处理geojson业务流程")
 
-            // 获取第二层geojson地图对象
-            let geojsonLayerItem = this.initGeojsonLayer(geojsonItem, this.polygonMarkerColor)
+                    // 使用重庆geojson示例
+                    this.getChonQingData(geojsonItem)
+                })
+            })
+        },
 
-            // 第二层地图对象触发事件 - 设置地图
-            geojsonLayerItem.setMap(window.amapview);
+        // 第二层地图对象触发事件
+        geojsonEvent(geojsonLayerItem, next) {
+            // console.log(geojsonLayerItem)
 
             // 第二层地图对象触发事件 - 鼠标移除
             geojsonLayerItem.on('mouseout', e=> {
@@ -202,7 +209,45 @@ export default {
 
                 // 鼠标点击，移除面
                 geojsonLayerItem.hide()
+                next()
+                // this.getChonQingData(geojsonItem)
             })
+        },
+
+        // 配置geojson事件
+        getGeoEvent(e, geoitem, next) {
+            // 将当前地图对象转换成geojson格式以便获取数据
+            let geojsonItem = geoitem.toGeoJSON()
+
+            // 处理业务流程
+            next(geojsonItem)
+
+            // 获取第二层geojson地图对象
+            let geojsonLayerItem = this.initGeojsonLayer(geojsonItem, this.polygonMarkerColor)
+
+            // 第二层地图对象触发事件 - 设置地图
+            geojsonLayerItem.setMap(window.amapview);
+
+            // console.log(geojsonItem)
+
+            // 第二层地图对象触发事件
+            this.geojsonEvent(geojsonLayerItem, ()=>{})
+
+            // // 第二层地图对象触发事件 - 鼠标移除
+            // geojsonLayerItem.on('mouseout', e=> {
+            //     console.log("鼠标移除事件")
+
+            //     // 鼠标移出，移除面
+            //     geojsonLayerItem.hide()
+            // })
+
+            // // 第二层地图对象触发事件 - 鼠标点击
+            // geojsonLayerItem.on('click', ()=> {
+            //     console.log("鼠标点击事件")
+
+            //     // 鼠标点击，移除面
+            //     geojsonLayerItem.hide()
+            // })
         },
 
         /**
@@ -227,23 +272,6 @@ export default {
 
                 this.$message.success("geojson加载成功")
             }).catch({})
-        },
-
-        // 加载重庆地图
-        setChongqinMap(geoJSONData) {
-            // 初始化geojson，获取geojson地图对象
-            this.setGeoJsonLayer(geoJSONData, this.polygonInitColor, 'click', (e, iterator)=> {
-                this.resetMap()
-
-                // 给当前面添加事件
-                this.getGeoEvent(e, iterator, geojsonItem=> {
-                    // 处理业务流程
-                    // console.log("处理geojson业务流程")
-
-                    // 使用重庆geojson示例
-                    this.getChonQingData(geojsonItem)
-                })
-            })
         },
 
         /**
@@ -292,30 +320,17 @@ export default {
 
             this.chongqingGeojson.features.forEach(item=> {
                 let geojsonLayerItem = this.initGeojsonLayer(item, this.polygonMarkerColor)
+                // console.log(geojsonLayerItem)
 
                 if(item.properties.name === val) {
-                    // 深拷贝对象
+                    // 拷贝对象
                     pointPolygon = geojsonLayerItem
                     // console.log(pointPolygon)
 
-                    // 第二层触发事件 - 鼠标移除
-                    geojsonLayerItem.on('mouseout', e=> {
-                        console.log("鼠标移除事件")
-                        console.log(e)
-
-                        // e.preventDefault()
-
-                        geojsonLayerItem.hide()
-                    })
-
-                    // 第二层触发事件 - 鼠标点击
-                    geojsonLayerItem.on('click', ()=> {
-                        console.log("鼠标点击事件")
-
-                        geojsonLayerItem.hide()
-
-                        // 使用重庆geojson示例
-                        console.log(val)
+                    // 第二层地图对象触发事件
+                    // this.geojsonEvent(geojsonLayerItem)
+                    this.geojsonEvent(geojsonLayerItem, ()=>{
+                        console.log(item)
                         this.getChonQingData(val)
                     })
                 }
