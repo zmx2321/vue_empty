@@ -134,9 +134,6 @@ export default {
         toShangHe() {
             window.amapview.setZoom("12"); //设置地图层级
             window.amapview.setCenter([120.21272954752699,29.93745044968425]); //设置地图层级
-
-            this.initGeojsonPolygon()
-            this.setChongqinMap(shzjson)
         },
 
         /**
@@ -266,12 +263,13 @@ export default {
          */
         // 获取test geojson示例
         getTestGeojson() {
+            console.log("123123")
             // 初始化geojson，获取geojson地图对象
             this.setGeoJsonLayer(shzjson, this.polygonInitColor, 'click', (e, iterator)=> {
                 // console.log()
                 this.getGeoEvent(e, iterator, geojsonItem=> {
                     // 处理业务流程
-                    // console.log("处理testJson业务流程")
+                    console.log("处理testJson业务流程")
 
                     // 获取geojson测试
                     this.testJsonData(geojsonItem)
