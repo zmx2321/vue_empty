@@ -17,7 +17,7 @@
             <p>城市名称：{{ cityName }}</p>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false, resetForm()">取 消</el-button>
-                <el-button type="primary" @click="dialogVisible = false, resetForm()">确 定</el-button>
+                <el-button type="primary" @click="dialogVisible = false, saveForm()">确 定</el-button>
             </span>
             </el-dialog>
     </section>
@@ -56,7 +56,7 @@ export default {
              * 业务
              */
             dialogVisible: false,
-            cityName: "",
+            cityName: "",  // 存储当前城市名称
             cityArr: [],  // 下拉框
             selCityName: "",  // 点击按钮选择城市
         }
@@ -231,7 +231,9 @@ export default {
             // console.log(geojsonItem)
 
             // 第二层地图对象触发事件
-            this.geojsonEvent(geojsonLayerItem, ()=>{})
+            this.geojsonEvent(geojsonLayerItem, ()=>{
+                // this.selCityName = 
+            })
 
             // // 第二层地图对象触发事件 - 鼠标移除
             // geojsonLayerItem.on('mouseout', e=> {
@@ -344,6 +346,10 @@ export default {
             console.log("reset")
             this.selCityName = ""
         },
+
+        saveForm() {
+            this.selCityName = this.cityName
+        }
     },
 
     created() {
