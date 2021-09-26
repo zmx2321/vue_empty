@@ -95,6 +95,7 @@ export default {
 
         // 根据按钮选择地图
         selectName(val) {
+            console.log(val)
             this.$refs.geojsonmap.selectName(val)
         },
 

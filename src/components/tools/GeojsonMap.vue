@@ -190,7 +190,7 @@ export default {
 
             // 第二层地图对象触发事件 - 鼠标点击
             geojsonLayerItem.on('click', ()=> {
-                // console.log("鼠标点击事件")
+                console.log("鼠标点击事件")
 
                 // 鼠标点击，移除面
                 geojsonLayerItem.hide()
