@@ -89,7 +89,7 @@ module.exports = {
   pluginOptions: {
     'style-resources-loader': {
       preProcessor: 'less',
-      patterns: ['src/assets/less/demo.less', 'src/assets/less/global.less']
+      patterns: ['src/assets/less/tools.less', 'src/assets/less/global.less']
     }
   }
 }
