@@ -88,3 +88,12 @@ export const throttle = (fn, delay = 100) => {
         }, delay)
     }
 }
+
+// 判断对象为空
+export const objIsEmpty = obj => {
+    if(JSON.stringify(obj) == '{}' ){
+        return true;
+    }
+
+    return false;
+}

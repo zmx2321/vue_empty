@@ -56,6 +56,8 @@
 </template>
 
 <script>
+import * as utils from '@/utils/util'
+
 /* import {
     getUser,  // 获取用户
 } from "@/api/user" */
@@ -166,7 +168,7 @@ export default {
 
         // 修改密码
         modifyPassword() {
-            if(!this.objIsEmpty(this.$refs)) {
+            if(!utils.objIsEmpty(this.$refs)) {
                 this.$refs.clearValidate;
                 this.modifyUser = {
                     userId: "",
