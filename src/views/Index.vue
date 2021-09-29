@@ -41,6 +41,7 @@ export default {
         }
 
         .header{
+            height: @headNavHeight !important;
             padding: 0;
             border-bottom: 1px solid #1f2d3d;
         }
