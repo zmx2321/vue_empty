@@ -48,10 +48,21 @@ export default {
     data() {
         return {
             items: [
+                // 父路由如果不加path，侧栏会无法识别点击的当前
                 {
                     icon: "fa fa-bullseye",
                     name: "test",
                     path: "test",
+                    children: [
+                        { path: "/test", name: "test" },
+                        { path: "/test1", name: "test1" },
+                    ]
+                },
+                // testmap
+                {
+                    icon: "fa fa-bullseye",
+                    name: "testmap",
+                    path: "testmap",
                     children: [
                         /* { path: "/test", name: "test" },
                         { path: "/test1", name: "test1" },
@@ -65,6 +76,24 @@ export default {
                         // { path: "/test_map7", name: "test_map7" },
                         { path: "/test_map8", name: "test_map8" },
                         // { path: "/test_map9", name: "test_map9" },
+                    ]
+                },
+                // testsupermap
+                {
+                    icon: "fa fa-bullseye",
+                    name: "testsupermap",
+                    path: "testsupermap",
+                    children: [
+                        { path: "/test_supermap1", name: "test_supermap1" },
+                    ]
+                },
+                // testcesiummap
+                {
+                    icon: "fa fa-bullseye",
+                    name: "testcesiummap",
+                    path: "testcesiummap",
+                    children: [
+                        { path: "/test_cesiummap1", name: "test_cesiummap1" },
                     ]
                 },
                 {

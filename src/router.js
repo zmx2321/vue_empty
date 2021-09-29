@@ -49,6 +49,7 @@ const routes = [
       /**
        * test
        */
+      // test
       {
         path: '/test',
         name: "test",
@@ -59,55 +60,68 @@ const routes = [
         name: "test1",
         component: resolve => require(['@/views/test/Test1'], resolve)
       },
+      // maptest
       {
         path: '/test_map',
         name: "test_map",
-        component: resolve => require(['@/views/test/TestMap'], resolve)
+        component: resolve => require(['@/views/test/maptest/TestMap'], resolve)
       },
       {
         path: '/test_map1',
         name: "test_map1",
-        component: resolve => require(['@/views/test/TestMap1'], resolve)
+        component: resolve => require(['@/views/test/maptest/TestMap1'], resolve)
       },
       {
         path: '/test_map2',
         name: "test_map2",
-        component: resolve => require(['@/views/test/TestMap2'], resolve)
+        component: resolve => require(['@/views/test/maptest/TestMap2'], resolve)
       },
       {
         path: '/test_map3',
         name: "test_map3",
-        component: resolve => require(['@/views/test/TestMap3'], resolve)
+        component: resolve => require(['@/views/test/maptest/TestMap3'], resolve)
       },
       {
         path: '/test_map4',
         name: "test_map4",
-        component: resolve => require(['@/views/test/TestMap4'], resolve)
+        component: resolve => require(['@/views/test/maptest/TestMap4'], resolve)
       },
       {
         path: '/test_map5',
         name: "test_map5",
-        component: resolve => require(['@/views/test/TestMap5'], resolve)
+        component: resolve => require(['@/views/test/maptest/TestMap5'], resolve)
       },
       {
         path: '/test_map6',
         name: "test_map6",
-        component: resolve => require(['@/views/test/TestMap6'], resolve)
+        component: resolve => require(['@/views/test/maptest/TestMap6'], resolve)
       },
       {
         path: '/test_map7',
         name: "test_map7",
-        component: resolve => require(['@/views/test/TestMap7'], resolve)
+        component: resolve => require(['@/views/test/maptest/TestMap7'], resolve)
       },
       {
         path: '/test_map8',
         name: "test_map8",
-        component: resolve => require(['@/views/test/TestMap8'], resolve)
+        component: resolve => require(['@/views/test/maptest/TestMap8'], resolve)
       },
       {
         path: '/test_map9',
         name: "test_map9",
-        component: resolve => require(['@/views/test/TestMap9'], resolve)
+        component: resolve => require(['@/views/test/maptest/TestMap9'], resolve)
+      },
+      // supermaptest
+      {
+        path: '/test_supermap1',
+        name: "test_supermap1",
+        component: resolve => require(['@/views/test/supermaptest/TestSuperMap1'], resolve)
+      },
+      // cesiumtest
+      {
+        path: '/test_cesiummap1',
+        name: "test_cesiummap1",
+        component: resolve => require(['@/views/test/cesiumtest/TestCesiumMap1'], resolve)
       },
 
       /**
