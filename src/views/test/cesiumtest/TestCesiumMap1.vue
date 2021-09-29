@@ -21,14 +21,20 @@ export default {
     },
 
     methods: {
-        
+        // 设置地球
+        setCesiumMap() {
+            console.log(window.cesiumViewer)
+            window.cesiumViewer.bottomContainer.style.display = "block";
+            window.cesiumViewer.scene.geocoder = true;
+        }
     },
 
     created() {
         
     },
+
     mounted() {
-        console.log(window.cesiumViewer)
+        this.setCesiumMap()
     }
 }
 </script>
