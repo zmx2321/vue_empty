@@ -1,6 +1,8 @@
 <template>
     <section class="main_cont">
-        <CesiumMap />
+        <CesiumMap
+            @resetViewer="setCesiumMap"
+        />
     </section>
 </template>
 
@@ -22,11 +24,11 @@ export default {
 
     methods: {
         // 设置地球
-        setCesiumMap() {
-            // console.log(window.cesiumViewer)
+        setCesiumMap(viewer) {
+            // console.log(viewer)
 
             // 显示帧速
-            // window.cesiumViewer.scene.debugShowFramesPerSecond = true;
+            viewer.scene.debugShowFramesPerSecond = true;
 
             // 显示版权
             // window.cesiumViewer.bottomContainer.style.display = "block";
@@ -38,7 +40,6 @@ export default {
     },
 
     mounted() {
-        this.setCesiumMap()
     }
 }
 </script>
