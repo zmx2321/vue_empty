@@ -23,9 +23,13 @@ export default {
     methods: {
         // 设置地球
         setCesiumMap() {
-            console.log(window.cesiumViewer)
-            window.cesiumViewer.bottomContainer.style.display = "block";
-            window.cesiumViewer.scene.geocoder = true;
+            // console.log(window.cesiumViewer)
+
+            // 显示帧速
+            // window.cesiumViewer.scene.debugShowFramesPerSecond = true;
+
+            // 显示版权
+            // window.cesiumViewer.bottomContainer.style.display = "block";
         }
     },
 

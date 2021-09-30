@@ -32,8 +32,35 @@ export default {
             // 版权清理
             window.cesiumViewer.bottomContainer.style.display = "none";
 
-            // 显示帧速
-            window.cesiumViewer.scene.debugShowFramesPerSecond = true;
+            // 搜索框
+            window.cesiumViewer.geocoder.container.style.display = "none";
+
+            // 底图
+            // window.cesiumViewer.baseLayerPicker._element.style.display = "none";
+
+            // 鼠标功能
+            
+            // 绑定事件
+            window.cesiumViewer.camera.changed.addEventListener(function (percentage) {
+                console.log("地球转动之后的触发事件")
+            });
+        },
+
+        // 重写搜索
+        resetSearch() {
+            // 搜索
+            // 当geocoder为true时，可以打印出viewer.geocoder.viewModel
+            /* geoCoder._complete._listeners.push(function () {
+                    搜索完全结束后你的操作
+            });
+
+            geoCoder._searchCommand.beforeExecute._listeners.push(function () {
+                    开始搜索之前你的操作
+            });
+
+            geoCoder._searchCommand.afterExecute._listeners.push(function () {
+                搜索执行之后你的操作
+            }); */
         }
     },
 
@@ -50,6 +77,6 @@ export default {
 <style lang="less" scoped>
 .cesium-map-wrapper {
     width: 100%;
-    height: calc(100vh - @headNavHeight);
+    height: 100%;
 }
 </style>
