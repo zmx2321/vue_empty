@@ -78,24 +78,6 @@ export default {
                         // { path: "/test_map9", name: "test_map9" },
                     ]
                 },
-                // testsupermap
-                {
-                    icon: "fa fa-bullseye",
-                    name: "testsupermap",
-                    path: "testsupermap",
-                    children: [
-                        { path: "/test_supermap1", name: "test_supermap1" },
-                    ]
-                },
-                // testcesiummap
-                {
-                    icon: "fa fa-bullseye",
-                    name: "testcesiummap",
-                    path: "testcesiummap",
-                    children: [
-                        { path: "/test_cesiummap1", name: "test_cesiummap1" },
-                    ]
-                },
                 {
                     icon: "fa fa-bullseye",
                     name: "超市管理",

@@ -111,18 +111,6 @@ const routes = [
         name: "test_map9",
         component: resolve => require(['@/views/test/maptest/TestMap9'], resolve)
       },
-      // supermaptest
-      {
-        path: '/test_supermap1',
-        name: "test_supermap1",
-        component: resolve => require(['@/views/test/supermaptest/TestSuperMap1'], resolve)
-      },
-      // cesiumtest
-      {
-        path: '/test_cesiummap1',
-        name: "test_cesiummap1",
-        component: resolve => require(['@/views/test/cesiumtest/TestCesiumMap1'], resolve)
-      },
 
       /**
        * 超市管理
