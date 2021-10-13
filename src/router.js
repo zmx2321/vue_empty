@@ -111,6 +111,16 @@ const routes = [
         name: "test_map9",
         component: resolve => require(['@/views/test/maptest/TestMap9'], resolve)
       },
+      {
+        path: '/test_map_marker1',
+        name: "test_map_marker1",
+        component: resolve => require(['@/views/test/maptest/TestMapMarker1'], resolve)
+      },
+      {
+        path: '/test_map_marker2',
+        name: "test_map_marker2",
+        component: resolve => require(['@/views/test/maptest/TestMapMarker2'], resolve)
+      },
 
       /**
        * 超市管理
