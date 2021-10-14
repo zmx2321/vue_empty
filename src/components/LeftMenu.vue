@@ -80,6 +80,15 @@ export default {
                         { path: "/test_map_marker2", name: "test_map_marker2" },
                     ]
                 },
+                // gltest1
+                {
+                    icon: "fa fa-bullseye",
+                    name: "gltest",
+                    path: "gltest",
+                    children: [
+                        { path: "/gltest1", name: "gltest1" },
+                    ]
+                },
                 {
                     icon: "fa fa-bullseye",
                     name: "超市管理",

@@ -121,6 +121,12 @@ const routes = [
         name: "test_map_marker2",
         component: resolve => require(['@/views/test/maptest/TestMapMarker2'], resolve)
       },
+      // gltest
+      {
+        path: '/gltest1',
+        name: "gltest1",
+        component: resolve => require(['@/views/test/gltest/GlTest1'], resolve)
+      },
 
       /**
        * 超市管理
