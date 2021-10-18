@@ -65,6 +65,11 @@ const routes = [
         name: "test2",
         component: resolve => require(['@/views/test/Test2'], resolve)
       },
+      {
+        path: '/test3',
+        name: "test3",
+        component: resolve => require(['@/views/test/Test3'], resolve)
+      },
       // maptest
       {
         path: '/test_map',

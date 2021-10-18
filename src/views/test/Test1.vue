@@ -3,13 +3,13 @@
         <img src="@/assets/images/test/t3.jpg" usemap="#image-map" class="map1">
 
         <map name="image-map" id="map0" @click="test">
-            <area target="" alt="123" title="123" coords="1002,586,453,274" shape="rect" data-maphilight='{"alwaysOn":true,"strokeColor":"ff00ff","strokeWidth":5,"fillColor":"ff0000","fillOpacity":0.6}'>
-            <area target="" alt="wwww" title="wwww" coords="1361,517,1014,290" shape="rect" data-maphilight='{"fillColor":"ff0000","shadow":true,"shadowBackground":"ffffff"}'>
-             <area target="" alt="test1" title="test1" coords="61,157,30" shape="circle" data-maphilight='{"fillColor":"ff0000","shadow":true,"shadowBackground":"ffffff"}'>
-            <area target="" alt="test2" title="test2" coords="1,266,278,489" shape="rect" data-maphilight='{"fillColor":"000000","shadow":true,"shadowBackground":"ffffff"}'>
+            <area target="" alt="shan" title="商铺1" coords="1002,586,453,274" shape="rect" data-maphilight='{"alwaysOn":true,"strokeColor":"ff00ff","strokeWidth":5,"fillColor":"ff0000","fillOpacity":0.6}'>
+            <area target="" alt="wwww" title="商铺2" coords="1361,517,1014,290" shape="rect" data-maphilight='{"fillColor":"ff0000","shadow":true,"shadowBackground":"ffffff"}'>
+             <area target="" alt="test1" title="商铺3" coords="61,157,30" shape="circle" data-maphilight='{"fillColor":"ff0000","shadow":true,"shadowBackground":"ffffff"}'>
+            <area target="" alt="test2" title="商铺4" coords="1,266,278,489" shape="rect" data-maphilight='{"fillColor":"000000","shadow":true,"shadowBackground":"ffffff"}'>
             <!-- <area target="" alt="ttr" title="ttr" coords="92,220,205,228,230,124,180,124" shape="poly" 
             data-maphilight='{"alwaysOn":true,"fillColor":"0000ff", "shadow":true,"shadowBackground":"00ff00","strokeColor":"ff00ff","strokeWidth":5,}'> -->
-            <area target="" title="test222" coords="92,220,205,228,230,124,180,124" shape="poly" 
+            <area target="" title="商铺5" coords="92,220,205,228,230,124,180,124" shape="poly" 
             :data-maphilight='maphilightConfig'>
         </map>
 
@@ -113,6 +113,20 @@ export default {
 .main_cont {
     position: relative;
     padding: 0;
+
+    area {
+        position: relative;
+    }
+
+    area::after {
+        position: absolute;
+        content: ' ';
+        width: 10px;
+        height: 10px;
+        background: #f00;
+        top: 0;
+        left: 0;
+    }
 
     area:hover {
         cursor: pointer;
