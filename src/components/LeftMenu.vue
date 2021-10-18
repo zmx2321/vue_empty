@@ -56,6 +56,7 @@ export default {
                     children: [
                         { path: "/test", name: "test" },
                         { path: "/test1", name: "test1" },
+                        { path: "/test2", name: "test2" },
                     ]
                 },
                 // testmap
