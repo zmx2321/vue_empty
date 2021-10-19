@@ -1,8 +1,8 @@
 <template>
     <section class="main_cont">
-        <img src="@/assets/images/test/t3.jpg" usemap="#image-map" class="map1">
+        <img src="@/assets/images/test/t3.jpg" usemap="#image-map" class="map1"  @click="testclick">
 
-        <map name="image-map" id="map0" @click="test">
+        <map name="image-map" id="map0" @mouseover="test" @mouseout="testout">
             <area target="" alt="shan" title="商铺1" coords="1002,586,453,274" shape="rect" data-maphilight='{"alwaysOn":true,"strokeColor":"ff00ff","strokeWidth":5,"fillColor":"ff0000","fillOpacity":0.6}'>
             <area target="" alt="wwww" title="商铺2" coords="1361,517,1014,290" shape="rect" data-maphilight='{"fillColor":"ff0000","shadow":true,"shadowBackground":"ffffff"}'>
              <area target="" alt="test1" title="商铺3" coords="61,157,30" shape="circle" data-maphilight='{"fillColor":"ff0000","shadow":true,"shadowBackground":"ffffff"}'>
@@ -61,6 +61,14 @@ export default {
             this.info = e.target.title
 
             // this.areaLight(e.target)  // 点击时设置属性
+        },
+        testclick(e){
+            console.log(e.target)
+            this.showBox = false
+        },
+        testout() {
+            // console.log("sser")
+            // this.showBox = false
         },
         areaLight(obj) {
             console.log("123", obj)
