@@ -5,7 +5,7 @@
             <el-select v-model="selCityName" placeholder="请选择城市" @change="selectName">
                 <el-option v-for="item in cityArr" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
-            <el-button type="primary" @click="toShangHe">上河镇</el-button>
+            <el-button type="primary" @click="toShangHe">萧山</el-button>
         </div>
         <el-amap ref="map" class="amap-box" :vid="'amap-vue'" :center='center' :zoom='zoom' :events="events"></el-amap>
 
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import shzjson from '@/assets/geojson/shz.json'
+import shzjson from '@/assets/geojson/xiaoshan.json'
 
 export default {
     name: "testmap5",
@@ -132,8 +132,8 @@ export default {
 
         // 跳转到上河镇
         toShangHe() {
-            window.amapview.setZoom("12"); //设置地图层级
-            window.amapview.setCenter([120.21272954752699,29.93745044968425]); //设置地图层级
+            window.amapview.setZoom("10"); //设置地图层级
+            window.amapview.setCenter([120.086922,30.045418]); //设置地图层级
         },
 
         /**
@@ -363,15 +363,17 @@ export default {
 
         // 获取geojson测试
         testJsonData(geojsonItem) {
+            console.log(geojsonItem)
             console.log("处理testJson业务流程")
 
             this.dialogVisible = true  // 显示弹窗
 
-            if(geojsonItem.properties.name) {
-                console.log("区县名称", geojsonItem.properties.name)
+            if(geojsonItem.properties._parentProperities.name) {
+                this.cityName = geojsonItem.properties._parentProperities.name
+                console.log("区县名称", geojsonItem.properties._parentProperities.name)
             } else {
-                this.cityName = geojsonItem.properties.Name
-                console.log("区县名称", geojsonItem.properties.Name)
+                this.cityName = geojsonItem.properties._parentProperities.Name
+                console.log("区县名称", geojsonItem.properties._parentProperities.Name)
             }
         },
     },
