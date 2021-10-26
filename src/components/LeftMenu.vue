@@ -80,6 +80,7 @@ export default {
                         // { path: "/test_map7", name: "test_map7" },
                         { path: "/test_map8", name: "test_map8" },
                         // { path: "/test_map9", name: "test_map9" },
+                        { path: "/test_map10", name: "test_map10" },
                         { path: "/test_map_marker1", name: "test_map_marker1" },
                         { path: "/test_map_marker2", name: "test_map_marker2" },
                     ]
