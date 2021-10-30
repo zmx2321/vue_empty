@@ -159,8 +159,8 @@ export default {
                         // 路径
                         path: lnglats,
                         // 面
-                        // fillOpacity: 1 - Math.sqrt(area / 8000000000),// 面积越大透明度越高
-                        fillOpacity: 0.3,
+                        fillOpacity: 1 - Math.sqrt(area / 8000000000),// 面积越大透明度越高
+                        // fillOpacity: 0.5,
                         fillColor: fillColor,
                         // 线
                         strokeColor: '#fff',
@@ -266,6 +266,7 @@ export default {
          */
         // 获取test geojson示例
         getTestGeojson() {
+            console.log("123123")
             // 初始化geojson，获取geojson地图对象
             this.setGeoJsonLayer(shzjson, this.polygonInitColor, 'click', (e, iterator)=> {
                 // console.log()
@@ -365,7 +366,7 @@ export default {
 
         // 获取geojson测试
         testJsonData(geojsonItem) {
-            // console.log(geojsonItem)
+            console.log(geojsonItem)
             console.log("处理testJson业务流程")
 
             this.dialogVisible = true  // 显示弹窗
