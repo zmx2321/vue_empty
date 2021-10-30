@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import shzjson from '@/assets/geojson/xiaoshan.json'
+import shzjson from '@/assets/geojson/xiaoshan_xz.json'
 
 export default {
     name: "testmap5",
@@ -50,6 +50,8 @@ export default {
 
                     // 获取上河镇
                     this.getTestGeojson()
+
+                    this.toShangHe()
                 }
             },
             // polygon相关
@@ -69,6 +71,7 @@ export default {
     },
 
     computed: {
+        
     },
 
     methods: {
@@ -132,8 +135,8 @@ export default {
 
         // 跳转到上河镇
         toShangHe() {
-            window.amapview.setZoom("10"); //设置地图层级
-            window.amapview.setCenter([120.086922,30.045418]); //设置地图层级
+            window.amapview.setZoom("11"); //设置地图层级
+            window.amapview.setCenter([120.329308,30.167191]); //设置地图层级
         },
 
         /**
@@ -156,8 +159,8 @@ export default {
                         // 路径
                         path: lnglats,
                         // 面
-                        fillOpacity: 1 - Math.sqrt(area / 8000000000),// 面积越大透明度越高
-                        // fillOpacity: 0.5,
+                        // fillOpacity: 1 - Math.sqrt(area / 8000000000),// 面积越大透明度越高
+                        fillOpacity: 0.3,
                         fillColor: fillColor,
                         // 线
                         strokeColor: '#fff',
@@ -263,7 +266,6 @@ export default {
          */
         // 获取test geojson示例
         getTestGeojson() {
-            console.log("123123")
             // 初始化geojson，获取geojson地图对象
             this.setGeoJsonLayer(shzjson, this.polygonInitColor, 'click', (e, iterator)=> {
                 // console.log()
@@ -363,7 +365,7 @@ export default {
 
         // 获取geojson测试
         testJsonData(geojsonItem) {
-            console.log(geojsonItem)
+            // console.log(geojsonItem)
             console.log("处理testJson业务流程")
 
             this.dialogVisible = true  // 显示弹窗
@@ -383,6 +385,7 @@ export default {
     },
 
     mounted() {
+        
     }
 }
 </script>
