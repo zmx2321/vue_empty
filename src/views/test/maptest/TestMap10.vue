@@ -159,8 +159,8 @@ export default {
                         // 路径
                         path: lnglats,
                         // 面
-                        fillOpacity: 1 - Math.sqrt(area / 8000000000),// 面积越大透明度越高
-                        // fillOpacity: 0.5,
+                        // fillOpacity: 1 - Math.sqrt(area / 8000000000),// 面积越大透明度越高
+                        fillOpacity: 0.5,
                         fillColor: fillColor,
                         // 线
                         strokeColor: '#fff',
@@ -366,17 +366,33 @@ export default {
 
         // 获取geojson测试
         testJsonData(geojsonItem) {
-            console.log(geojsonItem)
             console.log("处理testJson业务流程")
 
             this.dialogVisible = true  // 显示弹窗
 
+            if(geojsonItem.properties.name) {
+                console.log("geojsonItem.properties.name", geojsonItem.properties.name)
+                this.cityName = geojsonItem.properties.name
+                return
+            }
+            if(geojsonItem.properties.Name) {
+                console.log("geojsonItem.properties.Name", geojsonItem.properties.Name)
+                this.cityName = geojsonItem.properties.Name
+                return
+            }
+
             if(geojsonItem.properties._parentProperities.name) {
+                console.log("properties._parentProperities.name", geojsonItem.properties._parentProperities.name)
                 this.cityName = geojsonItem.properties._parentProperities.name
                 console.log("区县名称", geojsonItem.properties._parentProperities.name)
-            } else {
+                return
+            } 
+
+            if(geojsonItem.properties._parentProperities.Name) {
+                console.log("properties._parentProperities.name", geojsonItem.properties._parentProperities.Name)
                 this.cityName = geojsonItem.properties._parentProperities.Name
                 console.log("区县名称", geojsonItem.properties._parentProperities.Name)
+                return
             }
         },
     },
