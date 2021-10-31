@@ -159,8 +159,8 @@ export default {
                         // 路径
                         path: lnglats,
                         // 面
-                        // fillOpacity: 1 - Math.sqrt(area / 8000000000),// 面积越大透明度越高
-                        fillOpacity: 0.5,
+                        fillOpacity: 1 - Math.sqrt(area / 8000000000),// 面积越大透明度越高
+                        // fillOpacity: 0.3,
                         fillColor: fillColor,
                         // 线
                         strokeColor: '#fff',
