@@ -22,8 +22,12 @@ export default {
 
                     // 获取geojson
                     this.getGeoJson()
+                    console.log("123")
 
                     // o.setMapStyle('amap://styles/macaron');//自定义的高德地图的样式，我选的是马卡龙
+                    o.addControl(new AMap.MapType({
+                        defaultType:1 //0代表默认，1代表卫星
+                    }));
                 }
             }
         }
