@@ -7,6 +7,7 @@
 
 <script>
 import axios from 'axios'
+import ico from '../../../assets/logo.png'
 
 export default {
     name: "test1",
@@ -156,11 +157,24 @@ export default {
         let markers = [], cluster
         let points = await this.getPointData()
 
+        // 创建一个 Icon
+        var myIcon = new AMap.Icon({
+          // 图标尺寸
+          size: new AMap.Size(80, 80),
+          // 图标的取图地址
+          image: ico,
+          // 图标所用图片大小
+          imageSize: new AMap.Size(30, 30),
+          // 图标取图偏移量
+          imageOffset: new AMap.Pixel(5, 8)
+        });
+
         for (let i = 0; i < points.length; i += 1) {
           let marker = new AMap.Marker({
             position: points[i]['lnglat'],
             offset: new AMap.Pixel(-15, -15),
             clickable: true,
+            icon: myIcon,
           })
           marker.content = '我是第' + (i + 1) + '个Marker';
           markers.push(marker)
