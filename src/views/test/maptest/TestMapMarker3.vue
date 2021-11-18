@@ -142,8 +142,16 @@ export default {
 
       // 标注事件封装
       markerEvent(e, map) {
+        let info = [];
+        info.push("<div class='input-card content-window-card'><div><img style=\"float:left;\" src=\" https://webapi.amap.com/images/autonavi.png \"/><br /></div> ");
+        info.push("<div style=\"padding:7px 0px 0px 0px;\"><h4>高德软件</h4>");
+        info.push("<p class='input-item'>电话 : 010-84107000   邮编 : 100102</p>");
+        info.push("<p class='input-item'>地址 :北京市朝阳区望京阜荣街10号首开广场4层</p></div></div>");
+        info.push("<br />" + e.target.content)
+
         // 添加内容
-        this.markerInfoWindow.setContent(e.target.content);
+        // this.markerInfoWindow.setContent(e.target.content);
+        this.markerInfoWindow.setContent(info.join(""));
 
         // 根据窗口显示隐藏
         this.toogleWindow(this.markerInfoWindow, map, e.lnglat)
@@ -303,6 +311,14 @@ export default {
   .amap-box {
     width: 100%;
     height: 500px;
+
+    // 窗口
+    /deep/ .amap-info-content {
+      .input-card {
+        color: @globalBtnColor;
+        // background: #f00;
+      }
+    }
   }
 }
 </style>
