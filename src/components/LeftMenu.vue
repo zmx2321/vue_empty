@@ -83,6 +83,7 @@ export default {
                         { path: "/test_map10", name: "test_map10" },
                         { path: "/test_map_marker1", name: "test_map_marker1" },
                         { path: "/test_map_marker2", name: "test_map_marker2" },
+                        { path: "/test_map_marker3", name: "test_map_marker3" },
                     ]
                 },
                 // gltest1
