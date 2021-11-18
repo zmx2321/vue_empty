@@ -163,7 +163,8 @@ export default {
 
         let _this = this
         let markers = [], cluster
-        let points = await this.getPointData()
+        // let points = await this.getPointData()  // 获取接口数据
+        console.log(points)
 
         // 创建一个 Icon
         var myIcon = new AMap.Icon({
