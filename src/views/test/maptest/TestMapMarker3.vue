@@ -135,9 +135,10 @@ export default {
       clusterMarkerEvent(context, map) {
         // 添加内容
         this.clusterInfoWindow.setContent(context.count.toString());
+        // console.log(context.count.toString())
 
         // 关闭弹窗
-        this.openWindow(this.clusterInfoWindow, map, context.marker.Ce.position)
+        this.openWindow(this.clusterInfoWindow, map, context.marker.De.position)
       },
 
       // 标注事件封装
@@ -223,6 +224,7 @@ export default {
           context.marker.setContent(div)
           // 聚合添加事件
           div.addEventListener('mouseover', ()=>{
+            // console.log("sss", context, map)
             // 聚合事件封装
             this.clusterMarkerEvent(context, map)
           })
