@@ -17,11 +17,6 @@
                 <span>商铺3</span>
             </div>
         </div>
-        <!-- <div class="block bok4 empty">
-            <div class="wrap">
-                <span>商铺4</span>
-            </div>
-        </div> -->
 
         <div v-if='showBox'>
             <div  ref="boxfef" class='show-parent' :style="{left: tranLeft, top: tranTop}" @mousedown="mouseDownHandleelse($event)" @mouseup="mouseUpHandleelse($event)">

@@ -1,7 +1,6 @@
 <template>
     <section class="main_cont amap-wrapper">
-        <el-amap ref="map" class="amap-box" :vid="'amap-vue'" :center='center' :zoom='zoom' :events="events">
-        </el-amap>
+      <el-amap ref="map" class="amap-box" :vid="'amap-vue'" :center='center' :zoom='zoom' :events="events"></el-amap>
     </section>
 </template>
 
@@ -164,7 +163,7 @@ export default {
 
         let _this = this
         let markers = [], cluster
-        // let points = await this.getPointData()  // 获取接口数据
+        let points = await this.getPointData()  // 获取接口数据
         console.log(points)
 
         // 创建一个 Icon
