@@ -96,6 +96,18 @@ export default {
                         { path: "/gltest1", name: "gltest1" },
                     ]
                 },
+
+                // g6test
+                {
+                    icon: "fa fa-bullseye",
+                    name: "g6test",
+                    path: "g6test",
+                    children: [
+                        { path: "/g6test1", name: "g6test1" },
+                    ]
+                },
+
+                // ...
                 {
                     icon: "fa fa-bullseye",
                     name: "超市管理",
