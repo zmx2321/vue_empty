@@ -60,13 +60,6 @@ export default {
           getHeight: () => {
             return 60;
           },
-          /* type: 'indented',
-          direction: 'LR',
-          dropCap: false,
-          indent: 300,
-          getHeight: () => {
-            return 60;
-          }, */
         }
       }
     }
@@ -423,97 +416,22 @@ export default {
      */
     // 渲染脑图
     async renderBrainMap() {
-      let _this = this
-
       let treeData = await this.getAsyncTreeData()
       console.log("000", brainMapData, treeData)
 
+      // 渲染树
       this.graph = new G6.TreeGraph({
-        container: 'g6Tree',
-
-        pixelRatio: 2,
-        ...this.treeConfig,
-        // ...config,
-        //     modes: {
-        //       default: [{
-        //         type: 'collapse-expand',
-        //         onChange(node, collapsed) {
-        //           let model = node.get('model')
-
-        //           console.log("点击节点", model)
-
-        //           _this.getNodes(model, collapsed)
-
-        //           return true;
-        //         }
-        //       }, {
-        //         type: 'tooltip',
-        //         formatText(model) {
-        //           // console.log("鼠标移入", model)
-
-        //           var text = 'description: ' + model.label;
-        //           return text;
-        //         },
-        //       }, "drag-canvas", "zoom-canvas", "drag-node", "click-select", "brush-select"]
-        //     },
-        //     defaultNode: {
-        //       "type": "rect",
-        //       "size": [
-        //         100,
-        //         22
-        //       ],
-        //       "style": {
-        //         fill: '#40a9ff',
-        //         stroke: '#096dd9',
-        //         "cursor": "default"
-        //       },
-        //       "labelCfg": {
-        //         "position": "center",
-        //         "style": {
-        //           "textAlign": "center",
-        //           "fontStyle": "normal"
-        //         }
-        //       },
-        //       "linkPoints": {
-        //         "fill": "rgb(19, 30, 51)"
-        //       }
-        //     },
-        //     "defaultEdge": {
-        //       "type": "cubic-horizontal",
-        //   "style": {
-        //     "stroke": "rgb(79, 79, 79)",
-        //     "cursor": "default"
-        //   },
-        //   "labelCfg": {
-        //     "position": "middle",
-        //     "style": {
-        //       "textAlign": "center",
-        //       "textBaseline": "middle",
-        //       "fontStyle": "normal"
-        //     }
-        //   }
-        // },
-        //     layout: {
-        //       "type": "dendrogram",
-        //       "direction": "LR",
-        //       // "nodeSep": 28,
-        //       // "rankSep": 500
-        //     }
+        container: 'g6Tree',  // dom节点
+        ...this.treeConfig,  // g6配置
       })
 
-      // tree相关点击事件
+      // tree点击相关事件
       this.clickNodeEvent()
 
-      this.graph.data(treeData);
-      this.graph.render();
-      this.graph.fitView();
-    },
-
-    // 点击节点
-    getNodes(model, collapsed) {
-      // console.log(model, collapsed)
-
-      model.collapsed = collapsed
+      // 渲染
+      this.graph.data(treeData);  // 传入数据
+      this.graph.render();  // 渲染
+      this.graph.fitView();  // 自适应
     },
   },
 
