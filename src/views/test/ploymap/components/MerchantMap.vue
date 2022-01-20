@@ -11,39 +11,39 @@ import ico from '@/assets/logo.png'
 import { mapDataList } from './mapData'
 
 export default {
-  data () {
-      return {
-        /**
-         * 地图基本信息
-         */
-        center: [120.109978,29.476335],
-        zoom: 8,
-        events: {
-          init: o=> {
-            this.initMap(o)
-          }
-        },
+  data() {
+    return {
+      /**
+       * 地图基本信息
+       */
+      center: [120.109978, 29.476335],
+      zoom: 8,
+      events: {
+        init: o => {
+          this.initMap(o)
+        }
+      },
 
-        /**
-         * 地图数据
-         */
-        markers: [],  // 标注点集合
-        clusterInfoData: {},  // 聚合窗口数据
-        markerInfoData: {}  // 标注窗口数据
-      }
+      /**
+       * 地图数据
+       */
+      markers: [],  // 标注点集合
+      // clusterInfoData: {},  // 聚合窗口数据
+      markerInfoData: {}  // 标注窗口数据
+    }
   },
 
   computed: {
     // 聚合窗口
     clusterInfoWindow() {
-      return new AMap.InfoWindow({offset: new AMap.Pixel(0, -30)});
+      return new AMap.InfoWindow({ offset: new AMap.Pixel(0, -30) });
     },
     // 标注窗口
     markerInfoWindow() {
-      return new AMap.InfoWindow({offset: new AMap.Pixel(0, -30)});
+      return new AMap.InfoWindow({ offset: new AMap.Pixel(0, -30) });
     },
 
-    // 聚合窗口信息
+    /* // 聚合窗口信息
     clusterInfo() {
       return `
         <p>聚合</p>
@@ -71,7 +71,7 @@ export default {
           <p>所有坐标：<br />${this.clusterInfoData.positionList}</p>
         </div>
       `
-    },
+    }, */
 
     // 标注窗口信息
     markerInfo() {
@@ -98,7 +98,7 @@ export default {
       this.setMarker(map)
 
       // 地图点击事件
-      map.on('click', e=> {
+      map.on('click', e => {
         // 地图坐标
         this.getPosition(e, map)
 
@@ -109,11 +109,11 @@ export default {
 
     // 设置坐标和缩放
     setMap(map) {
-      map.on('zoomchange', ()=> {
+      map.on('zoomchange', () => {
         let mapZoom = map.getZoom()
         // console.log(mapZoom)
 
-        if(mapZoom <= 8) {
+        if (mapZoom <= 8) {
           map.setZoomAndCenter(8, this.center); //同时设置地图层级与中心点
         }
       });
@@ -121,7 +121,7 @@ export default {
 
     // 地图坐标
     getPosition(e, map) {
-      console.log('您在 ['+e.lnglat.getLng()+','+e.lnglat.getLat()+'] 的位置点击了地图');
+      console.log('您在 [' + e.lnglat.getLng() + ',' + e.lnglat.getLat() + '] 的位置点击了地图');
 
       console.log("当前地图的缩放级别为", map.getZoom())
     },
@@ -131,8 +131,8 @@ export default {
      * tools
      */
     // 根据窗口显示隐藏
-    toogleWindow(infoWindowName, map, position){
-      if(infoWindowName.map) {
+    toogleWindow(infoWindowName, map, position) {
+      if (infoWindowName.map) {
         infoWindowName.close();
       } else {
         infoWindowName.open(map, position);
@@ -151,7 +151,7 @@ export default {
       this.closeWindow(this.clusterInfoWindow)
       this.closeWindow(this.markerInfoWindow)
     },
-    // 设置自定义聚合
+    /* // 设置自定义聚合
     setCluster(count, context, map) {
       // 创建
       let div = document.createElement('div');
@@ -183,20 +183,20 @@ export default {
         // 聚合事件封装
         this.closeAllWindow()
       })
-    },
+    }, */
     // 设置标注事件
     setMarkerEvent(marker, map) {
       // 标注添加事件
-      AMap.event.addListener(marker, 'click', ()=> {
+      AMap.event.addListener(marker, 'click', () => {
         // 事件对象的坐标不准确
 
         // 标注事件封装
         this.markerEvent(marker)
       })
-      AMap.event.addListener(marker, 'mouseover', e=> {
+      AMap.event.addListener(marker, 'mouseover', e => {
         this.markerHoverEvent(e, map, marker)
       })
-      AMap.event.addListener(marker, 'mouseout', ()=> {
+      AMap.event.addListener(marker, 'mouseout', () => {
         this.closeAllWindow()
       })
     },
@@ -206,15 +206,15 @@ export default {
      */
     // 获取点位
     getPointData() {
-      return new Promise((resolve, reject)=> {
-        axios.get('http://a.amap.com/jsapi_demos/static/china.js').then(res=> {
+      return new Promise((resolve, reject) => {
+        axios.get('http://a.amap.com/jsapi_demos/static/china.js').then(res => {
           let dataStr = res.data;
           let ipos = dataStr.indexOf('[')
-          let str = dataStr.substring(ipos,dataStr.length)
+          let str = dataStr.substring(ipos, dataStr.length)
           let points = JSON.parse(str)
 
           resolve(points)
-        }).catch(err=> {
+        }).catch(err => {
           reject(err)
         })
       })
@@ -234,7 +234,7 @@ export default {
       let points = []
 
       // console.log("mapdata 坐标集合", mapDataList)
-      mapDataList.forEach(item=> {
+      mapDataList.forEach(item => {
         points.push({
           lnglat: item.lnglat
         })
@@ -258,16 +258,21 @@ export default {
           position: points[i]['lnglat'],
           offset: new AMap.Pixel(-15, -15),
           clickable: true,
-          // icon: myIcon,  // 标注图标
+          icon: myIcon,  // 标注图标
         })
-        marker.index = i;
-        markers.push(marker)
+        // marker.index = i;
+        // markers.push(marker)
+
+        marker.setMap(map);
 
         // 设置标注事件
         this.setMarkerEvent(marker, map)
       }
 
-      // 自定义聚合
+      // console.log(markers)
+      // markers.setMap(map);
+
+      /* // 自定义聚合
       let _renderClusterMarker = context=> {
         // 设置自定义聚合
         this.setCluster(markers.length, context, map)
@@ -280,10 +285,10 @@ export default {
           // zoomOnClick: false,  // 阻止聚合
           renderClusterMarker: _renderClusterMarker
         });
-      })
+      }) */
     },
 
-    // 聚合事件封装
+    /* // 聚合事件封装
     clusterMarkerEvent(context, map) {
       console.log(context)
 
@@ -325,15 +330,15 @@ export default {
 
       // 关闭弹窗
       this.openWindow(this.clusterInfoWindow, map, context.marker.De.position)
-    },
+    }, */
 
     // 鼠标移入标注封装
     markerHoverEvent(e, map, marker) {
       let addressStr = ""
 
-      mapDataList.forEach(item=> {
+      mapDataList.forEach(item => {
         // 只查经度
-        if(item.lnglat[0] === marker.De.position.lng.toString()) {
+        if (item.lnglat[0] === marker.De.position.lng.toString()) {
           // console.log(item.area)
 
           // addressStr = item.area + item.direction
@@ -360,10 +365,10 @@ export default {
       // 获取坐标，调接口获取服务区详情，并跳转到指定服务区
       let addressIds = []
 
-      mapDataList.forEach(item=> {
+      mapDataList.forEach(item => {
         // 只查经度
-        if(item.lnglat[0] === marker.De.position.lng.toString()) {
-          if(item.id.length !== 0) {
+        if (item.lnglat[0] === marker.De.position.lng.toString()) {
+          if (item.id.length !== 0) {
             addressIds = item.id
           }
         }
@@ -382,16 +387,19 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@mapHeight: 643px;
+@mapHeight: calc(100vh - 60px - 1px);
 
 .amap-wrapper {
+
+
   ::v-deep .amap-box {
     width: 100%;
     height: @mapHeight;
 
     // 窗口
     .amap-info-content {
-      .cluster_info_window, .marker_info_window {
+      .cluster_info_window,
+      .marker_info_window {
         color: #333;
       }
     }
@@ -401,8 +409,8 @@ export default {
       font-family: Microsoft YaHei;
       color: #fff;
       font-weight: bold;
-      background: #377DFF;
-      color: #377DFF;
+      background: #377dff;
+      color: #377dff;
     }
   }
 }
