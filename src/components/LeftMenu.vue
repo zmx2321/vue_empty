@@ -85,6 +85,16 @@ export default {
                         { path: "/test_map_marker1", name: "test_map_marker1" },
                         { path: "/test_map_marker2", name: "test_map_marker2" },
                         { path: "/test_map_marker3", name: "test_map_marker3" },
+                        { path: "/test_map_marker4", name: "test_map_marker4" },
+                    ]
+                },
+                // testmap
+                {
+                    icon: "fa fa-bullseye",
+                    name: "ploymap",
+                    path: "ploymap",
+                    children: [
+                        { path: "/ploymap1", name: "ploymap1" },
                     ]
                 },
                 // gltest1

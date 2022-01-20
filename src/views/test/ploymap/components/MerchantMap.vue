@@ -16,9 +16,8 @@ export default {
         /**
          * 地图基本信息
          */
-        center: [107.943579, 30.131735],
-        zoom: 7,
-        resizeEnable: true,
+        center: [120.109978,29.476335],
+        zoom: 8,
         events: {
           init: o=> {
             this.initMap(o)
@@ -35,29 +34,6 @@ export default {
   },
 
   computed: {
-    // 气泡信息
-    infoObj() {
-      return {
-        //模板, underscore
-        infoTitle: '<strong><%- title %></strong>',
-        infoBody: '<p class="my-desc">' +
-            //<%= 原值插入 ..
-            '<%= img %>' +
-            //<%- html编码后插入
-            '<%- body %>' +
-            '</p>',
-        //模板数据
-        infoTplData: {
-            title: '"标题-标题"',
-            img: '<img src="//webapi.amap.com/theme/v1.3/autonavi.png" />',
-            body: '<---------内容--------->'
-        },
-
-        //基点指向marker的头部位置
-        offset: new AMap.Pixel(0, -31)
-      }
-    },
-
     // 聚合窗口
     clusterInfoWindow() {
       return new AMap.InfoWindow({offset: new AMap.Pixel(0, -30)});
@@ -70,22 +46,38 @@ export default {
     // 聚合窗口信息
     clusterInfo() {
       return `
+        <p>聚合</p>
+        <div class="cluster_info_window info_window">
+          <ul>
+            <li>
+              <dl>
+                <dt>半年内到期商铺：1</dt>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt>空余商铺：1</dt>
+              </dl>
+            </li>
+            <li>
+              <dl class="f-cb">
+                <dt class="f-fl">服务区：1</dt>
+              </dl>
+            </li>
+          </ul>
+        </div>
         <div class="cluster_info_window">
-          <p>聚合</p>
           <p>聚合数量：${this.clusterInfoData.count}</p>
           <p>所有坐标：<br />${this.clusterInfoData.positionList}</p>
         </div>
       `
     },
 
-    // 聚合窗口信息
+    // 标注窗口信息
     markerInfo() {
       return `
         <div class="marker_info_window">
-          <p>标注</p>
-          <p>标注索引：${this.markerInfoData.index}</p>
-          <p>标注坐标：${this.markerInfoData.position}</p>
-          <p>标注地址：${this.markerInfoData.positionStr}</p>
+          <p style="padding-top: 10px">${this.markerInfoData.positionStr}</p>
         </div>
       `
     }
@@ -100,7 +92,7 @@ export default {
       // console.log("初始化地图", map)
 
       // 设置坐标和缩放
-      this.setMap()
+      this.setMap(map)
 
       // 打点
       this.setMarker(map)
@@ -116,11 +108,15 @@ export default {
     },
 
     // 设置坐标和缩放
-    setMap() {
-      this.center = [120.468554, 29.513312]
-      this.zoom = 8
-      /* this.center = [120.246279,29.97404]
-      this.zoom = 18 */
+    setMap(map) {
+      map.on('zoomchange', ()=> {
+        let mapZoom = map.getZoom()
+        // console.log(mapZoom)
+
+        if(mapZoom <= 8) {
+          map.setZoomAndCenter(8, this.center); //同时设置地图层级与中心点
+        }
+      });
     },
 
     // 地图坐标
@@ -172,6 +168,8 @@ export default {
       // 设置背景色 - 可删
       let factor = Math.pow(context.count / count, 1 / 18);  // 根据聚合数量设置值
       div.style.opacity = factor
+      // 文字
+      div.innerHTML = "",
       // 设置聚合属性
       context.marker.setOffset(new AMap.Pixel(-size / 2, -size / 2));
       context.marker.setContent(div)
@@ -250,7 +248,7 @@ export default {
         // 图标的取图地址
         image: ico,
         // 图标所用图片大小
-        imageSize: new AMap.Size(30, 30),
+        imageSize: new AMap.Size(40, 40),
         // 图标取图偏移量
         imageOffset: new AMap.Pixel(5, 8)
       });
@@ -287,22 +285,39 @@ export default {
 
     // 聚合事件封装
     clusterMarkerEvent(context, map) {
-      // console.log(context)
+      console.log(context)
 
       let positionArr = []
       let positionStr = ''
 
+      let addressStrArr = []
+      let positionListStr = ''
+
       // 获取聚合中所有的点位坐标，传给后端
       context.markers.forEach(item=> {
+        mapDataList.forEach(mpList=> {
+          if(mpList.lnglat[0] === item.De.position.lng.toString()) {
+            // console.log(mpList.area)
+            addressStrArr.push(mpList.area + "服务区")
+          }
+        })
         // console.log(item.De.position)
         positionArr.push([item.De.position.lng, item.De.position.lat])
         positionStr += `[${item.De.position.lng},${item.De.position.lat}] \n`
       })
+      addressStrArr = Array.from(new Set(addressStrArr))
+      // console.log(addressStrArr)
+      addressStrArr.forEach(item=> {
+        positionListStr += item + ","
+      })
+      positionListStr = positionListStr.substring(0, positionListStr.lastIndexOf(','));
+      // console.log(positionListStr)
 
       // 聚合数据 - 后端返回的数据用这个对象接收
       this.clusterInfoData = {
         count: context.count.toString(),
-        positionList: positionStr
+        positionList: positionStr,
+        positionListStr: positionListStr
       }
 
       // 添加内容
@@ -320,44 +335,9 @@ export default {
         // 只查经度
         if(item.lnglat[0] === marker.De.position.lng.toString()) {
           // console.log(item.area)
-          switch(item.area) {
-            case '萧山东':
-              addressStr = "萧山东"
-              break
-            case '萧山西':
-              addressStr = "萧山西"
-              break
-            case '绍兴东':
-              addressStr = "绍兴东"
-              break
-            case '绍兴西':
-              addressStr = "绍兴西"
-              break
-            case '丽水南':
-              addressStr = "丽水南"
-              break
-            case '丽水北':
-              addressStr = "丽水北"
-              break
-            case '衢州南':
-              addressStr = "衢州南"
-              break
-            case '衢州北':
-              addressStr = "衢州北"
-              break
-            case '长安南':
-              addressStr = "长安南"
-              break
-            case '长安北':
-              addressStr = "长安北"
-              break
-            case '临海南':
-              addressStr = "临海南"
-              break
-            case '临海北':
-              addressStr = "临海北"
-              break
-          }
+
+          // addressStr = item.area + item.direction
+          addressStr = item.area
         }
       })
 
@@ -378,79 +358,22 @@ export default {
     // 标注事件封装
     markerEvent(marker) {
       // 获取坐标，调接口获取服务区详情，并跳转到指定服务区
-      // console.log("获取坐标信息", marker.De.position.lng)
-
-      // 绍兴 （南北）
-      // addressStr = ['01', '203']
-      // addressStr = ['01', '204']
-      // 丽水 （南北）
-      // addressStr = ['02', '209']
-      // addressStr = ['02', '210']
-      // 衢州 （南北）
-      // addressStr = ['03', '207']
-      // addressStr = ['03', '208']
-      // 长安 （南北）
-      // addressStr = ['04', '205']
-      // addressStr = ['04', '206']
-      // 萧山 （东西）
-      // addressStr = ['05', '201']
-      // addressStr = ['05', '202']
-      // 临海 （南北）
-      // addressStr = ['06', '211']
-      // addressStr = ['06', '212']
-
-      let addressCode
+      let addressIds = []
 
       mapDataList.forEach(item=> {
         // 只查经度
         if(item.lnglat[0] === marker.De.position.lng.toString()) {
-          // console.log(item.area)
-          switch(item.area) {
-            case '萧山东':
-              addressCode = ['05', '201']
-              break
-            case '萧山西':
-              addressCode = ['05', '202']
-              break
-            case '绍兴东':
-              addressCode = ['01', '203']
-              break
-            case '绍兴西':
-              addressCode = ['01', '204']
-              break
-            case '丽水南':
-              addressCode = ['02', '209']
-              break
-            case '丽水北':
-              addressCode = ['02', '210']
-              break
-            case '衢州南':
-              addressCode = ['03', '207']
-              break
-            case '衢州北':
-              addressCode = ['03', '208']
-              break
-            case '长安南':
-              addressCode = ['04', '205']
-              break
-            case '长安北':
-              addressCode = ['04', '206']
-              break
-            case '临海南':
-              addressCode = ['06', '211']
-              break
-            case '临海北':
-              addressCode = ['06', '212']
-              break
+          if(item.id.length !== 0) {
+            addressIds = item.id
           }
         }
       })
-      // console.log(addressCode)
+      // console.log(addressIds)
 
       this.$router.push({
         path: '/merchant/serviceArea',
         query: {
-          addressCode: JSON.stringify(addressCode)
+          addressIds: JSON.stringify(addressIds)
         }
       })
     },

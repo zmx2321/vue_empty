@@ -156,6 +156,17 @@ const routes = [
         name: "test_map_marker3",
         component: resolve => require(['@/views/test/maptest/TestMapMarker3'], resolve)
       },
+      {
+        path: '/test_map_marker4',
+        name: "test_map_marker4",
+        component: resolve => require(['@/views/test/maptest/TestMapMarker4'], resolve)
+      },
+      // ploymap
+      {
+        path: '/ploymap1',
+        name: "ploymap1",
+        component: resolve => require(['@/views/test/ploymap/ploymap1'], resolve)
+      },
       // gltest
       {
         path: '/gltest1',
