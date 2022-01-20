@@ -173,6 +173,12 @@ const routes = [
         name: "gltest1",
         component: resolve => require(['@/views/test/gltest/GlTest1'], resolve)
       },
+      // g6test
+      {
+        path: '/g6test1',
+        name: "g6test1",
+        component: resolve => require(['@/views/test/g6Test/G6Test1'], resolve)
+      },
 
       /**
        * 超市管理
