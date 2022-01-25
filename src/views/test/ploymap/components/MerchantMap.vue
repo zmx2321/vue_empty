@@ -27,51 +27,23 @@ export default {
       /**
        * 地图数据
        */
+      polygon: {},
       markers: [],  // 标注点集合
-      // clusterInfoData: {},  // 聚合窗口数据
+      polygonInfoData: {},  // 面窗口数据
       markerInfoData: {}  // 标注窗口数据
     }
   },
 
   computed: {
-    // 聚合窗口
-    clusterInfoWindow() {
-      return new AMap.InfoWindow({ offset: new AMap.Pixel(0, -30) });
-    },
     // 标注窗口
     markerInfoWindow() {
       return new AMap.InfoWindow({ offset: new AMap.Pixel(0, -30) });
     },
 
-    /* // 聚合窗口信息
-    clusterInfo() {
-      return `
-        <p>聚合</p>
-        <div class="cluster_info_window info_window">
-          <ul>
-            <li>
-              <dl>
-                <dt>半年内到期商铺：1</dt>
-              </dl>
-            </li>
-            <li>
-              <dl>
-                <dt>空余商铺：1</dt>
-              </dl>
-            </li>
-            <li>
-              <dl class="f-cb">
-                <dt class="f-fl">服务区：1</dt>
-              </dl>
-            </li>
-          </ul>
-        </div>
-        <div class="cluster_info_window">
-          <p>聚合数量：${this.clusterInfoData.count}</p>
-          <p>所有坐标：<br />${this.clusterInfoData.positionList}</p>
-        </div>
-      `
-    }, */
+    // 面窗口
+    polygonInfoWindow() {
+      return new AMap.InfoWindow({ offset: new AMap.Pixel(0, -30) });
+    },
 
     // 标注窗口信息
     markerInfo() {
@@ -80,7 +52,16 @@ export default {
           <p style="padding-top: 10px">${this.markerInfoData.positionStr}</p>
         </div>
       `
-    }
+    },
+
+    // 面窗口信息
+    polygonInfo() {
+      return `
+        <div class="marker_info_window">
+          <p style="padding-top: 10px">面</p>
+        </div>
+      `
+    },
   },
 
   methods: {
@@ -95,7 +76,10 @@ export default {
       this.setMap(map)
 
       // 打点
-      this.setMarker(map)
+      // this.setMarker(map)
+
+      // 面
+      this.setPolygon(map)
 
       // 地图点击事件
       map.on('click', e => {
@@ -111,12 +95,35 @@ export default {
     setMap(map) {
       map.on('zoomchange', () => {
         let mapZoom = map.getZoom()
-        // console.log(mapZoom)
+        console.log(mapZoom)
 
-        if (mapZoom <= 8) {
+        if (mapZoom >= 16) {
+          this.polygon = null
           map.setZoomAndCenter(8, this.center); //同时设置地图层级与中心点
+
+          this.setMarker(map)
+        }
+
+        if (mapZoom < 13) {
+          this.removeAllMarker(map)
+          if(!this.polygon) {
+            this.setPolygon(map)
+          }
         }
       });
+    },
+
+    // 删除所有标注
+    removeAllMarker(map) {
+      map.clearMap();
+
+      // console.log(this.markers)
+      /* if(this.markers.length !== 0) {
+        this.markers.forEach(item=> {
+          console.log(11)
+          map.remove(item);
+        })
+      } */
     },
 
     // 地图坐标
@@ -148,101 +155,90 @@ export default {
     },
     // 关闭所有弹窗
     closeAllWindow() {
-      this.closeWindow(this.clusterInfoWindow)
       this.closeWindow(this.markerInfoWindow)
     },
-    /* // 设置自定义聚合
-    setCluster(count, context, map) {
-      // 创建
-      let div = document.createElement('div');
-      // 定义类名和内容
-      div.className = "cluster_marker"
-      div.innerHTML = context.count;
-      // 定义基本样式
-      let size = Math.round(30 + Math.pow(context.count / count, 1 / 5) * 20);
-      div.style.fontSize = '14px';
-      div.style.textAlign = 'center';
-      div.style.width = div.style.height = size + 'px';
-      div.style.borderRadius = size / 2 + 'px';
-      div.style.lineHeight = size + 'px';
-      // 设置背景色 - 可删
-      let factor = Math.pow(context.count / count, 1 / 18);  // 根据聚合数量设置值
-      div.style.opacity = factor
-      // 文字
-      div.innerHTML = "",
-      // 设置聚合属性
-      context.marker.setOffset(new AMap.Pixel(-size / 2, -size / 2));
-      context.marker.setContent(div)
-      // 聚合添加事件
-      div.addEventListener('mouseover', ()=>{
-        // 聚合事件封装
-        this.clusterMarkerEvent(context, map)
-      })
-      // 聚合添加事件
-      div.addEventListener('mouseout', ()=>{
-        // 聚合事件封装
-        this.closeAllWindow()
-      })
-    }, */
-    // 设置标注事件
-    setMarkerEvent(marker, map) {
-      // 标注添加事件
-      AMap.event.addListener(marker, 'click', () => {
-        // 事件对象的坐标不准确
 
-        // 标注事件封装
-        this.markerEvent(marker)
-      })
-      AMap.event.addListener(marker, 'mouseover', e => {
-        this.markerHoverEvent(e, map, marker)
-      })
-      AMap.event.addListener(marker, 'mouseout', () => {
-        this.closeAllWindow()
-      })
+    /**
+     * 面相关
+     */
+    // 绘制面
+    setPolygon(map) {
+      console.log('绘制面', map)
+
+      // 构造矢量圆形
+var circle = new AMap.Circle({
+    center: new AMap.LngLat("116.403322", "39.920255"), // 圆心位置
+    radius: 1000,  //半径
+    strokeColor: "#F33",  //线颜色
+    strokeOpacity: 1,  //线透明度
+    strokeWeight: 3,  //线粗细度
+    fillColor: "#ee2200",  //填充颜色
+    fillOpacity: 0.35 //填充透明度
+});
+map.add(circle);
+
+      var polygonArr = [[116.403322, 39.920255],
+        [116.410703, 39.897555],
+        [116.402292, 39.892353],
+        [116.389846, 39.891365]];
+    this.polygon = new AMap.Polygon({
+        map: map,
+        path: polygonArr,//设置多边形边界路径
+        strokeColor: "#FF33FF", //线颜色
+        strokeOpacity: 0.2, //线透明度
+        strokeWeight: 3,    //线宽
+        fillColor: "#1791fc", //填充色
+        fillOpacity: 0.35//填充透明度
+    });
+    map.setFitView();
+
+    let positionObj = {
+      Q: 39.8999514470666,
+      R: 116.40628264769913,
+      lat: 39.899951,
+      lng: 116.406283
+    }
+
+    // 添加内容
+      this.markerInfoWindow.setContent(this.polygonInfo);
+
+      // 根据窗口显示隐藏
+      this.toogleWindow(this.markerInfoWindow, map, positionObj)
+
+    this.polygon.on('click', (e)=> {
+      console.log(11)
+      map.setZoom(20)
+      // console.log("123", e.lnglat)
+
+       // 添加内容
+      // this.markerInfoWindow.setContent(this.polygonInfo);
+
+      // 根据窗口显示隐藏
+      // this.toogleWindow(this.markerInfoWindow, map, positionObj)
+
+      /* // 根据窗口显示隐藏
+      this.toogleWindow(this.polygonInfoWindow, map, e.lnglat) */
+    });
     },
 
     /**
-     * api tools
+     * 点位相关
      */
-    // 获取点位
-    getPointData() {
-      return new Promise((resolve, reject) => {
-        axios.get('http://a.amap.com/jsapi_demos/static/china.js').then(res => {
-          let dataStr = res.data;
-          let ipos = dataStr.indexOf('[')
-          let str = dataStr.substring(ipos, dataStr.length)
-          let points = JSON.parse(str)
-
-          resolve(points)
-        }).catch(err => {
-          reject(err)
-        })
-      })
-    },
-
-    /**
-     * map主要功能
-     */
-    // 打点并聚合
+    // 打点
     async setMarker(map) {
       // console.log("打点", map)
 
-      let markers = [], cluster
-      // let points = await this.getPointData()  // 获取接口数据
-      // console.log(points)
-
       let points = []
+      this.markers = []
 
-      // console.log("mapdata 坐标集合", mapDataList)
       mapDataList.forEach(item => {
         points.push({
           lnglat: item.lnglat
         })
       })
-      // console.log(points)
 
       // 创建一个 Icon
-      var myIcon = new AMap.Icon({
+      const myIcon = new AMap.Icon({
         // 图标尺寸
         size: new AMap.Size(80, 80),
         // 图标的取图地址
@@ -253,6 +249,7 @@ export default {
         imageOffset: new AMap.Pixel(5, 8)
       });
 
+      // 配置点集合
       for (let i = 0; i < points.length; i += 1) {
         let marker = new AMap.Marker({
           position: points[i]['lnglat'],
@@ -260,77 +257,45 @@ export default {
           clickable: true,
           icon: myIcon,  // 标注图标
         })
-        // marker.index = i;
-        // markers.push(marker)
 
+        this.markers.push(marker)
+
+        // 作用地图
         marker.setMap(map);
 
         // 设置标注事件
         this.setMarkerEvent(marker, map)
       }
-
-      // console.log(markers)
-      // markers.setMap(map);
-
-      /* // 自定义聚合
-      let _renderClusterMarker = context=> {
-        // 设置自定义聚合
-        this.setCluster(markers.length, context, map)
-      }
-
-      // 聚合
-      map.plugin(["AMap.MarkerClusterer"],function() {
-        cluster = new AMap.MarkerClusterer(map, markers, {
-          gridSize: 80,
-          // zoomOnClick: false,  // 阻止聚合
-          renderClusterMarker: _renderClusterMarker
-        });
-      }) */
     },
 
-    /* // 聚合事件封装
-    clusterMarkerEvent(context, map) {
-      console.log(context)
+    // 设置标注事件
+    setMarkerEvent(marker, map) {
+      // 标注添加事件
+      AMap.event.addListener(marker, 'click', () => {
+        // 事件对象的坐标不准确
 
-      let positionArr = []
-      let positionStr = ''
-
-      let addressStrArr = []
-      let positionListStr = ''
-
-      // 获取聚合中所有的点位坐标，传给后端
-      context.markers.forEach(item=> {
-        mapDataList.forEach(mpList=> {
-          if(mpList.lnglat[0] === item.De.position.lng.toString()) {
-            // console.log(mpList.area)
-            addressStrArr.push(mpList.area + "服务区")
-          }
-        })
-        // console.log(item.De.position)
-        positionArr.push([item.De.position.lng, item.De.position.lat])
-        positionStr += `[${item.De.position.lng},${item.De.position.lat}] \n`
+        // 标注点击事件封装
+        this.markerEvent(marker)
       })
-      addressStrArr = Array.from(new Set(addressStrArr))
-      // console.log(addressStrArr)
-      addressStrArr.forEach(item=> {
-        positionListStr += item + ","
+      AMap.event.addListener(marker, 'mouseover', e => {
+        this.markerHoverEvent(e, map, marker)
       })
-      positionListStr = positionListStr.substring(0, positionListStr.lastIndexOf(','));
-      // console.log(positionListStr)
+      AMap.event.addListener(marker, 'mouseout', () => {
+        this.closeAllWindow()
+      })
+    },
 
-      // 聚合数据 - 后端返回的数据用这个对象接收
-      this.clusterInfoData = {
-        count: context.count.toString(),
-        positionList: positionStr,
-        positionListStr: positionListStr
-      }
+    // 标注点击事件封装
+    markerEvent(marker) {
+      // console.log(marker)
 
-      // 添加内容
-      this.clusterInfoWindow.setContent(this.clusterInfo);
-
-      // 关闭弹窗
-      this.openWindow(this.clusterInfoWindow, map, context.marker.De.position)
-    }, */
+      mapDataList.forEach(item => {
+        // 只查经度
+        if (item.lnglat[0] === marker.De.position.lng.toString()) {
+          console.log(item.area)
+        }
+      })
+    },
 
     // 鼠标移入标注封装
     markerHoverEvent(e, map, marker) {
@@ -358,29 +323,6 @@ export default {
 
       // 根据窗口显示隐藏
       this.toogleWindow(this.markerInfoWindow, map, e.lnglat)
-    },
-
-    // 标注事件封装
-    markerEvent(marker) {
-      // 获取坐标，调接口获取服务区详情，并跳转到指定服务区
-      let addressIds = []
-
-      mapDataList.forEach(item => {
-        // 只查经度
-        if (item.lnglat[0] === marker.De.position.lng.toString()) {
-          if (item.id.length !== 0) {
-            addressIds = item.id
-          }
-        }
-      })
-      // console.log(addressIds)
-
-      this.$router.push({
-        path: '/merchant/serviceArea',
-        query: {
-          addressIds: JSON.stringify(addressIds)
-        }
-      })
     },
   }
 }
