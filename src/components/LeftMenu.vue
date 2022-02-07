@@ -88,13 +88,14 @@ export default {
                         { path: "/test_map_marker4", name: "test_map_marker4" },
                     ]
                 },
-                // testmap
+                // ploymap
                 {
                     icon: "fa fa-bullseye",
                     name: "ploymap",
                     path: "ploymap",
                     children: [
                         { path: "/ploymap1", name: "ploymap1" },
+                        { path: "/ploymap2", name: "ploymap2" },
                     ]
                 },
                 // gltest1

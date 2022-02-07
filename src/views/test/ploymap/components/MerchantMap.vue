@@ -27,6 +27,7 @@ export default {
       /**
        * 地图数据
        */
+      circle: {},
       polygon: {},
       markers: [],  // 标注点集合
       polygonInfoData: {},  // 面窗口数据
@@ -105,7 +106,7 @@ export default {
         }
 
         if (mapZoom < 13) {
-          this.removeAllMarker(map)
+          this.removeAllOverlay(map)
           if(!this.polygon) {
             this.setPolygon(map)
           }
@@ -113,8 +114,8 @@ export default {
       });
     },
 
-    // 删除所有标注
-    removeAllMarker(map) {
+    // 删除所有覆盖物
+    removeAllOverlay(map) {
       map.clearMap();
 
       // console.log(this.markers)
@@ -166,31 +167,31 @@ export default {
       console.log('绘制面', map)
 
       // 构造矢量圆形
-var circle = new AMap.Circle({
-    center: new AMap.LngLat("116.403322", "39.920255"), // 圆心位置
-    radius: 1000,  //半径
-    strokeColor: "#F33",  //线颜色
-    strokeOpacity: 1,  //线透明度
-    strokeWeight: 3,  //线粗细度
-    fillColor: "#ee2200",  //填充颜色
-    fillOpacity: 0.35 //填充透明度
-});
-map.add(circle);
+       this.circle = new AMap.Circle({
+          center: new AMap.LngLat("116.403322", "39.920255"), // 圆心位置
+          radius: 1000,  //半径
+          strokeColor: "#F33",  //线颜色
+          strokeOpacity: 1,  //线透明度
+          strokeWeight: 3,  //线粗细度
+          fillColor: "#ee2200",  //填充颜色
+          fillOpacity: 0.35 //填充透明度
+      });
+      map.add(this.circle);
 
       var polygonArr = [[116.403322, 39.920255],
         [116.410703, 39.897555],
         [116.402292, 39.892353],
         [116.389846, 39.891365]];
-    this.polygon = new AMap.Polygon({
-        map: map,
-        path: polygonArr,//设置多边形边界路径
-        strokeColor: "#FF33FF", //线颜色
-        strokeOpacity: 0.2, //线透明度
-        strokeWeight: 3,    //线宽
-        fillColor: "#1791fc", //填充色
-        fillOpacity: 0.35//填充透明度
-    });
-    map.setFitView();
+      this.polygon = new AMap.Polygon({
+          map: map,
+          path: polygonArr,//设置多边形边界路径
+          strokeColor: "#FF33FF", //线颜色
+          strokeOpacity: 0.2, //线透明度
+          strokeWeight: 3,    //线宽
+          fillColor: "#1791fc", //填充色
+          fillOpacity: 0.35//填充透明度
+      });
+      map.setFitView();
 
     let positionObj = {
       Q: 39.8999514470666,
@@ -204,6 +205,12 @@ map.add(circle);
 
       // 根据窗口显示隐藏
       this.toogleWindow(this.markerInfoWindow, map, positionObj)
+
+      this.circle.on('click', (e)=> {
+        console.log(e)
+
+        map.setZoom(20)
+      })
 
     this.polygon.on('click', (e)=> {
       console.log(11)
