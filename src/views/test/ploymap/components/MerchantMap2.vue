@@ -74,15 +74,13 @@ export default {
       // console.log("初始化地图", map)
 
       // 设置坐标和缩放
-      // this.setMap(map)
+      this.setMap(map)
 
       // 打点
       // this.setMarker(map)
 
       // 面
       this.setPolygon(map)
-
-      // this.setMarker(map)
 
       // 地图点击事件
       map.on('click', e => {
@@ -108,7 +106,7 @@ export default {
         }
 
         if (mapZoom < 13) {
-          // this.removeAllOverlay(map)
+          this.removeAllOverlay(map)
           if(!this.polygon) {
             this.setPolygon(map)
           }
@@ -176,13 +174,9 @@ export default {
           strokeOpacity: 1,  //线透明度
           strokeWeight: 3,  //线粗细度
           fillColor: "#ee2200",  //填充颜色
-          fillOpacity: 0.35, //填充透明度
-          cursor: 'pointer',
-          zIndex: 11,
+          fillOpacity: 0.35 //填充透明度
       });
-      map.setFitView();
-      // map.add(this.circle);
-      // this.circle.setMap(map);
+      map.add(this.circle);
 
       var polygonArr = [[116.403322, 39.920255],
         [116.410703, 39.897555],
@@ -216,15 +210,6 @@ export default {
         console.log(e)
 
         map.setZoom(20)
-      })
-      this.circle.on('mouseover', (e)=> {
-        console.log(e)
-      })
-      this.circle.on('mouseout', (e)=> {
-        console.log(e)
-      })
-      this.circle.on('change', (e)=> {
-        console.log('666', e)
       })
 
     this.polygon.on('click', (e)=> {
@@ -284,7 +269,6 @@ export default {
 
         // 作用地图
         marker.setMap(map);
-        // map.add(marker)
 
         // 设置标注事件
         this.setMarkerEvent(marker, map)

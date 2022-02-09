@@ -1,12 +1,12 @@
 <template>
-   <merchant-map />
+   <merchant-map-2 />
 </template>
 
 <script>
-import MerchantMap from './components/MerchantMap.vue'
+import MerchantMap2 from './components/MerchantMap2.vue'
 
 export default {
     name: "ploymap1",
-    components: { MerchantMap },
+    components: { MerchantMap2 },
 }
 </script>
