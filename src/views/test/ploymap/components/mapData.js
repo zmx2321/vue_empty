@@ -1,3 +1,9 @@
+// 面集合
+export const mapAreaDataList = [
+  {}
+]
+
+// 点位集合
 export const mapDataList = [
   {
     area: "萧山东",

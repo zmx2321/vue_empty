@@ -8,7 +8,7 @@
 import axios from 'axios'
 import ico from '@/assets/logo.png'
 
-import { mapDataList } from './components/mapData'
+import { mapDataList, mapAreaDataList } from './components/mapData'
 
 export default {
   data() {
@@ -20,29 +20,52 @@ export default {
       zoom: 8,
       events: {
         init: o => {
-          this.initMap(o)
+          setTimeout(()=> {
+            console.log("123")
+          }, 10000)
+          // this.initMap(o)
         }
       },
 
       /**
        * 地图数据
        */
+      mapArea: {},  // 面
+      
       circle: {},
       polygon: {},
       markers: [],  // 标注点集合
-      polygonInfoData: {},  // 面窗口数据
+      mapAreaInfoData: {},  // 面窗口数据
       markerInfoData: {}  // 标注窗口数据
     }
   },
 
   computed: {
+    // 面配置
+    /* areaMapConfig() {
+      return new AMap.Ellipse({
+      //  this.circle = new AMap.Circle({  
+          center: new AMap.LngLat("116.403322", "39.920255"), // 圆心位置
+        //   radius: 1000,  //半径
+          radius: [ 2000, 1000 ],  //半径
+          strokeColor: "#F33",  //线颜色
+          strokeOpacity: 1,  //线透明度
+          strokeWeight: 3,  //线粗细度
+          fillColor: "#ee2200",  //填充颜色
+          fillOpacity: 0.35, //填充透明度
+          cursor: 'pointer',
+        //   strokeStyle: 'dashed',
+          zIndex: 11,
+      });
+    }, */
+
     // 标注窗口
     markerInfoWindow() {
       return new AMap.InfoWindow({ offset: new AMap.Pixel(0, -30) });
     },
 
     // 面窗口
-    polygonInfoWindow() {
+    mapAreaInfoWindow() {
       return new AMap.InfoWindow({ offset: new AMap.Pixel(0, -30) });
     },
 
@@ -56,7 +79,7 @@ export default {
     },
 
     // 面窗口信息
-    polygonInfo() {
+    mapAreaInfo() {
       return `
         <div class="marker_info_window">
           <p style="padding-top: 10px">面</p>
@@ -73,25 +96,25 @@ export default {
     initMap(map) {
       // console.log("初始化地图", map)
 
+      // 渲染面
+      // this.renderMapArea(map)
+
       // 设置坐标和缩放
       // this.setMap(map)
 
-      // 打点
+      // // 打点
       // this.setMarker(map)
 
-      // 面
-      this.setPolygon(map)
+      // // this.setMarker(map)
 
-      // this.setMarker(map)
+      // // 地图点击事件
+      // map.on('click', e => {
+      //   // 地图坐标
+      //   this.getPosition(e, map)
 
-      // 地图点击事件
-      map.on('click', e => {
-        // 地图坐标
-        this.getPosition(e, map)
-
-        // 关闭所有弹窗
-        this.closeAllWindow()
-      })
+      //   // 关闭所有弹窗
+      //   this.closeAllWindow()
+      // })
     },
 
     // 设置坐标和缩放
@@ -110,7 +133,7 @@ export default {
         if (mapZoom < 13) {
           // this.removeAllOverlay(map)
           if(!this.polygon) {
-            this.setPolygon(map)
+            this.renderMapArea(map)
           }
         }
       });
@@ -165,8 +188,13 @@ export default {
      * 面相关
      */
     // 绘制面
-    setPolygon(map) {
+    renderMapArea(map) {
       console.log('绘制面', map)
+
+      // this.mapArea = this.areaMapConfig
+
+      // map.add(this.mapArea);
+      // map.setFitView();
 
       // 构造矢量圆形
        this.circle = new AMap.Ellipse({
@@ -184,66 +212,66 @@ export default {
           zIndex: 11,
       });
       map.setFitView();
-      map.add(this.circle);
+      // map.add(this.circle);
       this.circle.setMap(map);
 
-      var polygonArr = [[116.403322, 39.920255],
-        [116.410703, 39.897555],
-        [116.402292, 39.892353],
-        [116.389846, 39.891365]];
-      this.polygon = new AMap.Polygon({
-          map: map,
-          path: polygonArr,//设置多边形边界路径
-          strokeColor: "#FF33FF", //线颜色
-          strokeOpacity: 0.2, //线透明度
-          strokeWeight: 3,    //线宽
-          fillColor: "#1791fc", //填充色
-          fillOpacity: 0.35//填充透明度
-      });
-    //   map.setFitView();
+    //   var polygonArr = [[116.403322, 39.920255],
+    //     [116.410703, 39.897555],
+    //     [116.402292, 39.892353],
+    //     [116.389846, 39.891365]];
+    //   this.polygon = new AMap.Polygon({
+    //       map: map,
+    //       path: polygonArr,//设置多边形边界路径
+    //       strokeColor: "#FF33FF", //线颜色
+    //       strokeOpacity: 0.2, //线透明度
+    //       strokeWeight: 3,    //线宽
+    //       fillColor: "#1791fc", //填充色
+    //       fillOpacity: 0.35//填充透明度
+    //   });
+    // //   map.setFitView();
 
-    let positionObj = {
-      Q: 39.8999514470666,
-      R: 116.40628264769913,
-      lat: 39.899951,
-      lng: 116.406283
-    }
+    // let positionObj = {
+    //   Q: 39.8999514470666,
+    //   R: 116.40628264769913,
+    //   lat: 39.899951,
+    //   lng: 116.406283
+    // }
 
-    // 添加内容
-      this.markerInfoWindow.setContent(this.polygonInfo);
+    // // 添加内容
+    //   this.markerInfoWindow.setContent(this.mapAreaInfo);
 
-      // 根据窗口显示隐藏
-      this.toogleWindow(this.markerInfoWindow, map, positionObj)
+    //   // 根据窗口显示隐藏
+    //   this.toogleWindow(this.markerInfoWindow, map, positionObj)
 
-      this.circle.on('click', (e)=> {
-        console.log(e)
+    //   this.circle.on('click', (e)=> {
+    //     console.log(e)
 
-        map.setZoom(20)
-      })
-      this.circle.on('mouseover', (e)=> {
-        console.log(e)
-      })
-      this.circle.on('mouseout', (e)=> {
-        console.log(e)
-      })
-      this.circle.on('change', (e)=> {
-        console.log('666', e)
-      })
+    //     map.setZoom(20)
+    //   })
+    //   this.circle.on('mouseover', (e)=> {
+    //     console.log(e)
+    //   })
+    //   this.circle.on('mouseout', (e)=> {
+    //     console.log(e)
+    //   })
+    //   this.circle.on('change', (e)=> {
+    //     console.log('666', e)
+    //   })
 
-    this.polygon.on('click', (e)=> {
-      console.log(11)
-      map.setZoom(20)
-      // console.log("123", e.lnglat)
+    // this.polygon.on('click', (e)=> {
+    //   console.log(11)
+    //   map.setZoom(20)
+    //   // console.log("123", e.lnglat)
 
-       // 添加内容
-      // this.markerInfoWindow.setContent(this.polygonInfo);
+    //    // 添加内容
+    //   // this.markerInfoWindow.setContent(this.mapAreaInfo);
 
-      // 根据窗口显示隐藏
-      // this.toogleWindow(this.markerInfoWindow, map, positionObj)
+    //   // 根据窗口显示隐藏
+    //   // this.toogleWindow(this.markerInfoWindow, map, positionObj)
 
-      /* // 根据窗口显示隐藏
-      this.toogleWindow(this.polygonInfoWindow, map, e.lnglat) */
-    });
+    //   /* // 根据窗口显示隐藏
+    //   this.toogleWindow(this.mapAreaInfoWindow, map, e.lnglat) */
+    // });
     },
 
     /**

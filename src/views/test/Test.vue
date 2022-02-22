@@ -2,6 +2,8 @@
     <section class="main_cont">
         <h2 style="margin-bottom: 50px">test</h2>
 
+        <count-up :count="123123" />
+
         <el-select v-model="selectValue" @change="langChange" placeholder="请选择">
             <el-option
                     v-for="item in options"

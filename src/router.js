@@ -80,6 +80,11 @@ const routes = [
         name: "test5",
         component: resolve => require(['@/views/test/Test5'], resolve)
       },
+      {
+        path: '/test6',
+        name: "test6",
+        component: resolve => require(['@/views/test/Test6'], resolve)
+      },
       // maptest
       {
         path: '/test_map',
