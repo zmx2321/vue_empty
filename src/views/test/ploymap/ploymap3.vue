@@ -6,7 +6,7 @@
 
 <script>
 
-import { mapDataList, ploymapDataList } from './mapData'
+import { mapDataList, ploymapDataList } from './components/mapData'
 import ico from '@/assets/logo.png'
 
 export default {

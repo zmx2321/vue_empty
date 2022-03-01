@@ -177,6 +177,11 @@ const routes = [
         name: "ploymap2",
         component: resolve => require(['@/views/test/ploymap/ploymap2'], resolve)
       },
+      {
+        path: '/ploymap3',
+        name: "ploymap3",
+        component: resolve => require(['@/views/test/ploymap/ploymap3'], resolve)
+      },
       // gltest
       {
         path: '/gltest1',

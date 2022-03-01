@@ -6,7 +6,7 @@
 import MerchantMap2 from './components/MerchantMap2.vue'
 
 export default {
-    name: "ploymap1",
+    name: "ploymap2",
     components: { MerchantMap2 },
 }
 </script>

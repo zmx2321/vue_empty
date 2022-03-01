@@ -42,8 +42,11 @@ AMap.initAMapApiLoader({
   // plugin: ['AMap.Geolocation', 'Geolocation', 'AMap.DistrictSearch', 'AMap.Marker']
   plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor','AMap.Geolocation'],
   v: '1.4.4',
-  uiVersion: '1.0'
+  uiVersion: '1.0.11'
 })
+let amapManager = new AMap.AMapManager();
+Vue.prototype.amapManager = amapManager;
+// console.log(amapManager)
 
 new Vue({
   router,
