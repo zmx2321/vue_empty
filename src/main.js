@@ -16,6 +16,15 @@ import CountUp from './components/tools/CountUp'
 
 import i18n from '@/assets/i18n/i18n';  // 引入国际化组件
 
+// SpreadJS
+import "@grapecity/spread-sheets/styles/gc.spread.sheets.excel2016colorful.css";
+import "@grapecity/spread-sheets-vue";
+import GC from '@grapecity/spread-sheets'
+import '@grapecity/spread-sheets-resources-zh';
+GC.Spread.Common.CultureManager.culture("zh-cn");
+// 秘钥
+// GC.Spread.Sheets.LicenseKey = ''
+
 Vue.config.productionTip = false
 
 // 全局注册
@@ -27,6 +36,7 @@ Vue.component("CountUp", CountUp);
 //挂载（使其可以在各个组件使用）
 Vue.prototype.axios = axios;
 Vue.prototype.md5 = md5;  // 在main.js文件中将md5转换成vue原型
+Vue.prototype.GC = GC;
 
 // 修改地图刷新页面空白，治标不治本
 let timer = setTimeout(()=> {

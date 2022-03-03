@@ -119,6 +119,16 @@ export default {
                         { path: "/g6test1", name: "g6test1" },
                     ]
                 },
+                // ploymap
+                {
+                    icon: "fa fa-bullseye",
+                    name: "spreadJs",
+                    path: "spreadJs",
+                    children: [
+                        { path: "/spreadtest1", name: "spreadtest1" },
+                        { path: "/spreadtest2", name: "spreadtest2" },
+                    ]
+                },
 
                 // ...
                 {

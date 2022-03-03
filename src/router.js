@@ -194,6 +194,17 @@ const routes = [
         name: "g6test1",
         component: resolve => require(['@/views/test/g6Test/G6Test1'], resolve)
       },
+      // spreadtest
+      {
+        path: '/spreadtest1',
+        name: "spreadtest1",
+        component: resolve => require(['@/views/test/spreadtest/spreadtest1'], resolve)
+      },
+      {
+        path: '/spreadtest2',
+        name: "spreadtest2",
+        component: resolve => require(['@/views/test/spreadtest/spreadtest2'], resolve)
+      },
 
       /**
        * 超市管理
