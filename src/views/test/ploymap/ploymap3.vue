@@ -194,7 +194,7 @@ export default {
 
         //外部区域被点击
         districtExplorer.on('outsideClick', function(e) {
-          console.log('区域外点击');
+          // console.log('区域外点击');
         });
 
         const renderAreaNode = areaNode=> {
