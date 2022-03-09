@@ -1,5 +1,6 @@
 <template>
   <section class="amap-wrapper">
+    <el-input v-model="POIText" class="poipicker" id="pickerInput" placeholder="输入关键字选取地点"></el-input>
     <el-amap ref="map" class="amap-box" :vid="'amap-vue'" :center='center' :zoom='zoom' :events="events"></el-amap>
   </section>
 </template>
@@ -29,7 +30,8 @@ export default {
       polygon: {},
       markers: [],  // 标注点集合
       polygonInfoData: {},  // 面窗口数据
-      markerInfoData: {}  // 标注窗口数据
+      markerInfoData: {},  // 标注窗口数据
+      POIText: "",
     }
   },
 
@@ -91,7 +93,13 @@ export default {
      */
     
       // 设置坐标和缩放
-      this.setMap(map)
+      // this.setMap(map)
+
+      // 渲染浙江
+      this.renderZheJiang(map)
+
+      // POI搜索
+      this.searchPOI(map)
 
       // 渲染面
       this.drawAllPolygon(map)
@@ -133,6 +141,163 @@ export default {
     /**
      * 地图工具集
      */
+    // 渲染浙江 - 示例
+    renderZheJiang(map) {
+      // console.log(map)
+
+      let colors = [
+        "#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00",
+        "#b82e2e", "#316395", "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300", "#8b0707",
+        "#651067", "#329262", "#5574a6", "#3b3eac"
+      ];
+
+      AMapUI.loadUI(['geo/DistrictExplorer'], function(DistrictExplorer) {
+        //创建一个实例
+        let districtExplorer = new DistrictExplorer({
+            eventSupport: true,
+            map: map
+        });
+
+        //创建一个辅助Marker，提示鼠标内容
+        let tipMarker = new AMap.Marker({
+            //启用冒泡，否则click事件会被marker自己拦截
+            bubble: true
+        });
+
+        //监听feature的hover事件
+        districtExplorer.on('featureMouseout featureMouseover', function(e, feature) {
+          let isHover = e.type === 'featureMouseover';
+
+          if (!isHover) {
+              tipMarker.setMap(null);
+              return;
+          }
+
+          tipMarker.setMap(map);
+          tipMarker.setPosition(e.originalEvent.lnglat);
+          tipMarker.setLabel({
+              offset: new AMap.Pixel(20, 20),
+              content: feature.properties.name
+          });
+        });
+
+        //监听鼠标在feature上滑动
+        districtExplorer.on('featureMousemove', function(e, feature) {
+          //更新提示位置
+          tipMarker.setPosition(e.originalEvent.lnglat);
+        });
+
+        //feature被点击
+        districtExplorer.on('featureClick', function(e, feature) {
+          console.log('点击: ' + feature.properties.name);
+        });
+
+        //外部区域被点击
+        districtExplorer.on('outsideClick', function(e) {
+          console.log('区域外点击');
+        });
+
+        const renderAreaNode = areaNode=> {
+          if ([310000, 330100, 330200].indexOf(areaNode.getAdcode()) >= 0) {
+            //绘制子区域
+            districtExplorer.renderSubFeatures(areaNode, function(feature, i) {
+              let fillColor = colors[i % colors.length];
+              let strokeColor = colors[colors.length - 1 - i % colors.length];
+
+              return {
+                cursor: 'default',
+                bubble: true,
+                strokeColor: strokeColor, //线颜色
+                strokeOpacity: 1, //线透明度
+                strokeWeight: 1, //线宽
+                fillColor: fillColor, //填充色
+                fillOpacity: 0.35, //填充透明度
+              };
+            });
+          }
+
+          //绘制父区域
+          districtExplorer.renderParentFeature(areaNode, {
+            cursor: 'default',
+            bubble: true,
+            strokeColor: 'black', //线颜色
+            strokeOpacity: 1, //线透明度
+            strokeWeight: 1, //线宽
+            fillColor: 'gray', //填充色
+            fillOpacity: 0.2, //填充透明度
+          });
+        }
+
+        let adcodes = [
+          // 310000, //上海
+          // 330100, //杭州
+          // 330200, //宁波
+          330000 //浙江
+        ];
+
+        districtExplorer.loadMultiAreaNodes(adcodes, function(error, areaNodes) {
+          //设置定位节点，支持鼠标位置识别
+          //注意节点的顺序，前面的高优先级
+          districtExplorer.setAreaNodesForLocating(areaNodes);
+
+          //清除已有的绘制内容
+          districtExplorer.clearFeaturePolygons();
+
+          for (let i = 0, len = areaNodes.length; i < len; i++) {
+            renderAreaNode(areaNodes[i]);
+          }
+
+          //更新地图视野
+          map.setFitView(districtExplorer.getAllFeaturePolygons());
+        });
+      });
+    },
+    // POI搜索
+    searchPOI(map) {
+      console.log('POI搜索')
+      AMapUI.loadUI(['misc/PoiPicker'], function(PoiPicker) {
+
+      let poiPicker = new PoiPicker({
+          // city:'浙江',
+          input: 'pickerInput'
+      });
+
+      // 初始化poiPicker
+      poiPickerReady(poiPicker);
+    });
+
+    const poiPickerReady = poiPicker=> {
+        window.poiPicker = poiPicker;
+        let marker = new AMap.Marker();
+        let infoWindow = new AMap.InfoWindow({
+          offset: new AMap.Pixel(0, -20)
+        });
+
+        //选取了某个POI
+        poiPicker.on('poiPicked', function(poiResult) {
+          let source = poiResult.source,
+          poi = poiResult.item,
+          info = {
+            source: source,
+            id: poi.id,
+            name: poi.name,
+            location: poi.location.toString(),
+            address: poi.address
+          };
+
+          marker.setMap(map);
+          infoWindow.setMap(map);
+
+          marker.setPosition(poi.location);
+          infoWindow.setPosition(poi.location);
+
+          infoWindow.setContent('POI信息: <pre>' + JSON.stringify(info, null, 2) + '</pre>');
+          infoWindow.open(map, marker.getPosition());
+
+          map.setCenter(marker.getPosition());
+        });
+      }
+    },
     // 地图坐标
     getPosition(e, map) {
       console.log('您在 ['+e.lnglat.getLng()+','+e.lnglat.getLat()+'] 的位置点击了地图');
@@ -326,6 +491,8 @@ export default {
 @mapHeight: calc(100vh - 60px - 1px);
 
 .amap-wrapper {
+  position: relative;
+
   ::v-deep .amap-box {
     width: 100%;
     height: @mapHeight;
@@ -346,6 +513,14 @@ export default {
       background: #377dff;
       color: #377dff;
     }
+  }
+
+  .poipicker {
+    position: absolute;
+    left: 35px;
+    top: 20px;
+    width: 20%;
+    z-index: 1;
   }
 }
 </style>
