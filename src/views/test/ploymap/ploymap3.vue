@@ -278,8 +278,8 @@ export default {
           let source = poiResult.source,
           poi = poiResult.item,
           info = {
-            source: source,
-            id: poi.id,
+            // source: source,
+            // id: poi.id,
             name: poi.name,
             location: poi.location.toString(),
             address: poi.address
