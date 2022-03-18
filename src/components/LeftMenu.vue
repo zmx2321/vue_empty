@@ -98,6 +98,7 @@ export default {
                         { path: "/ploymap1", name: "ploymap1" },
                         { path: "/ploymap2", name: "ploymap2" },
                         { path: "/ploymap3", name: "ploymap3" },
+                        { path: "/ploymap4", name: "ploymap4" },
                     ]
                 },
                 // gltest1
