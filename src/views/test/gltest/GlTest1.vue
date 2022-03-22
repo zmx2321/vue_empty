@@ -41,7 +41,7 @@ export default {
             console.log("init")
 
             let env = {
-                accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..VQchVXxgjl5aCp3j3Uf5U2Mpk1NJNirH62Ys-8XOfnY",
+                accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6MiwiVXNlcm5hbWUiOiJhZG1pbjEiLCJOaWNrTmFtZSI6ImFkbWluMSIsIkF1dGhvcml0eUlkIjoiYWRtaW4iLCJCdWZmZXJUaW1lIjo4NjQwMCwiZXhwIjoxOTQyMzg5NTc0LCJpc3MiOiJ2am1hcCIsIm5iZiI6MTYyNzAyODU3NH0.VQchVXxgjl5aCp3j3Uf5U2Mpk1NJNirH62Ys-8XOfnY",
                 exampleMapId: "sys_zp",
                 exampleMapId2: "sys_world",
                 serviceUrl: "https://vjmap.com/server/api/v1"
