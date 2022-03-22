@@ -126,7 +126,7 @@ export default {
         if(!isPolygon) {
           // console.log("为点")
 
-          if(mapZoom < 8) {
+          if(mapZoom < 7) {
             this.drawAllPolygon(map)
           }
         } else {
