@@ -4,14 +4,31 @@
             <div class="img_wrap">
                 <img src="@/assets/images/test/t4.png" class="map1">
                 <div class="block"></div>
+
+
+                <!-- 自定义tool-tip组件，定义插槽 -->
+                <tool-tip class="tool_wrap">
+                    <!-- 自定义tool-tip内容组件，为插槽 -->
+                    <info-content slot="info"  />
+                    <!-- 普通按钮，显示文本，为插槽 -->
+                    <el-button slot="btn">000 </el-button>
+                </tool-tip>
             </div>
         </div>
     </section>
 </template>
 
 <script>
+import ToolTip from './components/ToolTip.vue'
+import InfoContent from './components/InfoContent.vue'
+
 export default {
     name: "testmap",
+
+    components: {
+        ToolTip,
+        InfoContent
+    },
 
     data () {
         return {
@@ -89,6 +106,14 @@ export default {
     padding: 0;
     background: #000;
 
+    .tool_wrap {
+        left: 10% !important;
+        top: 80% !important;
+        position: fixed !important;
+        width: 100px !important;
+        background: #f00 !important;
+    }
+
     .areaBox {
         width: 100%;
         height: 100%;
@@ -148,4 +173,5 @@ export default {
         }
     }
 }
+
 </style>
