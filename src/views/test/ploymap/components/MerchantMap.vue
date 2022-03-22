@@ -6,7 +6,7 @@
 
 <script>
 
-import { mapDataList, ploymapDataList } from './mapData'
+import { pointDataList, ploymapDataList } from './mapData'
 import ico from '@/assets/logo.png'
 
 export default {
@@ -29,7 +29,8 @@ export default {
       polygon: {},
       markers: [],  // 标注点集合
       polygonInfoData: {},  // 面窗口数据
-      markerInfoData: {}  // 标注窗口数据
+      markerInfoData: {},  // 标注窗口数据
+      pointDataList: pointDataList,
     }
   },
 
@@ -224,11 +225,15 @@ export default {
 
       let points = []
       this.markers = []
+      // console.log(mapDataList)
 
-      mapDataList.forEach(item => {
-        points.push({
-          lnglat: item.lnglat
-        })
+      this.pointDataList.forEach(item => {
+        // console.log(item.lngLat)
+        if(item.lngLat[0] !== "" && item.lngLat[1] !== "") {
+          points.push({
+            lnglat: item.lngLat
+          })
+        }
       })
 
       // 创建一个 Icon
@@ -251,6 +256,7 @@ export default {
           clickable: true,
           icon: myIcon,  // 标注图标
         })
+        // console.log(marker)
 
         this.markers.push(marker)
 
@@ -284,10 +290,10 @@ export default {
     markerEvent(marker) {
       // console.log(marker)
 
-      mapDataList.forEach(item => {
+      this.pointDataList.forEach(item => {
         // 只查经度
-        if (item.lnglat[0] === marker.De.position.lng.toString()) {
-          console.log(item.area)
+        if (item.lngLat[0] === marker.De.position.lng.toString()) {
+          console.log(item, item.area)
         }
       })
     },
@@ -295,9 +301,9 @@ export default {
     markerHoverEvent(e, map, marker) {
       let addressStr = ""
 
-      mapDataList.forEach(item => {
+      this.pointDataList.forEach(item => {
         // 只查经度
-        if (item.lnglat[0] === marker.De.position.lng.toString()) {
+        if (item.lngLat[0] === marker.De.position.lng.toString()) {
           // console.log(item.area)
 
           // addressStr = item.area + item.direction

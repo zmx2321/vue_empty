@@ -103,7 +103,7 @@ export default {
       // this.searchPOI(map)
 
       // 渲染面
-      // this.drawAllPolygon(map)
+      this.drawAllPolygon(map)
 
       // 文字
       this.setLayer(map)
