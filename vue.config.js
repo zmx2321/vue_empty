@@ -42,7 +42,7 @@ module.exports = {
     /* proxy: { // 配置跨域
         '/api': {
             // 用.env变量配置跨越
-            target: serverPath,
+            target: process.env.VUE_APP_BASE_API,
             ws: true,  // 是否启用websockets
             changOrigin: true,  // 开启代理，在本地创建一个虚拟服务端
             pathRewrite: {
