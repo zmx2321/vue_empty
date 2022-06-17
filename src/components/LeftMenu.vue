@@ -130,6 +130,19 @@ export default {
                         { path: "/spreadtest2", name: "spreadtest2" },
                     ]
                 },
+                // echartsMap
+                {
+                    icon: "fa fa-bullseye",
+                    name: "echartsMap",
+                    path: "echartsMap",
+                    children: [
+                        { path: "/echartsMap1", name: "echartsMap1" },
+                        { path: "/echartsMap2", name: "echartsMap2" },
+                        { path: "/echartsMap3", name: "echartsMap3" },
+                        { path: "/echartsMap4", name: "echartsMap4" },
+                        { path: "/echartsMap5", name: "echartsMap5" },
+                    ]
+                },
 
                 // ...
                 {

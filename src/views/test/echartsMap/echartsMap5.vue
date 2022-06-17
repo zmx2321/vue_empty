@@ -1,33 +1,31 @@
 <template>
     <section class="main_cont">
-        
+        echartsMap5
     </section>
 </template>
 
 <script>
-export default {
-    name: "testmap",
 
+export default {
     components: {
     },
 
-    data() {
+    data () {
         return {
+            
         }
     },
 
     methods: {
-    },
-
-    mounted() {
+        
     },
 
     created() {
-
+        
     }
 }
 </script>
 
 <style lang="less" scoped>
-.main_cont {}
+
 </style>

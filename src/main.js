@@ -16,6 +16,10 @@ import CountUp from './components/tools/CountUp'
 
 import i18n from '@/assets/i18n/i18n';  // 引入国际化组件
 
+import * as echarts from "echarts";
+import 'echarts-gl'
+// console.log(echarts)
+
 // SpreadJS
 import "@grapecity/spread-sheets/styles/gc.spread.sheets.excel2016colorful.css";
 import "@grapecity/spread-sheets-vue";
@@ -37,6 +41,7 @@ Vue.component("CountUp", CountUp);
 Vue.prototype.axios = axios;
 Vue.prototype.md5 = md5;  // 在main.js文件中将md5转换成vue原型
 Vue.prototype.GC = GC;
+Vue.prototype.$echarts = echarts;
 
 // 修改地图刷新页面空白，治标不治本
 let timer = setTimeout(()=> {

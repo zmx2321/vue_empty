@@ -210,6 +210,32 @@ const routes = [
         name: "spreadtest2",
         component: resolve => require(['@/views/test/spreadtest/spreadtest2'], resolve)
       },
+      // echartsmap
+      {
+        path: '/echartsMap1',
+        name: "echartsMap1",
+        component: resolve => require(['@/views/test/echartsMap/echartsMap1'], resolve)
+      },
+      {
+        path: '/echartsMap2',
+        name: "echartsMap2",
+        component: resolve => require(['@/views/test/echartsMap/echartsMap2'], resolve)
+      },
+      {
+        path: '/echartsMap3',
+        name: "echartsMap3",
+        component: resolve => require(['@/views/test/echartsMap/echartsMap3'], resolve)
+      },
+      {
+        path: '/echartsMap4',
+        name: "echartsMap4",
+        component: resolve => require(['@/views/test/echartsMap/echartsMap4'], resolve)
+      },
+      {
+        path: '/echartsMap5',
+        name: "echartsMap5",
+        component: resolve => require(['@/views/test/echartsMap/echartsMap5'], resolve)
+      },
 
       /**
        * 超市管理
