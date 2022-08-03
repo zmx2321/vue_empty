@@ -29,11 +29,11 @@ export default {
     },
 
     actions: {
-        SetUserInfo({commit}, userInfo) {
+        SetUserInfo({ commit }, userInfo) {
             commit('SET_USER_INFO', userInfo)
         },
 
-        SetLoginUser({commit}, loginUser) {
+        SetLoginUser({ commit }, loginUser) {
             commit('SET_LOGIN_USER', loginUser)
         },
     }

@@ -1,33 +1,34 @@
 <template>
-    <section class="main_cont">
-        
-    </section>
+  <section class="main_cont">
+
+  </section>
 </template>
 
 <script>
 export default {
-    name: "testmap",
+  name: "testmap",
 
-    components: {
-    },
+  components: {
+  },
 
-    data() {
-        return {
-        }
-    },
-
-    methods: {
-    },
-
-    mounted() {
-    },
-
-    created() {
-
+  data() {
+    return {
     }
+  },
+
+  methods: {
+  },
+
+  mounted() {
+  },
+
+  created() {
+
+  }
 }
 </script>
 
 <style lang="less" scoped>
-.main_cont {}
+.main_cont {
+}
 </style>

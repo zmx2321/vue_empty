@@ -1,29 +1,28 @@
 <template>
-    <section class="main_cont">
-        empty
-    </section>
+  <section class="main_cont">
+    empty
+  </section>
 </template>
 
 <script>
 export default {
-    name: "testmap",
+  name: "testmap",
 
-    data () {
-        return {
-            
-        }
-    },
+  data() {
+    return {
 
-    methods: {
-        
-    },
-
-    created() {
-        
     }
+  },
+
+  methods: {
+
+  },
+
+  created() {
+
+  }
 }
 </script>
 
 <style lang="less" scoped>
-
 </style>

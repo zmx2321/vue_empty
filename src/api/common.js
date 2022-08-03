@@ -11,7 +11,7 @@ let base = "/api";
  */
 // 上传图片
 export const getImgURI = params => {
-    return  axios({
+    return axios({
         url: `${base}/upload/uploadImage`,
         method: 'post',
         data: params

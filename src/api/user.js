@@ -9,7 +9,7 @@ let base = "/api";
 
 // 获取用户
 export const getUser = () => {
-    return  axios({
+    return axios({
         url: `${base}/user/get`,
         method: 'get',
     });

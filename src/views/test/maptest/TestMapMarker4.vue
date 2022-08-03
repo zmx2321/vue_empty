@@ -1,14 +1,14 @@
 <template>
-   <merchant-map />
+  <merchant-map />
 </template>
 
 <script>
 import MerchantMap from '@/components/map/MerchantMap.vue'
 
 export default {
-    name: "TestMapMarker4",
+  name: "TestMapMarker4",
 
-    components: { MerchantMap },
+  components: { MerchantMap },
 }
 </script>
 
