@@ -9,7 +9,7 @@ module.exports = {
   publicPath: './',
 
   // 运行时生成的生产环境构建文件的目录(默认''dist''，构建之前会被清除)
-  outputDir: 'vue_empty',
+  outputDir: __dirname.split(/[\\/]/).pop(),
 
   //放置生成的静态资源(s、css、img、fonts)的(相对于 outputDir 的)目录(默认'')
   assetsDir: 'assets',
