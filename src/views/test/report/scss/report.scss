@@ -1,0 +1,17 @@
+// 动态表格头部
+.detail_info {
+  width: 75%;
+  text-align: center;
+  margin: 0 auto;
+
+  ul {
+    display: flex;
+    margin-bottom: 22px;
+
+    li {
+      flex: 1;
+      font-size: $titleFontSize;
+      color: #686868
+    }
+  }
+}
