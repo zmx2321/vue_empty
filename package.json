@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "main": "bash main.sh",
+    "deploy": "bash deploy.sh",
     "deploy:prod": "npx deploy-cli-service deploy --mode prod"
   },
   "dependencies": {
