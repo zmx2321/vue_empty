@@ -97,3 +97,83 @@ export const objIsEmpty = obj => {
 
     return false;
 }
+
+// 日期
+export const getDateTimeNowFormate = () => {
+    let time = new Date();
+    let year = time.getFullYear(); // 年
+    let month = time.getMonth() + 1;  // 月
+    let date = time.getDate();  // 日
+    let hour = time.getHours();  // 时
+    let minute = time.getMinutes();  // 分
+    let second = time.getSeconds();  // 秒
+
+    let day = time.getDay();  // 获取当前星期几
+    let weekday = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+    // console.log(weekday[day])
+
+    // 加上0
+    month < 10 ? month = `0${month}` : month;  // 月
+    date < 10 ? date = `0${date}` : date;  // 日
+    hour < 10 ? hour = `0${hour}` : hour;  // 时
+    minute < 10 ? minute = `0${minute}` : minute;  // 分
+    second < 10 ? second = `0${second}` : second;  // 秒
+
+    return `${year}-${month}-${date} ${hour}:${minute}:${second} ${weekday[day]}`
+}
+
+export const apiCommon = (api, params) => {
+    return new Promise((resolve, reject) => {
+        api(params).then(res => {
+            // console.log(res)
+            if (res.status === 200) {
+                resolve(res.data.content)
+            } else {
+                resolve(false)
+            }
+        }).catch(err => {
+            reject(err)
+            return
+        })
+    })
+}
+
+export const apiCommonCurrency = (api, params) => {
+    return new Promise((resolve, reject) => {
+        api(params).then(res => {
+            // console.log(res)
+            if (res.status === 200) {
+                resolve(res.data)
+            } else {
+                resolve(false)
+            }
+        }).catch(err => {
+            reject(err)
+            return
+        })
+    })
+}
+
+// export const apiCommonNormal = (api, params) => {
+//     api(params).then(res => {
+//         console.log(res)
+//         if (res.status === 200) {
+//             return res.data.content
+//         }
+//     }).catch({})
+//     /* api(params).then(res=> {
+//         console.log("123", res)
+//         return res
+//     }).catch({}) */
+// }
+
+export const urlToObj = str=> {
+    let strContainer={};
+    let arrStr=str.split("&")
+    arrStr.forEach((item,index,arr)=>{
+        let arrA=item.split("=")
+        strContainer[arrA[0]]=arrA[1]
+    })
+    // console.log("000", strContainer)
+    return strContainer
+}

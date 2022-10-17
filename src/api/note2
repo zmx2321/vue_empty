@@ -1,0 +1,284 @@
+1-商业云三级看板年度累计安全事故统计表       ads           sync   
+ads_accident_statistic					   表名
+  accident_cnt                      string事故总数
+  duty_accident_cnt                 string有责事故总数
+  injured_accident_cnt               string有伤亡事故总数
+  significant_losses_accident_cnt       string重大经济损失事故数(200万元及以上)',
+  economic_loss_amount             string经济损失总额（万元）
+  statistic_month                    string累计统计月份
+  statistic_year                      string 统计年份'
+-------------------------------------------------------------------------------------
+
+2-财务各公司的资产负债率情况           ads    sync
+ads_company_asset_liability_ratio_mi
+ company_id 					  string     公司id',
+ company_short_name 			  string     公司简称',
+ company_name                 string    公司名称',
+ asset_liability_ratio              string    资产负债率',
+ inventory_growth_rate           string    存货增长率',
+ accounts_receivable_growth_rate  string    应收账款增长率',
+ statistic_date                   string    统计月份',
+ create_time                	   string    创建时间'
+ -----------------------------------------------------------------------------------------
+3-商业云三级看板各子公司项目进度表         ads    sync
+-ads_company_item_procession_dt;
+	company_id                      string    公司id'	
+	company_short_name              string    公司简称'
+	company_name                   string    公司名称'
+	work_module                   	string    工作模块'
+	order_number                    string    序号'
+	project_contents                  string    工作目标和内容'
+	responsible_leader                string    责任领导'
+	responsible_staff                  string    主要负责部门/协办人员'
+	project_progression                string    推进情况'
+	statistic_date                	    string    数据统计月份'
+	create_date                 	    string    上报日期'
+	rank                           string      每月上报数据排序'
+	rank2                          string      历史数据排序' 
+-----------------------------------------------------------------------------
+4-- #####ads对每天数据进行排序，以至于api接口的时候可以获取最新的一条数据
+-- 商业云三级看板公司简介及经营指标信息表          ads   sync
+ads_company_operating_condition_dt;
+	company_id                      string            '公司id'	
+	company_short_name             string           '公司简称'
+	company_name                  string            '公司名称'
+	company_introd                  string            '公司简介'
+	total_assets                   string                '资产总额（万）'
+	debt_ratio                     string               '负债率'
+	operating_income               string               '营业收入（万）'
+	project_number                 string    		     '项目推进（个）'
+	patents_cnt                    string   		     '软著（专利）数（项）'
+	net_profits                    string   		      '净利润（万元）'
+	shop_cnt                 		string   		       '门店数'
+	retail_amount                  string   		      '含税零售额(亿)'
+	passenger_flow                 string    		       '客流量（万）'
+	passenger_price                string    			     '平均客单价（元）'
+	gross_profit_rate              string    			    '综合毛利率（%）'
+	gmv                   		string               		'GMV(万)'
+	order_cnt                	string             		 '订单数（万笔）'
+	pv_grid_connected_capacity     string                   '光伏并网容量'
+	annual_contract_amount         string                '本年签约合同额（万）'
+	investment_amount              string             '开放式服务区拟投资金额（亿）
+	reconstr_remaining_amount      string               '棚改融资余额（亿）'
+	annual_pvenergy_output         string               '年光伏总发电量（万度）
+	lng_annual_sales         		string                  '年LNG总销量（吨）'
+	co2_emission_reduction         string                '年减排二氧化碳量（吨）
+	standard_coal_consum_reduction string   				    '年减少标准煤使用量（吨）
+	oil_station 					string                    '在营加油站数量(个)'	
+	statistic_date                	string                      '数据统计月份'
+	create_date                 	string                       '创建时间'
+	rank                           string   		   			'每月上报数据排序'
+	rank2                          string          			'历史数据排序'  ------
+annual_stored_energy          string                       本年储能（Kw.h）
+
+
+
+----------------------------------------------------------------
+5-- 商业云三级看板产业发展部投资计划及投资进度数据表              ads  sync
+ads_investment_data_mi;
+  company_name                string     '公司名称',
+  company_id  		            string    '公司id',
+  annual_plane_investment_amount  string     本年度计划投资额（亿元）',
+  month_investment_amount   		string       月度投资额（亿元）',
+  annual_investment_amount      string         本年累计完成投资额（亿元）',
+  investment_degress       		 string   		投资进度',
+  create_id      				 string        创建人ID',
+  create_name           string         	创建人姓名',
+  statistic_date        string            	统计月份',
+  create_time       string               	创建时间',
+  rank            string                 	每月上报数据排序',
+  rank2             string                历史数据排序'  ------用于筛选最新数据
+-------------------------------------------------------------- 
+6-- 会员数据--          ads    sync
+ads_member_statistic_di;
+  member_cnt                    string        会员总数',
+  inner_member_cnt               string 				微信会员数',
+  out_member_cnt          string       支付宝会员数',
+  active_cnt                  string         近30天活跃客户数',
+  consumption_amt       string           近30天会员消费笔数',
+  yw_active_cnt            string      近30天在驿网商城消费的会员数',
+  inner_active_cnt      string        近30天在商业集团及线下门店消费的会员数',
+  statistic_date            string      统计月份'
+7-- 集团整体财务指标情况             ads     sync
+ads_overall_financial_index_mi;
+ total_assets       string        资产总额(亿元)',
+ net_assets              string                 净资产(亿元)',
+ annual_operating_income      string             本年营业收入(亿元)',
+ annual_target_operating_income     string         本年度目标营业收入（亿元）',
+ revenue_completion_rate    string        营收完成进度',
+ revenue_growth_rate        string         营业收入同比增长率',
+ annual_gross_profits          string        本年利润总额（亿元）',
+ annual_target_profits     string               本年目标利润总额（亿元）',
+ gross_profit_completion_rate   string               利润总额完成进度',
+ gross_profit_growth_rate       string          利润总额同比增长率',
+ asset_liability_ratio        string            资产负债率',  
+ inventory_growth_rate          string     存货增长率',
+ accounts_receivable_growth_rate    string            应收账款增长率',
+ public_service_expenditure_change_rate  string      公共服务支出变动率',
+ statistic_date         string                     '统计月份',
+ create_time        string                   创建时间'
+   -----------------------------------------------------------------------------------
+8-- 财务每月每种经营类型营收和利润占比情况
+-- 每日近三年数据                    ads   sync
+---ads_profit_structure_mi;
+  business_type          string                经营类型',
+  business_id             string        经营类型id',
+  operating_income_month       string       月营业收入(万元)',
+  month_profits      string               月利润额(万元)',
+  statistic_date     string                 统计月份',
+  create_time       string                创建时间'
+------------------------------------------------------  
+
+
+9-- 商业云三级看板监控室每月上报月度投诉数据明细
+-- 展示最新月份的投诉情况             ads   sync
+ads_servicepart_complaint_data_mi;
+  auto_id       string                '序号',
+  compaint_channel     string                投诉渠道',
+  region_name     string                   区域',
+  servicepart_name    string                      服务区',
+  complaint_time     string                   投诉时间',
+  complaint_category 		string              '投诉类型',
+  complaint_content    string                  投诉内容',
+  resolution_suggetion 		string          '处理意见',
+  return_vist_record   string              回访记录',
+  recorder        string                 '记录人',
+  complain_num      string                 投诉数量',
+  remarks        string                      备注',
+  create_id      string                        创建人ID',
+  create_name      string                        '创建人姓名',
+  statistic_date        string                      统计月份',
+  create_time         string                      '创建时间',
+  rank               string                      '每月上报数据排序',
+  rank2            string                历史数据排序'  ------用于筛选最新数据
+-------------------------------------------------------------------------------------------------------------------- 
+10-- 商业云三级看板各服务区管理人员人数明细表       ads    sync
+ads_serverpart_manager_number_mi;
+	region_anme                     string     '区域'
+    ,region_id                       string       '区域id'
+    ,serverpart_name                string        '服务区名称'  
+    ,serverpart_id                  string       '服务区id'
+    ,manager_type                   string      '人员类型'
+    ,manager_cnt                    string      '管理人员数'
+	,statistic_date                   string       '数据统计月份'
+    ,rank                    string     '每月上报数据排序'
+	,rank2                    string    '历史数据排序'  ------用于筛选最新数据
+11-- 三级看板加油站日营收汇总表
+ads_servicepart_oil_revedue_statistic;
+    statistics_date2               string      '统计日期'  
+    ,revenue_amount                 string    '对客应收（元）'
+    ,ticket_count                   string     '消费笔数'   
+    ,sales_price                    string    '单笔平均消费金额'
+12-- 服务区营收数据情况   ads   no   
+ads_servicepart_revedue_statistic_di;
+	statistics_date               string          '统计日期' 
+    ,region_anme               string      '区域' 
+    ,region_id                  string       '区域id'
+    ,serverpart_name        string   '服务区名称'  
+    ,serverpart_id          string        '服务区id'
+    ,longitude                 string     '经度'
+    ,latitude                       string       '维度'
+    ,revenue_amount                 string         '营收金额（元）'
+    ,ticket_count                   string          '客单数量(交易笔数)'   
+    ,total_count                    string        '销售数量'
+    ,total_amount                   string      '销售金额'
+    ,sales_price                    string        '单笔平均消费金额'  
+    ,discount_amount                string         '优惠金额'
+    ,cash_pay                       string          '现金支付'         
+    ,other_pay                      string        '其他支付（会员卡）'   
+    ,dinner_amount                  string         '正餐营收' 
+    ,casual_amount                  string        '闲餐饮营收' 
+    ,retail_amount                  string          '零售营收'   
+    ,car_service_amount             string          '汽车服务营收'
+    ,driver_service_amount          string           '司乘服务营收'
+    ,other_amount                   string         '其他营收' 
+    ,last_year_statistics_date2     string       '上年同期统计日期' 
+    ,last_year_revenue_amount       string         '上年同期营收金额（元）'  
+    ,last_year_ticket_count         string       '上年同期客单数量(交易笔数)'
+    ,last_year_total_count          string       '上年同期销售数量'
+    ,last_year_total_amount         string         '上年同期销售金额'
+    ,last_year_sales_price          string       '上年同期单笔平均消费金额' 
+    ,last_year_discount_amount      string       '上年同期优惠金额' 
+    ,last_year_cash_pay             string      '上年同期现金支付'       
+    ,last_year_other_pay            string           '上年同期其他支付'
+    ,serverpart_attraction_index    string         '服务区吸引力'
+    ,normal_business_shops          string        '正常营业门店数'
+    ,shops_num                      string         '门店数'
+    ,serverpart_statue              string       '服务区状态'
+  ----------------------------------------------------------------------
+13-- 服务区状态表----  ads   no    sync    no
+ads_severpart_status;
+    region_anme                     string         '区域'
+    ,region_id                       string        '区域id'
+    ,serverpart_name                string        '服务区名称'  
+    ,serverpart_id                  string         '服务区id' 
+    ,serverpart_status              string         '服务区状态'
+    ,status_id                      string  '状态编码  0:正常,1:关闭,2:改造,3:管控'
+    ,start_time                     string          '状态开始时间'
+    ,end_time                       string          '状态结束时间'
+14-- 商业云三级看板人才分布相关数据
+-- 每日最新数据
+ads_talent_distribution_dt;                 ads       sync
+	employee_num                string       '从业人员'	
+	,doctoral_degrees_num             string          '博士人数'
+	,graduate_num                     string           '研究生人数'
+	,undergraduate_num                string          '本科人数'
+	,junior_num                       string           '大专人数'
+	,polytechnic_num                  string          '中专人数'
+	,high_school_num                  string           '高中及以下人数'
+	,senior_professional              string          '正高人数'
+	,associate_professor              string           '副高人数'
+	,intermediate_title               string        '中级人数'	
+	,primary_profession               string        '初级人数'
+	,no_title_professional            string         '无职称人数'
+	,statistic_date                	  string         '数据统计月份'
+	,create_date                      string        '创建时间'
+	,rank                             string         '每月上报数据排序'
+	,rank2                string      '历史数据排序'  ------用于筛选最新数据	
+15-- 商业云三级看板各服务区年度累计用水、用电统计表         ads   sync 
+ads_year_energy_consumption_statistic;        
+  service_area                string     '服务区',
+  water_consumption_sum       string    '用水量(立方米/吨)',
+  electricity_consumption_sum     string  '用电量(千瓦时/度)',
+  statistic_month             string     '统计截止月份',
+  statistic_year              string       '统计年份'
+16--门店     ads_projection_introduction_dt       ads   sync
+门店/项目简介	
+公司id	company_id
+公司简称	company_short_name
+公司名称	company_name
+简介类型
+（公司简介/门店简介）	introd_type
+门店编码	shop_id
+门店名称	shop_name
+省份	province
+经度	longitude
+纬度	latitude
+经营业态id	business_id
+经营类型	business_type
+公司简介/门店简介/门店地址	adress
+开业时间	open_data
+员工总数（人）	employees
+今年累计营收（万元）（截止上月）	cumul_revenue
+销售额（元）	sale_amount
+客流量	passenger_flow
+客单价（元）	passenger_price
+轻油年销量/LNG年销量
+（万吨）	loil_lng_annual_sales
+加油机数/加气机数（个）	oiling_machine
+油枪数/加气枪数（把）	oil_gun
+成品油年销量
+（吨）	refind_oil_annual_sales
+92#
+（吨)	92_oil_annual_sales
+95#
+（吨)	95_annual_sales
+98#
+（吨)	98_annual_sales
+0#
+（吨)	0_annual_sales
+容量（KWP）	pv_capacity
+年发电量（KWh）	annual_pvenergy_output
+数据统计月份	statistic_date
+创建时间	create_date
+

@@ -15,5 +15,7 @@ yarn serve
 yarn build
 ```
 
+<!-- rimraf node_modules -->
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

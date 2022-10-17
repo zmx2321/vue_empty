@@ -3,17 +3,14 @@ import { Message } from 'element-ui'
 
 import router from '../router'
 
-/* console.log(process.env.VUE_APP_BASE_API)
-console.log(process.env) */
-
 const Axios = axios.create({
-    baseURL: process.env.VUE_APP_BASE_API, // api
+    // baseURL: process.env.VUE_APP_BASE_API, // api
     timeout: 100000,
     responseType: "json",
     withCredentials: true, // 是否允许带cookie这些
-    // headers: {
-    //     "Content-Type": "application/json;charset=utf-8"
-    // }
+    headers: {
+        "X-AURORA-TOKEN": "pa4z2e0Mvl4W7eE7"
+    }
 });
 
 //请求拦截  设置统一header

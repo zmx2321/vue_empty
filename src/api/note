@@ -1,0 +1,303 @@
+区域今日入区车辆数：http://10.103.6.66:8925/zhgs_data_syn/dev/sycloud/area/vehicleflow/carin/today       
+	 入参：area  （区域名称）
+	 出参："area": "浙东",-----区域名称
+	"car_num": 1010   ----车辆数
+区域本年累计入区车辆数：http://10.103.6.66:8925/zhgs_data_syn/dev/sycloud/area/vehicleflow/carin/year  
+      			入参： 入参：area  （区域名称）
+			出参：出参："area": "浙东",  -----区域名称
+			   "car_num": 1010----车辆数
+区域今日入区率：http://10.103.6.66:8925/zhgs_data_syn/dev/sycloud/area/vehicleflow/carin_per/today  
+			入参： 入参：area  （区域名称）
+		  出参："area": "浙中",（区域名称）
+    		  "carin_count": 1495,（进入服务区车辆数）
+    		  "duanmian_count": 135146,（路过服务区车辆总数）
+    		  "carin_per": 1.11（入区率）
+
+区域今日车型分析：http://10.103.6.66:8925/zhgs_data_syn/dev/sycloud/area/vehicleflow/carin/bytype 
+        
+入参： 入参：area  （区域名称）
+出参："vehicle_type": "中大客车",----车类型
+          "car_num": 24      ---------车类型数量
+
+
+按区域查询今日入区消费转化率：http://10.103.6.66:8925/zhgs_data_syn/dev/region/entrance/conversion/rate/today
+入参: area(区域名称)
+出参： "Number": "decimal",（进入服务区人数）
+           "ticketCount": "double",（消费笔数）
+           "percentage": "double"（百分比）
+按服务区查询今日入区消费转化率：http://10.103.6.66:8925/zhgs_data_syn/dev/area/entrance/conversion/rate/today
+入参:serverpart_name   服务区名称
+出参："Number": "decimal",（进入服务区人数）
+           "ticketCount": "double",（消费笔数）
+           "percentage": "double"（百分比）
+
+
+按区域查询累计对客营收柱状图
+http://10.103.6.66:8925/zhgs_data_syn/dev/store/sales/rate/and/consumption/revenue/region
+入参：area(区域名称)
+
+出参："dinner_amount": "double",（正餐营收）
+      "casual_amount": "double",（闲餐饮营收）
+      "retail_amount": "double",（零售营收）
+      "car_service_amount": "double"（汽车服务营收）,
+      "driver_service_amount": "double",（司乘服务营收）
+      "other_amount": "double",（其他营收）
+      "last_dinner_amount": "double",（去年正餐营收）
+      "last_casual_amount": "double",（去年闲餐饮营收）
+      "last_retail_amount": "double",（去年零售营收）
+      "last_car_service_amount": "double",（去年汽车服务营收）
+      "last_driver_service_amount": "double",（去年司乘服务营收）
+      "last_other_amount": "double",（去年其他营收）
+     
+按服务区累计对客营收柱状图    http://10.103.6.66:8925/zhgs_data_syn/dev/store/sales/rate/and/consumption/revenue
+入参：serverpart_name   服务区名称
+出参："dinner_amount": "double",（正餐营收）
+      "casual_amount": "double",（闲餐饮营收）
+      "retail_amount": "double",（零售营收）
+      "car_service_amount": "double"（汽车服务营收）,
+      "driver_service_amount": "double",（司乘服务营收）
+      "other_amount": "double",（其他营收）
+      "last_dinner_amount": "double",（去年正餐营收）
+      "last_casual_amount": "double",（去年闲餐饮营收）
+      "last_retail_amount": "double",（去年零售营收）
+      "last_car_service_amount": "double",（去年汽车服务营收）
+      "last_driver_service_amount": "double",（去年司乘服务营收）
+      "last_other_amount": "double",（去年其他营收）
+     
+
+按服务区累计入区转化率
+http://10.103.6.66:8925/zhgs_data_syn/dev/area/entrance/conversion/rate/sum
+入参  serverpart_name   服务区名称
+出参
+          "Number": "decimal",（进入服务区人数）
+           "ticketCount": "double",（消费笔数）
+           "percentage": "double"（百分比）
+
+按区域累计入区转化率
+http://10.103.6.66:8925/zhgs_data_syn/dev/region/entrance/conversion/rate/sum
+入参
+出参：
+          "Number": "decimal",（进入服务区人数）
+           "ticketCount": "double",（消费笔数）
+           "percentage": "double"（百分比）
+
+按服务区服务区数据和公共数据：http://10.103.6.66:8925/zhgs_data_syn/dev/service/area/data/and/public/data
+入参：serverpart_name   服务区名称
+出参： "areaCovered": "decimal",（占用面积)
+      "businessArea": "decimal",（经营面积)
+      "gasStationCount": "decimal",（加油站数量)
+      "gasFillingCount": "decimal",（加气站数量)
+      "chargingPileCount": "decimal",（充电桩个数)
+      "showerRoomCount": "decimal",（淋浴房数量)
+      "motherAndBabyRoomCount": "decimal",（母婴室数量)
+      "driversHomeCount": "decimal"（司机之家)
+
+按区域服务区数据和公共数据
+http://10.103.6.66:8925/zhgs_data_syn/dev/service/area/data/and/public/data/region
+入参
+出参
+"areaCovered": "decimal",（占用面积)
+      "businessArea": "decimal",（经营面积)
+      "gasStationCount": "decimal",（加油站数量)
+      "gasFillingCount": "decimal",（加气站数量)
+      "chargingPileCount": "decimal",（充电桩个数)
+      "showerRoomCount": "decimal",（淋浴房数量)
+      "motherAndBabyRoomCount": "decimal",（母婴室数量)
+      "driversHomeCount": "decimal"（司机之家)
+
+服务区已经使用车位和车位以及百分比:http://10.103.6.66:8925/zhgs_data_syn/dev/spaces/used/service/area
+入参：serverpart_name   服务区名称
+出参："serverpart_name": "string",（服务区名字）
+      "park_vehicle_total": "decimal",（已经使用车位数）
+      "parking_space_total": "decimal",（一共车位数）
+      "result": "decimal"（百分比）
+
+按区域服务区已经使用车位和数量以及百分比：http://10.103.6.66:8925/zhgs_data_syn/dev/spaces/used/service/area/region
+入参：area(区域名称)
+出参："serverpart_name": "string",（服务区名字）
+      "park_vehicle_total": "decimal",（已经使用车位数）
+      "parking_space_total": "decimal",（一共车位数）
+      "result": "decimal"（百分比）
+
+安全事故：http://10.103.6.66:8925/zhgs_data_syn/dev/safety/accident
+入参：no
+出参："duty_accident_cnt": "string", （事故数）
+      "significant_losses_accident_cnt": "string"（200w以上事故数）
+
+
+
+
+利润饼图数据结构：http://10.103.6.66:8925/zhgs_data_syn/dev/profit/pie/chart/structure
+入参：no
+出参："business_id": "1003",    类型id
+          "business_type": "string",---类型
+          "month_profitsYear": "double",---本年利润金额
+          "Result": "double"---百分比
+营收饼图结构：http://10.103.6.66:8925/zhgs_data_syn/dev/revenue/and/profit/structure
+入参：no
+出参："business_id": "1003",    类型id
+          "business_type": "string",--营收类型
+          "revenueYear": "double",---本年营收金额
+          "Result": "double"----百分比
+利润三年数据：http://10.103.6.66:8925/zhgs_data_syn/dev/three/year/profit/data
+入参：business_id": "1003",    类型id 
+出参: "statistic_date": "string",--月份
+         "month_profits": "string",--月份金额
+         "year": "string"---年份
+营收三年的数据：http://10.103.6.66:8925/zhgs_data_syn/dev/three/year/revenue/data
+入参:business_id": "1003",    类型id
+出仓："statistic_date": "string",--月份
+          "operating_income_month": "string",---月份金额
+          "year": "string"---年份
+首页地图下方数据展示：http://10.103.6.66:8925/zhgs_data_syn/dev/year/data/all
+入参：no
+出参：	electricityConsumptionSum本年用电量
+  	waterConsumptionSum--本年用水量
+	annual_pvenergy_output,--本年光伏发电
+                annual_stored_energy --本年储能
+年度投资：http://10.103.6.66:8925/zhgs_data_syn/dev/annual/investment
+入参：no
+出参：
+
+ annual_plane_investment_amountSum,--本年目标投资
+  annual_plane_investment_amountSum,--本年实际完成投资
+ investment_amountYes--百分比
+会员进度条：http://10.103.6.66:8925/zhgs_data_syn/dev/member/progress/bar
+入参：no
+出参： member_cnt,--会员总数
+           active_cnt,--活跃人数
+           result --百分比
+风险数据：http://10.103.6.66:8925/zhgs_data_syn/dev/risk/data
+入参：No
+出参： "company_id": "2",     --- 公司 id
+      "company_short_name": "高速商贸",--- 公司 名称
+      "company_name": "浙江高速商贸经营管理有限公司",----公司全称
+      "asset_liability_ratio": "30",----资产负债率
+      "inventory_growth_rate": "301",----存货增长率
+      "accounts_receivable_growth_rate": "777",----应收账款增长率
+      "statistic_date": "302",----统计月份
+      "create_time": "308",----创建时间
+	asset_liability_ratioCount----资产负债率
+	inventory_growth_rateCount----存货增长率
+	accounts_receivable_growth_rateCount-----应收账款增长率
+区域今日单笔消费金额：http://10.103.6.66:8925/zhgs_data_syn/dev/regional/single/consumption/amount/today
+入参：area(区域名称)
+出参：resultoneday"double" ---结果
+
+按服务区今日单笔消费金额：http://10.103.6.66:8925/zhgs_data_syn/dev/area/today/one/money
+入参：aserverpart_name（服务区名称）
+出参：resultoneday"double" ---结果
+人力分布 http://10.103.6.66:8925/zhgs_data_syn/dev/manpower/distribution
+入参：no
+出参： "employee_num": "1",---从业人员
+      "doctoral_degrees_num": "23",----博士人数
+      "graduate_num": "12",----研究生人数
+      "undergraduate_num": "44",---本科人数
+      "junior_num": "12",---大专人数
+      "polytechnic_num": "12",---中专人数
+      "high_school_num": "88",-----高中及以下人数
+      "senior_professional": "6",----正高人数
+      "associate_professor": "10",----'副高人数'
+      "intermediate_title": "141",---中级人数
+      "primary_profession": "11",----初级人数
+      "no_title_professional": "457",---无职称人数
+      "statistic_date": "202209",----数据统计月份
+      "create_date": "2022-09-09"-----创建时间
+
+
+
+API名称：经营数据
+http://10.103.6.66:8925/zhgs_data_syn/dev/operating/data
+入参：
+出参：
+   total_assets,   -- '资产总额(亿元)',
+   AS net_assets, -- '净资产(亿元)',
+   annual_operating_income,-- '本年营业收入(亿元)',
+   annual_target_operating_income, -- ##'本年度目标营业收入（亿元）',
+  revenue_completion_rate, --## '营收完成进度',
+   revenue_growth_rate, -- ##'营业收入同比增长率',
+  annual_gross_profits, -- ##'本年利润总额（亿元）',annual_target_profits, -- ## '本年目标利润总额（亿元）',
+  gross_profit_completion_rate ,   -- ## '利润总额完成进度',
+  gross_profit_growth_rate, -- ##'利润总额同比增长率',
+  asset_liability_ratio,    -- ##'资产负债率',  
+  inventory_growth_rate,        --## '存货增长率',
+   accounts_receivable_growth_rate,  --## '应收账款增长率',
+  public_service_expenditure_change_rate,   -- ##'公共服务支出变动率',
+   employee_num--#从业人数
+API名称：安全事故
+http://10.103.6.66:8925/zhgs_data_syn/dev/safety/accident
+入参：
+出参：
+ duty_accident_cnt,--事故个数
+significant_losses_accident_cnt--200w以上事故个数 
+
+
+
+地图上方数据展示
+http://10.103.6.66:8925/zhgs_data_syn/dev/non/oil/above/the/map/data
+入参：
+出参：
+ "revenue_amountn": 0.71,----今日营收
+      "ticket_countn": 0.17,----今天交易笔数
+      "revenue_amountCountn": 0.000083,-----今年累计营收
+      "ticket_countCountn": 100.07-------今年累计交易笔数
+首页地图下方数据展示
+http://10.103.6.66:8925/zhgs_data_syn/dev/year/data/all
+入参：
+出参：  
+waterConsumptionSum,--本年用水量
+  electricityConsumptionSum --本年用电量
+ annual_pvenergy_output,--本年光伏发电
+  annual_stored_energy--本年储能
+
+服务区投诉排行
+http://10.103.6.66:8925/zhgs_data_syn/dev/service/area/complaint/ranking
+入参：
+出参：
+      "servicepart_name": "南浔",----服务区名字
+      "create_time": "2022-07-01 00:00:00",----投诉时间
+      "complaint_content": "顾客咨询能否在服务区下高速",----投诉内容
+      "numberCountMonth": 74--------投诉总条数
+服务区吸引力排行
+http://10.103.6.66:8925/zhgs_data_syn/dev/service/area/attractiveness/ranking
+入参
+出参：
+
+      "serverpart_name": "临安服务区",--服务区名字
+      "serverpart_attraction_index": 1---服务区吸引力
+
+
+
+
+按服务区管理人员
+http://10.103.6.66:8925/zhgs_data_syn/dev/management/personnel/service/area
+入参   serverpart_name   服务区名称
+出参   manager_cnt": 323  ---人数
+按区域管理人员
+http://10.103.6.66:8925/zhgs_data_syn/dev/management/personne/Region
+入参       area(区域名称)
+出参   manager_cnt": 323  ---人数
+
+服务区累计对客营收表格
+http://10.103.6.66:8925/zhgs_data_syn/dev/service/area/store/operation/rate
+入参   serverpart_name   服务区名称
+出参
+      "area_anme": "浙东",   ---服务区名字
+      "newRevenueAmount": 1540,----营收
+      "YearOnYear": "7%"----百分比
+
+按服务区门店在营率和门店数量：
+http://10.103.6.66:8925/zhgs_data_syn/dev/operating/rate/one
+入参    serverpart_name   服务区名称
+出参：
+       "shopsNum": 253,    --门店数
+      "normalBusinessShops": 121,---门店营业数
+      "resultshopsNumnow": 47.83---百分比
+
+按区域服务区门店在营率和数量
+http://10.103.6.66:8925/zhgs_data_syn/dev/operating/rate/region
+入参  area(区域名称)
+出参：
+   "shopsNum": 253,    --门店数
+      "normalBusinessShops": 121,---门店营业数
+      "resultshopsNumnow": 47.83---百分比

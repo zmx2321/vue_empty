@@ -20,9 +20,9 @@
 </template>
 
 <script>
-import {
+/* import {
   login  // 登陆
-} from "@/api/admin"
+} from "@/api/admin" */
 
 export default {
   name: "login",
