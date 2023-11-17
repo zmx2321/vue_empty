@@ -55,6 +55,7 @@ export default {
     .aside {
       width: @sideBarWidth;
       height: 100%;
+      overflow: auto;
     }
 
     .main {
