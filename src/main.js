@@ -19,12 +19,8 @@ import i18n from '@/assets/i18n/i18n';  // 引入国际化组件
 
 import SmoothScrollbar from 'vue-smooth-scrollbar'
 
-// import * as echarts from "echarts";
-// import 'echarts-gl'
-// console.log(echarts)
-
-const dashboardFlexible = require('lib-flexible-for-dashboard');
-dashboardFlexible.init(16/9)
+/* const dashboardFlexible = require('lib-flexible-for-dashboard');
+dashboardFlexible.init(16/9) */
 
 Vue.prototype.globalUtils = globalUtils
 
